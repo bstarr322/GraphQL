@@ -8,7 +8,7 @@ var schema = require('./schema.js');
 var config = require('./config.js');
 
 express()
-  .use('/graphql', graphqlHTTP({ schema: schema.schema, pretty: true }))
+  .use('/graphql', graphqlHTTP({ schema: schema.schema, graphiql: true, pretty: true }))
   .listen(config.EXPRESS_PORT);
 
 console.log('GraphQL server running on http://localhost:' + config.EXPRESS_PORT + '/graphql');
