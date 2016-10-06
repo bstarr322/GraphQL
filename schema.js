@@ -1,59 +1,61 @@
 var graphql = require('graphql');
+var graphqlrelay = require('graphql-relay');
+var model = require('./models');
+var connection = require('./connections');
 
 var services = require('./services.js');
 var goalService = new services.Goals();
-
-
-/***** COMMON PROPERTIES OF QUERIES AND MUTATIONS *****/
-function getGoalFields() {
-  return {
-    id: { type: graphql.GraphQLString },
-    name: { type: graphql.GraphQLString },
-  };
-}
-/***** QUERIES ****/
-// Define the Goal type with two string fields: `id` and `name`.
-// The type of Goal is GraphQLObjectType, which has child fields
-// with their own types (in this case, GraphQLString).
-const goalType = new graphql.GraphQLObjectType({
-  name: 'Goal',
-  fields: getGoalFields()
-});
-
-// All lists must be defined as fields of this list object.
-// This is because I could not figure out how to use lists as a direct child of query in relay.
-const listsType = new graphql.GraphQLObjectType({
-  name: 'Lists',
-  fields: {
-    goals: { 
-      type: new graphql.GraphQLList(goalType),
-      resolve: function (_, args) {
-        return goalService.getGoals();
-      } 
-    }
-  }
+	
+//Viewer Layer
+//Viewer Fields can  be refactored in the future
+//Categorize by module
+const viewerType = new graphql.GraphQLObjectType({
+	name: 'Viewer',
+	description: 'Logged In User',
+	fields: () => ({
+		viewerId: { 
+			type: graphql.GraphQLString, 
+			resolve: (viewerType) => viewerType.id
+		},
+		name: { type: graphql.GraphQLString },
+		goalsConn: {
+			type: connection.goalConnection,
+			args: graphqlrelay.connectionArgs,
+			resolve: (_, args) => graphqlrelay.connectionFromPromisedArray(goalService.getGoals(), args)
+		},
+		goalTypesConn: {
+			type: connection.goalTypeConnection,
+			args: graphqlrelay.connectionArgs,
+			resolve: (_, args) => graphqlrelay.connectionFromPromisedArray(goalService.getGoalTypes(), args)
+		},
+		goalType: {
+			type: model.goalType_Type,
+			args: {goalTypeId: {type: graphql.GraphQLInt}},
+			resolve: (_,args) => goalService.getGoalType(args.goalTypeId)
+		},
+		taskTypesConn: {
+			type: connection.taskTypeConnection,
+			args: graphqlrelay.connectionArgs,
+			resolve: (_, args) => graphqlrelay.connectionFromPromisedArray(goalService.getTaskTypes(), args)
+		},
+		taskType: {
+			type: model.taskType_Type,
+			args: {taskTypeId: {type: graphql.GraphQLInt}},
+			resolve: (_,args) => goalService.getTaskType(args.taskTypeId)
+		}
+	}),
 });
 
 // Root query type all queryable objects must be added as fields here.
 const queryType = new graphql.GraphQLObjectType({
     name: 'Query',
     fields: {
-      lists: {type: listsType, resolve: function (_, args) { return {}; }},
-      goal: {
-        type: goalType,
-        // `args` describes the arguments that the `goal` query accepts
-        args: {
-          id: { type: graphql.GraphQLString }
-        },
-        // The resolve function describes how to "resolve" or fulfill
-        // the incoming query.
-        // In this case we use the `id` argument from above as a key
-        // to get the User from `data`
-        resolve: function (_, args) {
-          return goalService.getGoal(args.id);
-        }
-      }
-    }
+		viewer: {
+			type: viewerType,
+			args: {viewerId: {type: graphql.GraphQLInt}},
+			resolve: (_,args) => goalService.getViewer(args.viewerId)
+		}
+	}
 });
 
 /***** MUTATIONS ****/

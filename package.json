@@ -4,10 +4,12 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "graphql": "0.7.0",
     "express": "4.14.0",
-    "express-graphql": "0.5.4"
+    "express-graphql": "0.5.4",
+    "graphql": "0.7.0",
+    "graphql-relay": "^0.4.3"
   },
   "devDependencies": {
+    "webpack": "^1.13.2"
   }
 }
