@@ -23,7 +23,7 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4
 RUN yum install -y unzip
 
 # Install application dependencies
-RUN yum install -y npm supervisor
+RUN yum install -y nodejs npm make supervisor
 
 # Create app directory
 RUN mkdir -p /app
@@ -41,7 +41,6 @@ RUN chmod +x /app/start-service.sh
 COPY supervisord.conf /etc/supervisord.conf
 
 # Cleanup
-RUN yum remove -y unzip
+RUN yum remove -y unzip make
 
 CMD ["/usr/bin/supervisord"]
-

@@ -6,4 +6,4 @@ test -f $env_file && source $env_file
 
 env
 
-cd /app && nohup npm start &
+cd /app; npm start
