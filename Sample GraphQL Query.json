@@ -1,0 +1,51 @@
+{
+  viewer {
+    goalsConn(business: "cpdone") {
+      edges {
+        node {
+				...goalt
+        }
+      }
+    },
+    goal(goalId:2) {
+			...goalt
+    }
+   	goalTypesConn {
+      edges {
+        node {
+					...goalTypet
+        }
+      }
+    },
+    goalType(goalTypeId:2) {
+			...goalTypet
+    },
+    taskTypesConn {
+      edges {
+        node {
+					...taskTypet
+        }
+      }
+    },
+		taskType(taskTypeId:2){
+      id,
+      name
+    }
+  }
+}
+
+fragment goalt on Goal {
+  id,
+  name,
+  business
+}
+
+fragment goalTypet on GoalType {
+  id,
+  name,
+  iconReference
+}
+fragment taskTypet on TaskType {
+  id,
+  name
+}

@@ -1,14 +1,16 @@
-// Import the required libraries
-var graphqlHTTP = require('express-graphql');
-var express = require('express');
+import graphqlHTTP from 'express-graphql';
+import express from 'express';
+import cors from 'cors';
+import {schema} from './data/schema.js';
+import config from './config.js';
 
-// Import the data you created above
-var schema = require('./schema.js');
-// Configuration
-var config = require('./config.js');
+const graphQLApp = express();
 
-express()
-  .use('/graphql', graphqlHTTP({ schema: schema.schema, graphiql: true, pretty: true }))
-  .listen(config.EXPRESS_PORT);
+//enable cors pre-flight request
+graphQLApp.use(cors());
+graphQLApp.options('/graphql', cors());
+
+graphQLApp.use('/graphql', graphqlHTTP({ schema: schema, graphiql: true, pretty: true }));
+graphQLApp.listen(config.EXPRESS_PORT);
 
 console.log('GraphQL server running on http://localhost:' + config.EXPRESS_PORT + '/graphql');
