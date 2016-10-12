@@ -1,0 +1,28 @@
+{
+  viewer {
+   	goalTypesConn {
+      edges {
+        node {
+					...goalTypet
+        }
+      }
+    },
+    taskTypesConn {
+      edges {
+        node {
+					...taskTypet
+        }
+      }
+    },
+  }
+}
+
+fragment goalTypet on GoalType {
+  id,
+  name,
+  iconReference
+}
+fragment taskTypet on TaskType {
+  id,
+  name
+}

@@ -31,4 +31,15 @@ The default configuration can be seen in config.js.
 
 If you wish to override a configuration locally set the appropriate environment variable of the same name **before** running the application. (See: [12 factor app config](https://12factor.net/config)).
 
+### Json Server
+The npm [json-server](https://www.npmjs.com/package/json-server) serves as the backend restful service that graphql server call to for the data.
+To initiate the json-server open a seperate node.js command prompt. Then go to the directory of graphql-frontend folder and enter:
 
+`json-server --port 9000 stub-data.json` 
+
+Currently working paths are:
+
+```
+reference/taskTypes
+reference/goalTypes
+```

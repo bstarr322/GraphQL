@@ -9,9 +9,9 @@ import {
 	globalIdField
 } from 'graphql-relay';
 import {
-	getGoal,
-	getGoalType,
-	getTaskType,
+	goalServices,
+	taskTypeConnection,
+	goalTypeConnection,
 } from './services';
 
 
@@ -24,17 +24,17 @@ const  { nodeInterface, nodeField } = nodeDefinitions(
   (globalId) => {
     let { id, type } = fromGlobalId(globalId);
 	if (type === 'GoalType')
-      return getGoalType(id);
+      return new goalTypeConnection().getGoalType(id);
 	else if (type === 'TaskType')
-      return getTaskType(id);
+      return new taskTypeConnection().getTaskType(id);
 	// else if (type === 'Goal')
       // return goalService.getGoalType(id);
     return null;
   },
   (obj) => {
-	if (obj instanceof GoalType)
+	if (obj instanceof goalType)
       return goalType_Type;
-	else if (obj instanceof TaskType)
+	else if (obj instanceof taskType)
       return taskType_Type;
   	// else if (obj instanceof Goal)
       // return goalType;

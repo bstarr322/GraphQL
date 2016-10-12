@@ -30,7 +30,7 @@ goalTypeServices.prototype.getGoalTypes = function() {
 }
 
 goalTypeServices.prototype.getGoalType = function(goalTypeId) {
-  return httpGet(config.GOALS_HOST, config.GOALS_PORT, '/reference/goalType/' + goalTypeId, function(result) { return result; });
+  return httpGet(config.GOALS_HOST, config.GOALS_PORT, '/reference/goalType/?id=' + goalTypeId, function(result) { return result; });
 }
 
 //TaskTypes
@@ -39,6 +39,6 @@ taskTypeServices.prototype.getTaskTypes = function() {
 }
 
 taskTypeServices.prototype.getTaskType = function(taskTypeId) {
-  return httpGet(config.GOALS_HOST, config.GOALS_PORT, '/reference/taskType/' + taskTypeId, function(result) { return result; });
+  return httpGet(config.GOALS_HOST, config.GOALS_PORT, '/reference/taskType/?id=' + taskTypeId, function(result) { return result; });
 }
 

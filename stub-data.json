@@ -1,0 +1,20 @@
+{
+"goals":[
+		{"id":1,"name":"goal1","goalType":"goalType1","description":"sample description","business":"cpdone"},{"id":2,"name":"goal2","goalType":"goalType2","description":"sample description","business":"cpdone"}
+	],
+"goal":[
+		{"id":1,"name":"goal1","goalType":"goalType1","description":"sample description","business":"cpdone"},{"id":2,"name":"goal2","goalType":"goalType2","description":"sample description","business":"cpdone"}
+	],
+"reference/taskTypes":[
+		{"id":1,"name":"Checkbox"},{"id":2,"name":"Attachment"},{"id":3,"name":"Text"},{"id":4,"name":"Content"}
+	],
+"reference/taskType":[
+		{"id":1,"name":"Checkbox"},{"id":2,"name":"Attachment"},{"id":3,"name":"Text"},{"id":4,"name":"Content"}
+	],
+"reference/goalTypes":[
+		{"id":1,"name":"InductionGoal","iconReference":null},{"id":2,"name":"CPD","iconReference":null},{"id":3,"name":"Policy and Procedure","iconReference":null},{"id":4,"name":"Product Updates","iconReference":null}
+	],
+"reference/goalType":[
+		{"id":1,"name":"InductionGoal","iconReference":null},{"id":2,"name":"CPD","iconReference":null},{"id":3,"name":"Policy and Procedure","iconReference":null},{"id":4,"name":"Product Updates","iconReference":null}
+	]
+}
