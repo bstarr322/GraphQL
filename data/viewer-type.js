@@ -1,6 +1,7 @@
 import {
   GraphQLInt,
   GraphQLString,
+  GraphQLObjectType
 } from 'graphql';
 
 import {
@@ -13,26 +14,29 @@ import {
   viewerServices,
   goalTypeServices,
   taskTypeServices,
+  teamServices
 } from './services.js';
 
 import {
   goalType,
   goalType_Type,
   taskType_Type,
+  teamType
 } from './models.js';
 
 import {
   goalConnection,
   taskTypeConnection,
   goalTypeConnection,
+  teamConnection
 } from './connections.js';
 
 
-export function viewerQuery() {
+function getViewerFields() {
   return {
 	viewerId: { 
 		type: GraphQLString, 
-		resolve: (viewerType) => viewerType.id
+		resolve: (viewer) => viewer.id
 	},
 	name: { type: GraphQLString },
 	goalsConn: {
@@ -65,5 +69,25 @@ export function viewerQuery() {
 		args: {taskTypeId: {type: GraphQLInt}},
 		resolve: (_,args) => new taskTypeServices().getTaskType(args.taskTypeId)
 	},
-  };
-}
+	teams: {
+		type: teamType,
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_, args) => new teamServices().getTeams(args.businessId)
+	},	
+	teamsTestData: {
+		type: teamType,
+		resolve: () => new teamServices().getTeamsTestData()
+	},
+	//teamsConn is broken, displays arraySlice.slice is not a function
+	teamsConn: {
+		type: teamConnection,
+		args: {businessId: {type: GraphQLString},...connectionArgs},
+		resolve: (_, args) => connectionFromPromisedArray(new teamServices().getTeamsTestData(), args)
+	}	
+  }
+};
+export const viewerType = new GraphQLObjectType({
+  name: 'Viewer',
+  description: 'Logged In User',
+  fields: () => getViewerFields()
+});

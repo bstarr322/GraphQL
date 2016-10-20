@@ -1,34 +1,40 @@
 import {
 	GraphQLObjectType,
 	GraphQLInputObjectType,
-	GraphQLString
+	GraphQLString,
+	GraphQLList,
+	GraphQLNonNull,
+	GraphQLID
 } from 'graphql';
 import {
 	nodeDefinitions,
 	fromGlobalId,
-	globalIdField
+	globalIdField,
+	connectionFromUrls
 } from 'graphql-relay';
 import {
 	goalServices,
-	taskTypeConnection,
-	goalTypeConnection,
+	taskTypeServices,
+	goalTypeServices,
+	teamServices,
 } from './services';
-
 
 /*
   Register Types to node-interface (can be refactored)
   https://facebook.github.io/relay/docs/graphql-object-identification.html#content
   https://facebook.github.io/relay/graphql/objectidentification.htm
 */
-const  { nodeInterface, nodeField } = nodeDefinitions(
+export const  { nodeInterface, nodeField } = nodeDefinitions(
   (globalId) => {
     let { id, type } = fromGlobalId(globalId);
 	if (type === 'GoalType')
-      return new goalTypeConnection().getGoalType(id);
+      return new goalTypeServices().getGoalType(id);
 	else if (type === 'TaskType')
-      return new taskTypeConnection().getTaskType(id);
-	// else if (type === 'Goal')
-      // return goalService.getGoalType(id);
+      return new taskTypeServices().getTaskType(id);
+	else if (type === 'Goal')
+      return new goalServices().getGoalType(id);
+  	else if (type === 'Team')
+      return new teamServices().getTeam(id);
     return null;
   },
   (obj) => {
@@ -36,15 +42,17 @@ const  { nodeInterface, nodeField } = nodeDefinitions(
       return goalType_Type;
 	else if (obj instanceof taskType)
       return taskType_Type;
-  	// else if (obj instanceof Goal)
-      // return goalType;
+  	else if (obj instanceof Goal)
+      return goalType;
+  	else if (obj instanceof Team)
+      return teamType;
     return null;
   }
 );
 
-function getGoalFields() {
+export function getGoalFields() {
   return {
-    id: {type: GraphQLString},
+    id: globalIdField('Goal'),
 	name: {type: GraphQLString},
 	goalType: {type: GraphQLString},
 	description: {type: GraphQLString},
@@ -64,24 +72,39 @@ function getTaskTypeFields() {
     name: { type: GraphQLString },
   };
 }
+function getTeamFields() {
+  return {
+    id: globalIdField('GoalType', team => team.Id),
+	// id: { type:new GraphQLNonNull(GraphQLID), resolve: team => team.Id },
+    title: { type: GraphQLString, resolve: team => team.Title },
+	parentId: { type: GraphQLString, resolve: team => team.ParentId },
+	teams: { type: new GraphQLList(teamType), resolve: team => team.SubGroups  } 
+  }
+};
 
 export const goalType = new GraphQLObjectType({
   name: 'Goal',
-  fields: getGoalFields(),
-  // interfaces: () => [nodeInterface]
+  fields: () => getGoalFields(),
+  interfaces: () => [nodeInterface]
 });
-export const GoalInputType = new GraphQLInputObjectType ({
+export const goalInputType = new GraphQLInputObjectType ({
   name:'GoalInput',
   fields: getGoalFields()
 });
 export const goalType_Type = new GraphQLObjectType({
   name: 'GoalType',
-  fields: getGoalTypeFields(),
+  fields: () => getGoalTypeFields(),
   interfaces: () => [nodeInterface]
 });
 export const taskType_Type = new GraphQLObjectType({
   name: 'TaskType',
-  fields: getTaskTypeFields(),
+  fields: () => getTaskTypeFields(),
   interfaces: () => [nodeInterface]
 });
+export const teamType = new GraphQLObjectType({
+  name: 'Team',
+  fields: () => getTeamFields(),
+  interfaces: () => [nodeInterface]
+});
+
 

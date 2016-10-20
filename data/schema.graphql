@@ -1,5 +1,31 @@
-type Goal {
-  id: String
+input CreateGoalInput {
+  input: GoalInput
+  clientMutationId: String
+}
+
+type CreateGoalPayload {
+  # The ID of an object
+  id: ID!
+  name: String
+  goalType: String
+  description: String
+  business: String
+  clientMutationId: String
+}
+
+input DeleteGoalInput {
+  input: Int
+  clientMutationId: String
+}
+
+type DeleteGoalPayload {
+  output: String
+  clientMutationId: String
+}
+
+type Goal implements Node {
+  # The ID of an object
+  id: ID!
   name: String
   goalType: String
   description: String
@@ -22,6 +48,15 @@ type GoalEdge {
 
   # A cursor for use in pagination
   cursor: String!
+}
+
+input GoalInput {
+  # The ID of an object
+  id: ID!
+  name: String
+  goalType: String
+  description: String
+  business: String
 }
 
 type GoalType implements Node {
@@ -47,6 +82,12 @@ type GoalTypeEdge {
 
   # A cursor for use in pagination
   cursor: String!
+}
+
+type Mutation {
+  createGoal(input: CreateGoalInput!): CreateGoalPayload
+  updateGoal(input: UpdateGoalInput!): UpdateGoalPayload
+  deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
 }
 
 # An object with an ID
@@ -98,6 +139,48 @@ type TaskTypeEdge {
   cursor: String!
 }
 
+type Team implements Node {
+  # The ID of an object
+  id: ID!
+  title: String
+  parentId: String
+  teams: [Team]
+}
+
+# A connection to a list of items.
+type TeamConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [TeamEdge]
+}
+
+# An edge in a connection.
+type TeamEdge {
+  # The item at the end of the edge
+  node: Team
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+input UpdateGoalInput {
+  input: GoalInput
+  id: Int
+  clientMutationId: String
+}
+
+type UpdateGoalPayload {
+  # The ID of an object
+  id: ID!
+  name: String
+  goalType: String
+  description: String
+  business: String
+  clientMutationId: String
+}
+
 # Logged In User
 type Viewer {
   viewerId: String
@@ -108,4 +191,7 @@ type Viewer {
   goalType(goalTypeId: Int): GoalType
   taskTypesConn(after: String, first: Int, before: String, last: Int): TaskTypeConnection
   taskType(taskTypeId: Int): TaskType
+  teams(businessId: String): Team
+  teamsTestData: Team
+  teamsConn(businessId: String, after: String, first: Int, before: String, last: Int): TeamConnection
 }

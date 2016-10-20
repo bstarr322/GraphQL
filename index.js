@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import cors from 'cors';
-import {schema} from './data/schema.js';
+import schema from './data/schema.js';
 import config from './config.js';
 
 const graphQLApp = express();

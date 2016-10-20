@@ -26,9 +26,9 @@ function callHttp(method, host, port, path, transformFunc, reqBody) {
 
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
-        console.log("Data received -> " + data);
+        console.log("Data Retrived-> " + data);
         var result = transformFunc(JSON.parse(data));
-        resolve(result);
+		resolve(result);
       });
     }
     const req = http.request(options, callback);

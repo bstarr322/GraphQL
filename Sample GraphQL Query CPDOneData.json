@@ -1,0 +1,41 @@
+{
+  viewer(viewerId:2) {
+    viewerId,
+    name,
+    teamsTestData{
+      id,
+      title,
+      parentId,
+      teams {
+        id,
+        title,
+        parentId, 
+        teams {
+          id,
+          title,
+          parentId,
+          teams {
+            id,
+            title,
+            parentId,
+            teams {
+              id,
+              title,
+              parentId,
+            }
+          }
+				}
+      }
+    },
+    teamsConn {
+      edges {
+        node {
+          id,
+          title,
+          parentId,
+
+        }
+      }
+    }
+  }
+}
