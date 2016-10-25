@@ -34,6 +34,7 @@ export const  { nodeInterface, nodeField } = nodeDefinitions(
 	else if (type === 'Goal')
       return new goalServices().getGoalType(id);
   	else if (type === 'Team')
+      //getTeam(id) function does not exist yet, no end point to send request to
       return new teamServices().getTeam(id);
     return null;
   },
@@ -75,10 +76,10 @@ function getTaskTypeFields() {
 function getTeamFields() {
   return {
     id: globalIdField('GoalType', team => team.Id),
-	// id: { type:new GraphQLNonNull(GraphQLID), resolve: team => team.Id },
+	//id: { type:new GraphQLNonNull(GraphQLID), resolve: team => team.Id },
     title: { type: GraphQLString, resolve: team => team.Title },
 	parentId: { type: GraphQLString, resolve: team => team.ParentId },
-	teams: { type: new GraphQLList(teamType), resolve: team => team.SubGroups  } 
+	subGroups : { type: new GraphQLList(teamType), resolve: team => team.SubGroups  } 
   }
 };
 
