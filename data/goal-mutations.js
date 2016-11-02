@@ -14,10 +14,13 @@ import { viewerType } from './viewer-type'
 
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
-  inputFields: {input: { type: goalInputType }},
-  outputFields: getGoalFields(),
-  mutateAndGetPayload: function(goal){
-	return new goalServices().createGoal(goal)
+  inputFields: { 
+                 input: { type: goalInputType },
+                 goalType:{ type : GraphQLString }
+               },
+  outputFields: { result: { type: GraphQLString, resolve:  result => result.id } },
+  mutateAndGetPayload: function(input){
+	  return new goalServices().createGoal(input)
   }
 });
 

@@ -5,11 +5,26 @@ import config from '../config.js';
 	this must be refactored if service pulls from multiple sources
 */
 
+/*
+	api/business?businessId=???
+	api/collection/tree?businessId=???
+	api/content?businessId=???
+	api/team/tree?usinessId=???
+	api/team/reducedtree?businessId=???&teamIds=???
+	api/business/goalassignable
+	api/business/businesssId???/industry 
+	api/business/businessId???/industry/industryId???/membership
+*/
+
 export const goalServices = function() {};
 export const viewerServices = function() {};
 export const goalTypeServices = function() {};
 export const taskTypeServices = function() {};
 export const teamServices = function() {};
+export const contentServices = function() {};
+export const collectionServices = function() {};
+export const businessServices = function() {};
+
 
 viewerServices.prototype.getViewer = function(viewerId) {
   return httpGet(config.JSON_HOST, config.JSON_PORT, '/users/'+viewerId,
@@ -30,7 +45,22 @@ goalServices.prototype.getGoal = function(goalId) {
 }
 
 goalServices.prototype.createGoal = function(goal) {
-  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
+  console.log(goal);
+  var goalBody = goal["input"];
+  return httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal/' + goal.goalType, function(result) { 
+    console.log("services result:" + result)
+    return result; 
+  } , {
+    name: goalBody.name, 
+    description: goalBody.description,
+    goalType: goalBody.goalType,
+	businessId: goalBody.businessId,
+    isBusinessCritical: goalBody.isBusinessCritical,
+    isSequential: goalBody.isSequential,
+    startDate: goalBody.startDate,
+	tasks: goalBody.tasks,
+	teams: goalBody.teams
+  });
 }
 
 goalServices.prototype.updateGoal = function(goal) {
@@ -47,9 +77,11 @@ goalTypeServices.prototype.getGoalTypes = function() {
 }
 
 goalTypeServices.prototype.getGoalType = function(goalTypeId) {
-  var g = httpGet(config.LOCALHOST, config.GOALS_PORT, '/reference/goalType/' + goalTypeId, function(result) { return result; });
-  console.log(g);
-  return g;
+  return httpGet(config.LOCALHOST, config.GOALS_PORT, '/reference/goalType/' + goalTypeId, function(result) { return result; });
+}
+
+goalTypeServices.prototype.getGoalTypeByTag = function(tag) {
+  return httpGet(config.LOCALHOST, config.GOALS_PORT, '/reference/goalTypeByTag/' + tag, function(result) { return result; });
 }
 
 //TaskTypes (from goals-service)
@@ -61,22 +93,32 @@ taskTypeServices.prototype.getTaskType = function(taskTypeId) {
   return httpGet(config.LOCALHOST, config.GOALS_PORT, '/reference/taskType/' + taskTypeId, function(result) { return result; });
 }
 
+taskTypeServices.prototype.getTaskTypeByTag = function(tag) {
+  return httpGet(config.LOCALHOST, config.GOALS_PORT, '/reference/taskTypeByTag/' + tag, function(result) { return result; });
+}
+
 //Teams (from cpdone.net)
 teamServices.prototype.getTeams = function(businessId) {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/orgchart/GetOrgTreeDataByBusinessId?businessId=' + businessId, 
-	function(result) {
-	  // console.log(typeof(result));
-	  return result;
-	}
-  );
-}
-teamServices.prototype.getTeamsTestData = function() {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/orgchart/TestData', 
-	function(result) {
-	  // console.log(typeof(result));
-	  return result;
-	}
-  );
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/team/tree?businessId=' + businessId, function(result) { 
+    var listResult = []; 
+	listResult.push(result);
+	return listResult;
+  });
 }
 
+//Contents (from cpdone.net)
+contentServices.prototype.getContents = function(businessId) {
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/content/get?businessId=' + businessId, function(result) { return result;});
+}
 
+//Collection (from cpdone.net)
+collectionServices.prototype.getCollections = function(businessId) {
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/collection/get?businessId=' + businessId, function(result) { return result;});
+}
+
+//Business (from cpdone.net)
+businessServices.prototype.getBusinesses = function() {
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/user/GetGoalAssignableBusinesses', function(result) { 
+	return result;
+  });
+}

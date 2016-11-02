@@ -1,0 +1,59 @@
+
+mutation createGoalMutation ($input: CreateGoalInput!) {
+	createGoal(input:$input) {
+    clientMutationId,
+    result
+  }  
+}
+
+QUERY VARIABLES
+{
+  "input": {
+    "goalType": "induction",
+    "clientMutationId": "1a",
+    "input": {
+      "name": "Task Goal 3",
+      "goalType": {
+        "id" : 1
+      },
+      "description" : "Task goal 3 JT",
+      "businessId" : "64559246-e091-40af-bad6-529697f787137",
+      "isBusinessCritical" : true,
+      "isSequential": true,
+      "startDate" : "2016-09-30T14:31:56",
+      "tasks" : [{
+        "taskType" : {
+          "id" :4
+        },
+        "instruction" : "this is an instruction",
+        "order" : 1,
+        "daysToComplete": 5,
+        "content" : {"contentId" : "64559246-e091-40af-bad6-529697f787137"}
+        },{
+        "taskType" : {
+          "id" :1
+        },
+        "instruction" : "this is an instruction",
+        "order" : 2,
+        "daysToComplete": 5
+      }],	
+      "teams" : [{
+        "id" : "64559246-e091-40af-bad6-529697f787134",
+        "users" : [
+          { "id" : "64559246-e091-40af-bad6-529697f787139" },
+          { "id" : "64559246-e091-40af-bad6-529697f787135" },
+          { "id" : "64559246-e091-40af-bad6-529697f787135" },
+          { "id" : "64559246-e091-40af-bad6-529697f787136" }
+        ]
+        }, {
+        "id" : "64559246-e091-40af-bad6-529697f787135",
+        "users" : [
+          { "id" : "64559246-e091-40af-bad6-529697f787139" },
+          { "id" : "64559246-e091-40af-bad6-529697f787135" },
+          { "id" : "64559246-e091-40af-bad6-529697f787135" },
+          { "id" : "64559246-e091-40af-bad6-529697f787133" }
+        ]
+      }]
+    }
+  }
+}

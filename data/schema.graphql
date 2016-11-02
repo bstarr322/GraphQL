@@ -1,15 +1,94 @@
+type Business implements Node {
+  # The ID of an object
+  id: ID!
+  name: String
+  image: String
+}
+
+# A connection to a list of items.
+type BusinessConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [BusinessEdge]
+}
+
+# An edge in a connection.
+type BusinessEdge {
+  # The item at the end of the edge
+  node: Business
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+type Collection implements Node {
+  # The ID of an object
+  id: ID!
+  title: String
+  parentNodeId: String
+  childrenNodesCount: Int
+  image: String
+  childrenNodes: [Collection]
+}
+
+# A connection to a list of items.
+type CollectionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CollectionEdge]
+}
+
+# An edge in a connection.
+type CollectionEdge {
+  # The item at the end of the edge
+  node: Collection
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+type Content implements Node {
+  # The ID of an object
+  id: ID!
+  name: String
+  type: String
+  typeId: String
+}
+
+# A connection to a list of items.
+type ContentConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [ContentEdge]
+}
+
+# An edge in a connection.
+type ContentEdge {
+  # The item at the end of the edge
+  node: Content
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
+input ContentInput {
+  contentId: String
+}
+
 input CreateGoalInput {
   input: GoalInput
+  goalType: String
   clientMutationId: String
 }
 
 type CreateGoalPayload {
-  # The ID of an object
-  id: ID!
-  name: String
-  goalType: String
-  description: String
-  business: String
+  result: String
   clientMutationId: String
 }
 
@@ -23,40 +102,16 @@ type DeleteGoalPayload {
   clientMutationId: String
 }
 
-type Goal implements Node {
-  # The ID of an object
-  id: ID!
-  name: String
-  goalType: String
-  description: String
-  business: String
-}
-
-# A connection to a list of items.
-type GoalConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [GoalEdge]
-}
-
-# An edge in a connection.
-type GoalEdge {
-  # The item at the end of the edge
-  node: Goal
-
-  # A cursor for use in pagination
-  cursor: String!
-}
-
 input GoalInput {
-  # The ID of an object
-  id: ID!
   name: String
-  goalType: String
+  goalType: GoalTypeInput
   description: String
-  business: String
+  businessId: String
+  isBusinessCritical: Boolean
+  isSequential: Boolean
+  startDate: String
+  tasks: [TaskInput]
+  teams: [TeamInput]
 }
 
 type GoalType implements Node {
@@ -64,6 +119,7 @@ type GoalType implements Node {
   id: ID!
   name: String
   iconReference: String
+  tag: String
 }
 
 # A connection to a list of items.
@@ -82,6 +138,10 @@ type GoalTypeEdge {
 
   # A cursor for use in pagination
   cursor: String!
+}
+
+input GoalTypeInput {
+  id: Int
 }
 
 type Mutation {
@@ -115,10 +175,19 @@ type Query {
   viewer(viewerId: Int): Viewer
 }
 
+input TaskInput {
+  taskType: TaskTypeInput
+  instruction: String
+  order: Int
+  daysToComplete: Int
+  content: ContentInput
+}
+
 type TaskType implements Node {
   # The ID of an object
   id: ID!
   name: String
+  tag: String
 }
 
 # A connection to a list of items.
@@ -139,12 +208,16 @@ type TaskTypeEdge {
   cursor: String!
 }
 
+input TaskTypeInput {
+  id: Int
+}
+
 type Team implements Node {
   # The ID of an object
   id: ID!
   title: String
-  parentId: String
-  teams: [Team]
+  parentNodeId: String
+  childrenNodes: [Team]
 }
 
 # A connection to a list of items.
@@ -165,6 +238,11 @@ type TeamEdge {
   cursor: String!
 }
 
+input TeamInput {
+  id: String
+  users: [User]
+}
+
 input UpdateGoalInput {
   input: GoalInput
   id: Int
@@ -175,23 +253,30 @@ type UpdateGoalPayload {
   # The ID of an object
   id: ID!
   name: String
-  goalType: String
   description: String
-  business: String
+  businessId: String
+  isBusinessCritical: Boolean
+  isSequential: Boolean
+  startDate: String
   clientMutationId: String
+}
+
+input User {
+  id: String
 }
 
 # Logged In User
 type Viewer {
   viewerId: String
   name: String
-  goalsConn(business: String, after: String, first: Int, before: String, last: Int): GoalConnection
-  goal(goalId: Int): Goal
   goalTypesConn(after: String, first: Int, before: String, last: Int): GoalTypeConnection
   goalType(goalTypeId: Int): GoalType
+  goalTypeByTag(tag: String): GoalType
   taskTypesConn(after: String, first: Int, before: String, last: Int): TaskTypeConnection
   taskType(taskTypeId: Int): TaskType
-  teams(businessId: String): Team
-  teamsTestData: Team
+  taskTypeByTag(tag: String): TaskType
   teamsConn(businessId: String, after: String, first: Int, before: String, last: Int): TeamConnection
+  contentsConn(businessId: String, after: String, first: Int, before: String, last: Int): ContentConnection
+  collectionsConn(businessId: String, after: String, first: Int, before: String, last: Int): CollectionConnection
+  businessesConn(after: String, first: Int, before: String, last: Int): BusinessConnection
 }
