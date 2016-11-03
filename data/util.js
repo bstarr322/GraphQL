@@ -23,7 +23,6 @@ function callHttp(method, host, port, path, transformFunc, reqBody) {
 		'Content-Type':'application/json'  
 	  }
     };
-	console.log(options);
     var callback = function(response) {
       var data = '';
       //another chunk of data has been recieved, so append it to `str`
@@ -35,15 +34,22 @@ function callHttp(method, host, port, path, transformFunc, reqBody) {
       //the whole response has been recieved, so we just print it out here
       response.on('end', function () {
         console.log("Data Retrived-> " + data);
-		var result = transformFunc(JSON.parse(data));
+		var result = transformFunc(tryParse(data));
 		resolve(result);
       });
     }
     const req = http.request(options, callback);
     if(reqBody) {
-	  console.log("stringify ->" + JSON.stringify(reqBody))
       req.write(JSON.stringify(reqBody));
     }
     req.end();
   });
+}
+
+function tryParse(str) {
+    try {
+        return JSON.parse(str);
+    } catch (e) {
+        return str;
+    }
 }

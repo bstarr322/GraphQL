@@ -5,17 +5,6 @@ import config from '../config.js';
 	this must be refactored if service pulls from multiple sources
 */
 
-/*
-	api/business?businessId=???
-	api/collection/tree?businessId=???
-	api/content?businessId=???
-	api/team/tree?usinessId=???
-	api/team/reducedtree?businessId=???&teamIds=???
-	api/business/goalassignable
-	api/business/businesssId???/industry 
-	api/business/businessId???/industry/industryId???/membership
-*/
-
 export const goalServices = function() {};
 export const viewerServices = function() {};
 export const goalTypeServices = function() {};
@@ -39,12 +28,7 @@ function httpGetToGoalsApi = function(route) {
 }
 
 viewerServices.prototype.getViewer = function(viewerId) {
-  return httpGet(config.JSON_HOST, config.JSON_PORT, '/users/'+viewerId,
-	function(result) {
-	  // console.log(typeof(result));
-	  return result;
-	}
-  );
+  return httpGet(config.JSON_HOST, config.JSON_PORT, '/users/'+viewerId, function(result) { return result; });
 }
 
 //Goals (from goals-service)
@@ -57,11 +41,11 @@ goalServices.prototype.getGoal = function(goalId) {
 }
 
 goalServices.prototype.createGoal = function(goal) {
-  console.log(goal);
   var goalBody = goal["input"];
   return httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal/' + goal.goalType, function(result) { 
-    console.log("services result:" + result)
-    return result; 
+    var root = {};
+	root["data"] = result
+    return root;
   } , {
     name: goalBody.name, 
     description: goalBody.description,
