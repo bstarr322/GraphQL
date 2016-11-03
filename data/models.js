@@ -33,20 +33,20 @@ export const  { nodeInterface, nodeField } = nodeDefinitions(
   (globalId) => {
     let { id, type } = fromGlobalId(globalId);
 	if (type === 'Goal')
-      return new goalTypeServices().getGoal(id);
+    return new goalTypeServices().getGoal(id);
 	else if (type === 'GoalType')
-      return new goalTypeServices().getGoalType(id);
+    return new goalTypeServices().getGoalType(id);
 	else if (type === 'TaskType')
-      return new taskTypeServices().getTaskType(id);
-  	else if (type === 'Team')
-      return new teamServices().getTeams(id);
-  	else if (type === 'Content')
-      return new contentServices().getContents(id);
-  	else if (type === 'Collection')
-      return new collectionServices().getCollections(id);
-  	else if (type === 'Business')
-      return new businessServices().getBusinesses(id);
-    return null;
+    return new taskTypeServices().getTaskType(id);
+	else if (type === 'Team')
+    return new teamServices().getTeams(id);
+	else if (type === 'Content')
+    return new contentServices().getContents(id);
+	else if (type === 'Collection')
+    return new collectionServices().getCollections(id);
+	else if (type === 'Business')
+    return new businessServices().getBusinesses(id);
+  return null;
   },
   (obj) => {
 	if (obj instanceof Goal)
@@ -55,17 +55,88 @@ export const  { nodeInterface, nodeField } = nodeDefinitions(
       return goalType_Type;
 	else if (obj instanceof TaskType)
       return taskType_Type;
-  	else if (obj instanceof Team)
-      return teamType;
-  	else if (obj instanceof Content)
-      return contentType;
-  	else if (obj instanceof Collection)
-      return collectionType;
-  	else if (obj instanceof Business)
-      return businessType;
-    return null;
+	else if (obj instanceof Team)
+    return teamType;
+	else if (obj instanceof Content)
+    return contentType;
+	else if (obj instanceof Collection)
+    return collectionType;
+	else if (obj instanceof Business)
+    return businessType;
+  return null;
   }
 );
+
+
+/*
+  .net graphqlobjecttype -> refactor
+*/
+export const businessType = new GraphQLObjectType({
+  name: 'Business',
+  fields: function() { return {
+    id: globalIdField('Business', business => business.Id),
+    name: { type: GraphQLString, resolve: business => business.Name },
+    image: { type: GraphQLString, resolve: business => business.Image },
+  }},
+  interfaces: () => [nodeInterface]
+});
+
+export const industryType = new GraphQLObjectType({
+  name: 'Industry',
+  fields: function() { return {
+    id: globalIdField('Industry', industry => industry.Id),
+    name: { type: GraphQLString, resolve: industry => industry.Name },
+  }},
+  interfaces: () => [nodeInterface]
+});
+
+export const membershipType = new GraphQLObjectType({
+  name: 'Membership',
+  fields: function() { return {
+    id: globalIdField('Membership', membership => membership.Id),
+    name: { type: GraphQLString, resolve: membership => membership.Name },
+  }},
+  interfaces: () => [nodeInterface]
+});
+
+export const teamTreeType = new GraphQLObjectType({
+  name: 'TeamTree',
+  fields: function() { return {
+    id: globalIdField('TeamTree', team => team.Id),
+    title: { type: GraphQLString, resolve: team => team.Title },
+    parentNodeId: { type: GraphQLString, resolve: team => team.ParentNodeId },
+    childrenNodes : { type: new GraphQLList(teamTreeType), resolve: team => team.ChildrenNodes  } 
+  }},
+  interfaces: () => [nodeInterface]
+});
+
+export const collectionTreeType = new GraphQLObjectType({
+  name: 'CollectionTree',
+  fields: function() { return {
+    id: globalIdField('CollectionTree', collection => collection.Id),
+    title: { type: GraphQLString, resolve: collection => collection.Title },
+    parentNodeId: { type: GraphQLString, resolve: collection => collection.ParentNodeId },
+    childrenNodes : { type: new GraphQLList(collectionTreeType), resolve: collection => collection.ChildrenNodes },
+    image: { type: GraphQLString, resolve: collection => collection.Image },
+    childrenNodes: { type: new GraphQLList(collectionType), resolve: collection => collection.ChildrenNodes } 
+  }},
+  interfaces: () => [nodeInterface]
+});
+
+export const contentType = new GraphQLObjectType({
+  name: 'Content',
+  fields: function () { return {
+    id: globalIdField('Content', content => content.Id),
+      name: { type: GraphQLString, resolve: content => content.Name },
+    type: { type: GraphQLString, resolve: content => content.Type },
+    typeId: { type: GraphQLString, resolve: content => content.TypeId }
+  }},
+  interfaces: () => [nodeInterface]
+});
+
+/*
+  .net graphqlobjecttype -> refactor ends here
+*/
 
 export function getGoalFields() {
   return {
@@ -155,18 +226,6 @@ export const taskType_InputType = new GraphQLInputObjectType({
   }}
 });
 
-export const teamType = new GraphQLObjectType({
-  name: 'Team',
-  fields: function() { return {
-	  id: globalIdField('Team', team => team.Id),
-	  //id: { type:new GraphQLNonNull(GraphQLID), resolve: team => team.Id },
-      title: { type: GraphQLString, resolve: team => team.Title },
-	  parentNodeId: { type: GraphQLString, resolve: team => team.parentNodeId },
-	  childrenNodes : { type: new GraphQLList(teamType), resolve: team => team.ChildrenNodes  } 
-  }},
-  interfaces: () => [nodeInterface]
-});
-
 export const teamInputType = new GraphQLInputObjectType({
   name: 'TeamInput',
   fields: function () { return {
@@ -182,16 +241,6 @@ export const userInputType = new GraphQLInputObjectType({
   }}
 });
 
-export const contentType = new GraphQLObjectType({
-  name: 'Content',
-  fields: function () { return {
-	  id: globalIdField('Content', content => content.Id),
-      name: { type: GraphQLString, resolve: content => content.Name },
-	  type: { type: GraphQLString, resolve: content => content.Type },
-	  typeId: { type: GraphQLString, resolve: content => content.TypeId }
-  }},
-  interfaces: () => [nodeInterface]
-});
 
 export const contentInputType = new GraphQLInputObjectType({
   name: 'ContentInput',
@@ -203,20 +252,11 @@ export const collectionType = new GraphQLObjectType({
   fields: function() { return {
       id: globalIdField('Collection', collection => collection.Id),
       title: { type: GraphQLString, resolve: collection => collection.Title },
-	  parentNodeId: { type: GraphQLString, resolve: collection => collection.ParentNodeId },
-	  childrenNodesCount: { type: GraphQLInt, resolve: collection => collection.ChildrenNodesCount },
-	  image: { type: GraphQLString, resolve: collection => collection.Image },
-	  childrenNodes: { type: new GraphQLList(collectionType), resolve: collection => collection.ChildrenNodes } 
+  	  parentNodeId: { type: GraphQLString, resolve: collection => collection.ParentNodeId },
+  	  childrenNodesCount: { type: GraphQLInt, resolve: collection => collection.ChildrenNodesCount },
+  	  image: { type: GraphQLString, resolve: collection => collection.Image },
+  	  childrenNodes: { type: new GraphQLList(collectionType), resolve: collection => collection.ChildrenNodes } 
   }},
   interfaces: () => [nodeInterface]
 });
 
-export const businessType = new GraphQLObjectType({
-  name: 'Business',
-  fields: function() { return {
-      id: globalIdField('Business', business => business.Id),
-      name: { type: GraphQLString, resolve: business => business.Name },
-	  image: { type: GraphQLString, resolve: business => business.Image },
-  }},
-  interfaces: () => [nodeInterface]
-});
