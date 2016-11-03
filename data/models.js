@@ -241,7 +241,6 @@ export const userInputType = new GraphQLInputObjectType({
   }}
 });
 
-
 export const contentInputType = new GraphQLInputObjectType({
   name: 'ContentInput',
   fields: function() { return { contentId: {type: GraphQLString }}}

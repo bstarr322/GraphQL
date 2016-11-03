@@ -1,7 +1,8 @@
 import {
   GraphQLInt,
   GraphQLString,
-  GraphQLObjectType
+  GraphQLObjectType,
+  GraphQLList
 } from 'graphql';
 
 import {
@@ -24,8 +25,10 @@ import {
   goalType,
   goalType_Type,
   taskType_Type,
-  teamType,
-  contentType
+  teamTreeType,
+  contentType,
+  collectionType,
+  businessType
 } from './models.js';
 
 import {
@@ -46,35 +49,23 @@ function getViewerFields() {
 		resolve: (viewer) => viewer.id
 	},
 	name: { type: GraphQLString },
-	// goalsConn: {
-		// type: goalConnection,
-		// args: {business: {type: GraphQLString},...connectionArgs},
-		// resolve: (_, args) => connectionFromPromisedArray(new goalServices().getGoals(args.business), args)
-	// },
-	// goal: {
-		// type: goalType,
-		// args: {goalId:{type: GraphQLInt}},
-		// resolve: (_,args) => new goalServices().getGoal(args.goalId)			
-	// },
-	goalTypesConn: {
-		type: goalTypeConnection,
-		args: connectionArgs,
-		resolve: (_, args) => connectionFromPromisedArray(new goalTypeServices().getGoalTypes(), args)
+	goalTypes: {
+		type: new GraphQLList(goalType_Type),
+		resolve: (_,args) => new goalTypeServices().getGoalTypes()
 	},
 	goalType: {
 		type: goalType_Type,
 		args: {goalTypeId: {type: GraphQLInt}},
-		resolve: (_,args) => new goalTypeServices().getGoalType(args.goalTypeId)
+		resolve: (_,args) => new goalTypeServices().getGoalTypes()
 	},
 	goalTypeByTag: {
 		type: goalType_Type,
 		args: {tag: {type: GraphQLString}},
 		resolve: (_,args) => new goalTypeServices().getGoalTypeByTag(args.tag)
 	},
-	taskTypesConn: {
-		type: taskTypeConnection,
-		args: connectionArgs,
-		resolve: (_, args) => connectionFromPromisedArray(new taskTypeServices().getTaskTypes(), args)
+	taskTypes: {
+		type: new GraphQLList(taskType_Type),
+		resolve: (_,args) => new taskTypeServices().getTaskTypes()
 	},
 	taskType: {
 		type: taskType_Type,
@@ -86,26 +77,25 @@ function getViewerFields() {
 		args: {tag: {type: GraphQLString}},
 		resolve: (_,args) => new taskTypeServices().getTaskTypeByTag(args.tag)
 	},
-	teamsConn: {
-		type: teamConnection,
-		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => connectionFromPromisedArray(new teamServices().getTeams(args.businessId), args)
+	teams: {
+		type: teamTreeType,
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_,args) => new businessServices().getTeamsInTreeFormByBusiness(args.businessId)
 	},
-	contentsConn: {
-		type: contentConnection,
+	contents: {
+		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => connectionFromPromisedArray(new contentServices().getContents(args.businessId), args)
+		resolve: (_, args) => new businessServices().getContentsByBusiness(args.businessId)
 	},
-	collectionsConn: {
-		type: collectionConnection,
-		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => connectionFromPromisedArray(new collectionServices().getCollections(args.businessId), args)
+	collections: {
+		type: new GraphQLList(collectionType),
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_, args) => new businessServices().getCollectionsInTreeFormByBusiness(args.businessId)
 	},
-	businessesConn: {
-		type: businessConnection,
-		args: connectionArgs,
-		resolve: (_, args) => connectionFromPromisedArray(new businessServices().getBusinesses(), args)
-	}
+	businesses: {
+		type: new GraphQLList(businessType),
+		resolve: (_, args) => new businessServices().getGoalAssignableBusinesses()
+	},	
   }
 };
 export const viewerType = new GraphQLObjectType({

@@ -23,6 +23,7 @@ function callHttp(method, host, port, path, transformFunc, reqBody) {
 		'Content-Type':'application/json'  
 	  }
     };
+	console.log(options);
     var callback = function(response) {
       var data = '';
       //another chunk of data has been recieved, so append it to `str`

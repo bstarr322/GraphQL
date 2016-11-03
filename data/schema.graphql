@@ -5,24 +5,6 @@ type Business implements Node {
   image: String
 }
 
-# A connection to a list of items.
-type BusinessConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [BusinessEdge]
-}
-
-# An edge in a connection.
-type BusinessEdge {
-  # The item at the end of the edge
-  node: Business
-
-  # A cursor for use in pagination
-  cursor: String!
-}
-
 type Collection implements Node {
   # The ID of an object
   id: ID!
@@ -33,48 +15,12 @@ type Collection implements Node {
   childrenNodes: [Collection]
 }
 
-# A connection to a list of items.
-type CollectionConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [CollectionEdge]
-}
-
-# An edge in a connection.
-type CollectionEdge {
-  # The item at the end of the edge
-  node: Collection
-
-  # A cursor for use in pagination
-  cursor: String!
-}
-
 type Content implements Node {
   # The ID of an object
   id: ID!
   name: String
   type: String
   typeId: String
-}
-
-# A connection to a list of items.
-type ContentConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [ContentEdge]
-}
-
-# An edge in a connection.
-type ContentEdge {
-  # The item at the end of the edge
-  node: Content
-
-  # A cursor for use in pagination
-  cursor: String!
 }
 
 input ContentInput {
@@ -122,24 +68,6 @@ type GoalType implements Node {
   tag: String
 }
 
-# A connection to a list of items.
-type GoalTypeConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [GoalTypeEdge]
-}
-
-# An edge in a connection.
-type GoalTypeEdge {
-  # The item at the end of the edge
-  node: GoalType
-
-  # A cursor for use in pagination
-  cursor: String!
-}
-
 input GoalTypeInput {
   id: Int
 }
@@ -154,21 +82,6 @@ type Mutation {
 interface Node {
   # The id of the object.
   id: ID!
-}
-
-# Information about pagination in a connection.
-type PageInfo {
-  # When paginating forwards, are there more items?
-  hasNextPage: Boolean!
-
-  # When paginating backwards, are there more items?
-  hasPreviousPage: Boolean!
-
-  # When paginating backwards, the cursor to continue.
-  startCursor: String
-
-  # When paginating forwards, the cursor to continue.
-  endCursor: String
 }
 
 type Query {
@@ -190,57 +103,21 @@ type TaskType implements Node {
   tag: String
 }
 
-# A connection to a list of items.
-type TaskTypeConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [TaskTypeEdge]
-}
-
-# An edge in a connection.
-type TaskTypeEdge {
-  # The item at the end of the edge
-  node: TaskType
-
-  # A cursor for use in pagination
-  cursor: String!
-}
-
 input TaskTypeInput {
   id: Int
-}
-
-type Team implements Node {
-  # The ID of an object
-  id: ID!
-  title: String
-  parentNodeId: String
-  childrenNodes: [Team]
-}
-
-# A connection to a list of items.
-type TeamConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [TeamEdge]
-}
-
-# An edge in a connection.
-type TeamEdge {
-  # The item at the end of the edge
-  node: Team
-
-  # A cursor for use in pagination
-  cursor: String!
 }
 
 input TeamInput {
   id: String
   users: [User]
+}
+
+type TeamTree implements Node {
+  # The ID of an object
+  id: ID!
+  title: String
+  parentNodeId: String
+  childrenNodes: [TeamTree]
 }
 
 input UpdateGoalInput {
@@ -269,14 +146,14 @@ input User {
 type Viewer {
   viewerId: String
   name: String
-  goalTypesConn(after: String, first: Int, before: String, last: Int): GoalTypeConnection
+  goalTypes: [GoalType]
   goalType(goalTypeId: Int): GoalType
   goalTypeByTag(tag: String): GoalType
-  taskTypesConn(after: String, first: Int, before: String, last: Int): TaskTypeConnection
+  taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
-  teamsConn(businessId: String, after: String, first: Int, before: String, last: Int): TeamConnection
-  contentsConn(businessId: String, after: String, first: Int, before: String, last: Int): ContentConnection
-  collectionsConn(businessId: String, after: String, first: Int, before: String, last: Int): CollectionConnection
-  businessesConn(after: String, first: Int, before: String, last: Int): BusinessConnection
+  teams(businessId: String): TeamTree
+  contents(businessId: String, after: String, first: Int, before: String, last: Int): [Content]
+  collections(businessId: String): [Collection]
+  businesses: [Business]
 }

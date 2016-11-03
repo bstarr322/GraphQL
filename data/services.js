@@ -9,23 +9,23 @@ export const goalServices = function() {};
 export const viewerServices = function() {};
 export const goalTypeServices = function() {};
 export const taskTypeServices = function() {};
-export const teamServices = function() {};
-export const contentServices = function() {};
-export const collectionServices = function() {};
 export const businessServices = function() {};
 
-
-function httpGetToLegacyApi = function(route) {
+/*
+function httpGetToLegacyApi(route) {
   httpGet(config.LOCALHOST, config.CPDONE_PORT, route, function(result) { 
+	console.log("NET SERVICES->"+result);
     return result;
   });
 }
 
-function httpGetToGoalsApi = function(route) {
+function httpGetToGoalsApi(route) {
   httpGet(config.LOCALHOST, config.GOALS_PORT, route, function(result) { 
+  	console.log("SCA SERVICES->"+result);
     return result;
   });
 }
+*/
 
 viewerServices.prototype.getViewer = function(viewerId) {
   return httpGet(config.JSON_HOST, config.JSON_PORT, '/users/'+viewerId, function(result) { return result; });
@@ -44,7 +44,7 @@ goalServices.prototype.createGoal = function(goal) {
   var goalBody = goal["input"];
   return httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal/' + goal.goalType, function(result) { 
     var root = {};
-	root["data"] = result
+	root["data"] = result;
     return root;
   } , {
     name: goalBody.name, 
@@ -97,36 +97,29 @@ taskTypeServices.prototype.getTaskTypeByTag = function(tag) {
   business service -> refactor to another file
 */
 businessServices.prototype.getGoalAssignableBusinesses = function() {
-  var route = '/api/v1/businesses/goalassignable';
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/goalassignable', function(result) { return result });
 }
 
 businessServices.prototype.getScopedBusinessIndustrySummariesByBusiness = function(businessId) {
-  var route = '/api/v1/businesses/' + businessId + '/industries';
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/industries', function(result) { return result });
 }
 
 businessServices.prototype.getIndustryMembershipsByBusiness = function(businessId, industryId) {
-  var route = '/api/v1/businesses/' + businessId + '/industries/' + industryId;
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/industries/' + industryId, function(result) { return result });
 }
 
 businessServices.prototype.getUserIdsByBusinessAndTeam = function(businessId, teamId) {
-  var route = '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users';
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users', function(result) { return result });
 }
 
 businessServices.prototype.getTeamsInTreeFormByBusiness = function(businessId) {
-  var route = '/api/v1/businesses/' + businessId + '/teams/tree';
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/teams/tree', function(result) { return result });
 }
 
 businessServices.prototype.getCollectionsInTreeFormByBusiness = function(businessId) {
-  var route = '/api/v1/businesses/' + businessId + '/collections/tree';
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/collections/tree', function(result) { return result });
 }
 
 businessServices.prototype.getContentsByBusiness = function(businessId) {
-  var route = '/api/v1/businesses/' + businessId + '/contents';
-  return httpGetToLegacyApi(route);
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/contents', function(result) { return result });
 }
