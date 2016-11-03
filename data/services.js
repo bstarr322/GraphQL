@@ -26,6 +26,18 @@ export const collectionServices = function() {};
 export const businessServices = function() {};
 
 
+function httpGetToLegacyApi = function(route) {
+  httpGet(config.LOCALHOST, config.CPDONE_PORT, route, function(result) { 
+    return result;
+  });
+}
+
+function httpGetToGoalsApi = function(route) {
+  httpGet(config.LOCALHOST, config.GOALS_PORT, route, function(result) { 
+    return result;
+  });
+}
+
 viewerServices.prototype.getViewer = function(viewerId) {
   return httpGet(config.JSON_HOST, config.JSON_PORT, '/users/'+viewerId,
 	function(result) {
@@ -97,28 +109,40 @@ taskTypeServices.prototype.getTaskTypeByTag = function(tag) {
   return httpGet(config.LOCALHOST, config.GOALS_PORT, '/reference/taskTypeByTag/' + tag, function(result) { return result; });
 }
 
-//Teams (from cpdone.net)
-teamServices.prototype.getTeams = function(businessId) {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/team/tree?businessId=' + businessId, function(result) { 
-    var listResult = []; 
-	listResult.push(result);
-	return listResult;
-  });
+/*
+  business service -> refactor to another file
+*/
+businessServices.prototype.getGoalAssignableBusinesses = function() {
+  var route = '/api/v1/businesses/goalassignable';
+  return httpGetToLegacyApi(route);
 }
 
-//Contents (from cpdone.net)
-contentServices.prototype.getContents = function(businessId) {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/content/get?businessId=' + businessId, function(result) { return result;});
+businessServices.prototype.getScopedBusinessIndustrySummariesByBusiness = function(businessId) {
+  var route = '/api/v1/businesses/' + businessId + '/industries';
+  return httpGetToLegacyApi(route);
 }
 
-//Collection (from cpdone.net)
-collectionServices.prototype.getCollections = function(businessId) {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/collection/get?businessId=' + businessId, function(result) { return result;});
+businessServices.prototype.getIndustryMembershipsByBusiness = function(businessId, industryId) {
+  var route = '/api/v1/businesses/' + businessId + '/industries/' + industryId;
+  return httpGetToLegacyApi(route);
 }
 
-//Business (from cpdone.net)
-businessServices.prototype.getBusinesses = function() {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/user/GetGoalAssignableBusinesses', function(result) { 
-	return result;
-  });
+businessServices.prototype.getUserIdsByBusinessAndTeam = function(businessId, teamId) {
+  var route = '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users';
+  return httpGetToLegacyApi(route);
+}
+
+businessServices.prototype.getTeamsInTreeFormByBusiness = function(businessId) {
+  var route = '/api/v1/businesses/' + businessId + '/teams/tree';
+  return httpGetToLegacyApi(route);
+}
+
+businessServices.prototype.getCollectionsInTreeFormByBusiness = function(businessId) {
+  var route = '/api/v1/businesses/' + businessId + '/collections/tree';
+  return httpGetToLegacyApi(route);
+}
+
+businessServices.prototype.getContentsByBusiness = function(businessId) {
+  var route = '/api/v1/businesses/' + businessId + '/contents';
+  return httpGetToLegacyApi(route);
 }
