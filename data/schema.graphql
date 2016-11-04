@@ -73,6 +73,11 @@ type Industry {
   name: String
 }
 
+type Membership {
+  id: ID!
+  name: String
+}
+
 type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   updateGoal(input: UpdateGoalInput!): UpdateGoalPayload
@@ -103,7 +108,7 @@ input TaskTypeInput {
 
 input TeamInput {
   id: String
-  users: [UserInput]
+  users: [UserIdInput]
 }
 
 type TeamTree {
@@ -130,7 +135,11 @@ type UpdateGoalPayload {
   clientMutationId: String
 }
 
-input UserInput {
+type UserId {
+  ids: [String]
+}
+
+input UserIdInput {
   id: String
 }
 
@@ -149,4 +158,6 @@ type Viewer {
   collectionsByBusinessId(businessId: String): [CollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
+  userIdsByBusinessAndTeam(businessId: String, teamId: String): UserId
+  industryMembershipsByBusiness(businessId: String, industryId: String): [Membership]
 }

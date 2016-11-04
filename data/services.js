@@ -44,13 +44,13 @@ goalServices.prototype.createGoal = function(goal) {
   var goalBody = goal["input"];
   return httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal/' + goal.goalType, function(result) { 
     var root = {};
-	root["data"] = result;
+	  root["data"] = result;
     return root;
   } , {
     name: goalBody.name, 
     description: goalBody.description,
     goalType: goalBody.goalType,
-	businessId: goalBody.businessId,
+	  businessId: goalBody.businessId,
     isBusinessCritical: goalBody.isBusinessCritical,
     isSequential: goalBody.isSequential,
     startDate: goalBody.startDate,
@@ -96,6 +96,8 @@ taskTypeServices.prototype.getTaskTypeByTag = function(tag) {
 /*
   business service -> refactor to another file
 */
+
+
 businessServices.prototype.getGoalAssignableBusinesses = function() {
   return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/goalassignable', function(result) { return result });
 }
@@ -105,11 +107,15 @@ businessServices.prototype.getScopedBusinessIndustrySummariesByBusiness = functi
 }
 
 businessServices.prototype.getIndustryMembershipsByBusiness = function(businessId, industryId) {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/industries/' + industryId, function(result) { return result });
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/industries/' + industryId + '/memberships', function(result) { return result });
 }
 
 businessServices.prototype.getUserIdsByBusinessAndTeam = function(businessId, teamId) {
-  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users', function(result) { return result });
+  return httpGet(config.LOCALHOST, config.CPDONE_PORT, '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users', function(result) { 
+    root = [];
+    root["ids"] = result;
+    return root;
+  });
 }
 
 businessServices.prototype.getTeamsInTreeFormByBusiness = function(businessId) {

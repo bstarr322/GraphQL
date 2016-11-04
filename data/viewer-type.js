@@ -3,7 +3,6 @@ import {
   GraphQLString,
   GraphQLObjectType,
   GraphQLList,
-  userType
 } from 'graphql';
 
 import {
@@ -30,7 +29,9 @@ import {
   contentType,
   collectionTreeType,
   businessType,
-  industryType
+  industryType,
+  userIdType,
+  membershipType
 } from './models.js';
 
 import {
@@ -105,11 +106,16 @@ function getViewerFields() {
 		args: {businessId: {type: GraphQLString}},
 		resolve: (_, args) => new businessServices().getScopedBusinessIndustrySummariesByBusiness(args.businessId)
 	},
-	// userIdsByBusinessAndTeam: {
-		// type: new GraphQLList(userType),
-		// args: {businessId: {type: GraphQLString},teamId: {type: GraphQLString}},
-		// resolve: (_, args) => new businessServices().getUserIdsByBusinessAndTeam(args.businessId)
-	// }
+	userIdsByBusinessAndTeam: {
+		type: userIdType,
+		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
+		resolve: (_, args) => new businessServices().getUserIdsByBusinessAndTeam(args.businessId,args.teamId)
+	},
+	industryMembershipsByBusiness: {
+		type: new GraphQLList(membershipType),
+		args: {businessId: {type: GraphQLString}, industryId: {type: GraphQLString}},
+		resolve: (_, args) => new businessServices().getIndustryMembershipsByBusiness(args.businessId, args.industryId)
+	},
   }
 };
 export const viewerType = new GraphQLObjectType({

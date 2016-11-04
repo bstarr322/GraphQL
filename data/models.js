@@ -30,7 +30,7 @@ import {
 export const businessType = new GraphQLObjectType({
   name: 'Business',
   fields: function() { return {
-	id: {type: new GraphQLNonNull(GraphQLID), resolve: business => business.Id },
+	  id: {type: new GraphQLNonNull(GraphQLID), resolve: business => business.Id },
     name: { type: GraphQLString, resolve: business => business.Name },
     image: { type: GraphQLString, resolve: business => business.Image },
   }},
@@ -39,15 +39,15 @@ export const businessType = new GraphQLObjectType({
 export const industryType = new GraphQLObjectType({
   name: 'Industry',
   fields: function() { return {
-	id: {type: new GraphQLNonNull(GraphQLID), resolve: industry => industry.IndustryId},
-    name: { type: GraphQLString, resolve: industry => industry.IndustryName },
+	  id: {type: new GraphQLNonNull(GraphQLID), resolve: industry => industry.Id},
+    name: { type: GraphQLString, resolve: industry => industry.Name },
   }},
 });
 
 export const membershipType = new GraphQLObjectType({
   name: 'Membership',
   fields: function() { return {
-	id: {type: new GraphQLNonNull(GraphQLID), resolve: membership => membership.Name },
+	  id: {type: new GraphQLNonNull(GraphQLID), resolve: membership => membership.Id },
     name: { type: GraphQLString, resolve: membership => membership.Name },
   }},
 });
@@ -55,7 +55,7 @@ export const membershipType = new GraphQLObjectType({
 export const teamTreeType = new GraphQLObjectType({
   name: 'TeamTree',
   fields: function() { return {
-	id: {type: new GraphQLNonNull(GraphQLID), resolve: team => team.Id },
+	  id: {type: new GraphQLNonNull(GraphQLID), resolve: team => team.Id },
     title: { type: GraphQLString, resolve: team => team.Title },
     parentNodeId: { type: GraphQLString, resolve: team => team.ParentNodeId },
     childrenNodes : { type: new GraphQLList(teamTreeType), resolve: team => team.ChildrenNodes  } 
@@ -65,7 +65,7 @@ export const teamTreeType = new GraphQLObjectType({
 export const collectionTreeType = new GraphQLObjectType({
   name: 'CollectionTree',
   fields: function() { return {
-	id: {type: new GraphQLNonNull(GraphQLID), resolve: collection => collection.Id },
+	  id: {type: new GraphQLNonNull(GraphQLID), resolve: collection => collection.Id },
     title: { type: GraphQLString, resolve: collection => collection.Title },
     parentNodeId: { type: GraphQLString, resolve: collection => collection.ParentNodeId },
     contentCount : { type: GraphQLInt, resolve: collection => collection.ContentCount },
@@ -77,11 +77,18 @@ export const collectionTreeType = new GraphQLObjectType({
 export const contentType = new GraphQLObjectType({
   name: 'Content',
   fields: function () { return {
-	id: {type: new GraphQLNonNull(GraphQLID), resolve: content => content.Id },
+	  id: {type: new GraphQLNonNull(GraphQLID), resolve: content => content.Id },
     name: { type: GraphQLString, resolve: content => content.Name },
     type: { type: GraphQLString, resolve: content => content.Type },
     typeId: { type: GraphQLString, resolve: content => content.TypeId }
   }},
+});
+
+export const userIdType = new GraphQLObjectType({
+  name: 'UserId',
+  fields: function () { return {
+    ids: { type: new GraphQLList(GraphQLString) }
+  }}
 });
 
 /*
@@ -90,7 +97,7 @@ export const contentType = new GraphQLObjectType({
 
 export function getGoalFields() {
   return {
-    id: {type: new GraphQLNonNull(GraphQLID)},
+  id: {type: new GraphQLNonNull(GraphQLID)},
 	//id: {type: new GraphQLNonNull(GraphQLID)},
 	name: {type: GraphQLString},
 	// goalType: {type: GraphQLString},
@@ -182,7 +189,7 @@ export const teamInputType = new GraphQLInputObjectType({
   name: 'TeamInput',
   fields: function () { return {
 	  id: { type: GraphQLString },
-	  users: { type: new GraphQLList(userInputType)}
+	  users: { type: new GraphQLList(userIdInputType)}
   }}
 });
 
@@ -191,8 +198,8 @@ export const contentInputType = new GraphQLInputObjectType({
   fields: function() { return { contentId: {type: GraphQLString }}}
 });
 
-export const userInputType = new GraphQLInputObjectType({
-  name: 'UserInput',
+export const userIdInputType = new GraphQLInputObjectType({
+  name: 'UserIdInput',
   fields: function () { return {
 	  id: { type: GraphQLString }
   }}
