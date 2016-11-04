@@ -1,51 +1,57 @@
 {
-  viewer {
-    goalsConn(business: "cpdone") {
-      edges {
-        node {
-				...goalt
-        }
-      }
-    },
-    goal(goalId:2) {
-			...goalt
-    }
-   	goalTypesConn {
-      edges {
-        node {
-					...goalTypet
-        }
-      }
-    },
-    goalType(goalTypeId:2) {
-			...goalTypet
-    },
-    taskTypesConn {
-      edges {
-        node {
-					...taskTypet
-        }
-      }
-    },
-		taskType(taskTypeId:2){
+  viewer(viewerId:3) {
+  	goalTypes{
       id,
-      name
+      name,
+      iconReference,
+      tag
+    },
+    taskTypes{
+      id,
+      name,
+      tag
+    },
+    teamsByBusinessId(businessId: "417f3525-9793-4c44-b853-3ca5f5cd1db1") {
+			...fields,
+      childrenNodes {
+        ...fields
+      }
+    },
+    collectionsByBusinessId(businessId: "E1D0564B-63BA-4661-A7E0-3A157FFBBFCC") {
+			...colfields,
+    },
+    contentsByBusinessId(businessId: "E1D0564B-63BA-4661-A7E0-3A157FFBBFCC") {
+      id,name,type,typeId
+    },
+    industriesByBusinessId(businessId: "E1D0564B-63BA-4661-A7E0-3A157FFBBFCC") {
+      id,
+      name,
+    },
+    businesses{
+      id,
+      name,
+      image
     }
   }
 }
 
-fragment goalt on Goal {
+fragment fields on TeamTree {
   id,
-  name,
-  business
+  title,
+  parentNodeId
 }
 
-fragment goalTypet on GoalType {
+fragment colfields on CollectionTree {
   id,
-  name,
-  iconReference
-}
-fragment taskTypet on TaskType {
-  id,
-  name
+  title,
+  parentNodeId,
+  image,
+  contentCount,
+  childrenNodes {
+    id,
+    title,
+    parentNodeId,
+    image,
+    contentCount
+  }
 }

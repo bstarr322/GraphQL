@@ -2,7 +2,8 @@ import {
   GraphQLInt,
   GraphQLString,
   GraphQLObjectType,
-  GraphQLList
+  GraphQLList,
+  userType
 } from 'graphql';
 
 import {
@@ -27,8 +28,9 @@ import {
   taskType_Type,
   teamTreeType,
   contentType,
-  collectionType,
-  businessType
+  collectionTreeType,
+  businessType,
+  industryType
 } from './models.js';
 
 import {
@@ -41,7 +43,9 @@ import {
   businessConnection
 } from './connections.js';
 
-
+/*
+ * Query aliases must be unique, cannot overload
+ */
 function getViewerFields() {
   return {
 	viewerId: { 
@@ -53,7 +57,7 @@ function getViewerFields() {
 		type: new GraphQLList(goalType_Type),
 		resolve: (_,args) => new goalTypeServices().getGoalTypes()
 	},
-	goalType: {
+	goalTypeById: {
 		type: goalType_Type,
 		args: {goalTypeId: {type: GraphQLInt}},
 		resolve: (_,args) => new goalTypeServices().getGoalTypes()
@@ -77,25 +81,35 @@ function getViewerFields() {
 		args: {tag: {type: GraphQLString}},
 		resolve: (_,args) => new taskTypeServices().getTaskTypeByTag(args.tag)
 	},
-	teams: {
+	teamsByBusinessId: {
 		type: teamTreeType,
 		args: {businessId: {type: GraphQLString}},
 		resolve: (_,args) => new businessServices().getTeamsInTreeFormByBusiness(args.businessId)
 	},
-	contents: {
+	contentsByBusinessId: {
 		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString},...connectionArgs},
 		resolve: (_, args) => new businessServices().getContentsByBusiness(args.businessId)
 	},
-	collections: {
-		type: new GraphQLList(collectionType),
+	collectionsByBusinessId: {
+		type: new GraphQLList(collectionTreeType),
 		args: {businessId: {type: GraphQLString}},
 		resolve: (_, args) => new businessServices().getCollectionsInTreeFormByBusiness(args.businessId)
 	},
 	businesses: {
 		type: new GraphQLList(businessType),
 		resolve: (_, args) => new businessServices().getGoalAssignableBusinesses()
-	},	
+	},
+	industriesByBusinessId: {
+		type: new GraphQLList(industryType),
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_, args) => new businessServices().getScopedBusinessIndustrySummariesByBusiness(args.businessId)
+	},
+	// userIdsByBusinessAndTeam: {
+		// type: new GraphQLList(userType),
+		// args: {businessId: {type: GraphQLString},teamId: {type: GraphQLString}},
+		// resolve: (_, args) => new businessServices().getUserIdsByBusinessAndTeam(args.businessId)
+	// }
   }
 };
 export const viewerType = new GraphQLObjectType({
