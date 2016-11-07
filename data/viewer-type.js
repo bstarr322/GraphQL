@@ -78,21 +78,8 @@ function getViewerFields() {
 		args: {tag: {type: GraphQLString}},
 		resolve: (_,args) => new taskTypeService().getTaskTypeByTag(args.tag)
 	},
-	teamsByBusinessId: {
-		type: teamTreeType,
-		args: {businessId: {type: GraphQLString}},
-		resolve: (_,args) => new businessService().getTeamsInTreeFormByBusiness(args.businessId)
-	},
-	contentsByBusinessId: {
-		type: new GraphQLList(contentType),
-		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => new businessService().getContentsByBusiness(args.businessId)
-	},
-	collectionsByBusinessId: {
-		type: new GraphQLList(collectionTreeType),
-		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getCollectionsInTreeFormByBusiness(args.businessId)
-	},
+
+	// business services
 	businesses: {
 		type: new GraphQLList(businessType),
 		resolve: (_, args) => new businessService().getGoalAssignableBusinesses()
@@ -100,17 +87,32 @@ function getViewerFields() {
 	industriesByBusinessId: {
 		type: new GraphQLList(industryType),
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getScopedBusinessIndustrySummariesByBusiness(args.businessId)
+		resolve: (_, args) => new businessService().getIndustriesByBusiness(args.businessId)
 	},
-	userIdsByBusinessAndTeam: {
-		type: userIdType,
-		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getUserIdsByBusinessAndTeam(args.businessId,args.teamId)
-	},
-	industryMembershipsByBusiness: {
+	membershipsByBusinessAndIndustry: {
 		type: new GraphQLList(membershipType),
 		args: {businessId: {type: GraphQLString}, industryId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getIndustryMembershipsByBusiness(args.businessId, args.industryId)
+		resolve: (_, args) => new businessService().getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
+	},
+	userIdsByBusinessAndTeam: {
+		type: new GraphQLList(GraphQLID),
+		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
+		resolve: (_, args) => new businessService().getMembershipsByBusinessAndIndustry(args.businessId, args.teamId)
+	},
+	teamsByBusinessId: {
+		type: teamTreeType,
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_,args) => new businessService().getTeamsInTreeFormByBusiness(args.businessId)
+	},
+	collectionsByBusinessId: {
+		type: new GraphQLList(collectionTreeType),
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_, args) => new businessService().getCollectionsInTreeFormByBusiness(args.businessId)
+	},
+	contentsByBusinessId: {
+		type: new GraphQLList(contentType),
+		args: {businessId: {type: GraphQLString},...connectionArgs},
+		resolve: (_, args) => new businessService().getContentsByBusiness(args.businessId)
 	},
   }
 };

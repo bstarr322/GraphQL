@@ -1,18 +1,19 @@
-import config from '../config.js';
+import http from 'http';
+import config from '../../config.js';
 
-export function httpToJsonPlaceholderApi(httpMethod, route, transformFunc, reqBody) {
-  	return callHttp(httpMethod, config.JSON_HOST, config.JSON_PORT, route, transformFunc, reqBody);
+export function httpToJsonPlaceholderApi(httpMethod, route, transformFunc, requestBody) {
+  	return callHttp(httpMethod, config.JSON_HOST, config.JSON_PORT, route, transformFunc, requestBody);
 }
 
-export function httpToLegacyApi(httpMethod, route, transformFunc, reqBody) {
-  	return callHttp(httpMethod, config.HOST, config.CPDONE_PORT, route, transformFunc, reqBody);
+export function httpToLegacyApi(httpMethod, route, transformFunc, requestBody) {
+  	return callHttp(httpMethod, config.HOST, config.CPDONE_PORT, route, transformFunc, requestBody);
 }
 
-export function httpToGoalsApi(httpMethod, route, transformFunc, reqBody) {
-  	return callHttp(httpMethod, config.HOST, config.GOALS_PORT, route, transformFunc, reqBody);
+export function httpToGoalsApi(httpMethod, route, transformFunc, requestBody) {
+  	return callHttp(httpMethod, config.HOST, config.GOALS_PORT, route, transformFunc, requestBody);
 }
 
-function callHttp(method, host, port, path, transformFunc, reqBody) {
+function callHttp(method, host, port, path, transformFunc, requestBody) {
 
 	if (!transformFunc) {
 		transformFunc = function(result) { return result; }

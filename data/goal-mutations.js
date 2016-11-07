@@ -9,7 +9,7 @@ import {
 } from 'graphql-relay';
 import { goalConnection } from './connections';
 import { goalInputType,getGoalFields } from './models';
-import { goalServices } from './services';
+import { goalService } from './services/goalService.js';
 import { viewerType } from './viewer-type'
 
 export const createGoalMutation = mutationWithClientMutationId({
@@ -24,7 +24,7 @@ export const createGoalMutation = mutationWithClientMutationId({
     }
   }},
   mutateAndGetPayload: function(input){
-	  return new goalServices().createGoal(input)
+	  return new goalService().createGoal(input)
   }
 });
 
@@ -36,7 +36,7 @@ export const updateGoalMutation = mutationWithClientMutationId ({
   },
   outputFields: getGoalFields(),
   mutateAndGetPayload: function(goal,id){
-	return new goalServices().updateGoal(goal,id)
+	return new goalService().updateGoal(goal,id)
   }
 });
 
@@ -45,6 +45,6 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
   inputFields: {input: {type: GraphQLInt}},
   outputFields: {output: {type: GraphQLString}},
   mutateAndGetPayload: function(id){
-    return new goalServices().deleteGoal(id)
+    return new goalService().deleteGoal(id)
   }
 });

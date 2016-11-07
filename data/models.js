@@ -8,15 +8,7 @@ import {
 	GraphQLNonNull,
 	GraphQLID
 } from 'graphql';
-import {
-	goalServices,
-	taskTypeServices,
-	goalTypeServices,
-	teamServices,
-	contentServices,
-	collectionServices,
-	businessServices
-} from './services';
+
 
 /*
   Study Node Interface Feature if it is still needed
