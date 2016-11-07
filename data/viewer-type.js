@@ -18,8 +18,12 @@ import {
   teamServices,
   contentServices,
   collectionServices,
-  businessServices
+  //businessServices
 } from './services.js';
+
+import {
+	businessService
+} from './services/businessService.js'
 
 import {
   goalType,
@@ -80,21 +84,21 @@ function getViewerFields() {
 	teams: {
 		type: teamTreeType,
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_,args) => new businessServices().getTeamsInTreeFormByBusiness(args.businessId)
+		resolve: (_,args) => new businessService().getTeamsInTreeFormByBusiness(args.businessId)
 	},
 	contents: {
 		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => new businessServices().getContentsByBusiness(args.businessId)
+		resolve: (_, args) => new businessService.getContentsByBusiness(args.businessId)
 	},
 	collections: {
 		type: new GraphQLList(collectionType),
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => new businessServices().getCollectionsInTreeFormByBusiness(args.businessId)
+		resolve: (_, args) => new businessService.getCollectionsInTreeFormByBusiness(args.businessId)
 	},
 	businesses: {
 		type: new GraphQLList(businessType),
-		resolve: (_, args) => new businessServices().getGoalAssignableBusinesses()
+		resolve: (_, args) => new businessService.getGoalAssignableBusinesses()
 	},	
   }
 };
