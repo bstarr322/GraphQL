@@ -1,22 +1,19 @@
-type Business implements Node {
-  # The ID of an object
+type Business {
   id: ID!
   name: String
   image: String
 }
 
-type Collection implements Node {
-  # The ID of an object
+type CollectionTree {
   id: ID!
   title: String
   parentNodeId: String
-  childrenNodesCount: Int
+  contentCount: Int
   image: String
-  childrenNodes: [Collection]
+  childrenNodes: [CollectionTree]
 }
 
-type Content implements Node {
-  # The ID of an object
+type Content {
   id: ID!
   name: String
   type: String
@@ -60,8 +57,7 @@ input GoalInput {
   teams: [TeamInput]
 }
 
-type GoalType implements Node {
-  # The ID of an object
+type GoalType {
   id: ID!
   name: String
   iconReference: String
@@ -72,16 +68,20 @@ input GoalTypeInput {
   id: Int
 }
 
+type Industry {
+  id: ID!
+  name: String
+}
+
+type Membership {
+  id: ID!
+  name: String
+}
+
 type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   updateGoal(input: UpdateGoalInput!): UpdateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
-}
-
-# An object with an ID
-interface Node {
-  # The id of the object.
-  id: ID!
 }
 
 type Query {
@@ -96,8 +96,7 @@ input TaskInput {
   content: ContentInput
 }
 
-type TaskType implements Node {
-  # The ID of an object
+type TaskType {
   id: ID!
   name: String
   tag: String
@@ -109,11 +108,10 @@ input TaskTypeInput {
 
 input TeamInput {
   id: String
-  users: [User]
+  users: [UserIdInput]
 }
 
-type TeamTree implements Node {
-  # The ID of an object
+type TeamTree {
   id: ID!
   title: String
   parentNodeId: String
@@ -127,7 +125,6 @@ input UpdateGoalInput {
 }
 
 type UpdateGoalPayload {
-  # The ID of an object
   id: ID!
   name: String
   description: String
@@ -138,7 +135,11 @@ type UpdateGoalPayload {
   clientMutationId: String
 }
 
-input User {
+type UserId {
+  ids: [String]
+}
+
+input UserIdInput {
   id: String
 }
 
@@ -147,13 +148,16 @@ type Viewer {
   viewerId: String
   name: String
   goalTypes: [GoalType]
-  goalType(goalTypeId: Int): GoalType
+  goalTypeById(goalTypeId: Int): GoalType
   goalTypeByTag(tag: String): GoalType
   taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
-  teams(businessId: String): TeamTree
-  contents(businessId: String, after: String, first: Int, before: String, last: Int): [Content]
-  collections(businessId: String): [Collection]
+  teamsByBusinessId(businessId: String): TeamTree
+  contentsByBusinessId(businessId: String, after: String, first: Int, before: String, last: Int): [Content]
+  collectionsByBusinessId(businessId: String): [CollectionTree]
   businesses: [Business]
+  industriesByBusinessId(businessId: String): [Industry]
+  userIdsByBusinessAndTeam(businessId: String, teamId: String): UserId
+  industryMembershipsByBusiness(businessId: String, industryId: String): [Membership]
 }

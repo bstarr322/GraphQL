@@ -4,12 +4,7 @@ export const goalService = function() {};
 
 goalService.prototype.getGoals = function(business) { 
 	var route = '/goals/' + business;
-	var transformFunc = function(result) { 
-		return result.map( function(elem) {
-			return elem; 
-		})
-	};
-	return httpToGoalsApi('GET', route, transformFunc);
+	return httpToGoalsApi('GET', route);
 }
 
 goalService.prototype.getGoal = function(goalId) {

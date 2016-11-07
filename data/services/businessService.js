@@ -13,12 +13,17 @@ businessService.prototype.getIndustriesByBusiness = function(businessId) {
 }
 
 businessService.prototype.getMembershipsByBusinessAndIndustry = function(businessId, industryId) {
-  var route = '/api/v1/businesses/' + businessId + '/industries/' + industryId;
+  var route = '/api/v1/businesses/' + businessId + '/industries/' + industryId + '/memberships';
   return httpToLegacyApi("GET", route);
 }
 
 businessService.prototype.getUserIdsByBusinessAndTeam = function(businessId, teamId) {
   var route = '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users';
+  var transformFunc = function(result) { 
+        var root = {};
+        root["data"] = result;
+        return root;
+    }; 
   return httpToLegacyApi("GET", route);
 }
 
