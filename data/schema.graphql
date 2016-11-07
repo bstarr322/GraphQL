@@ -153,11 +153,11 @@ type Viewer {
   taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
-  teamsByBusinessId(businessId: String): TeamTree
-  contentsByBusinessId(businessId: String, after: String, first: Int, before: String, last: Int): [Content]
-  collectionsByBusinessId(businessId: String): [CollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
-  userIdsByBusinessAndTeam(businessId: String, teamId: String): UserId
-  industryMembershipsByBusiness(businessId: String, industryId: String): [Membership]
+  membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
+  userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
+  teamsByBusinessId(businessId: String): TeamTree
+  collectionsByBusinessId(businessId: String): [CollectionTree]
+  contentsByBusinessId(businessId: String, after: String, first: Int, before: String, last: Int): [Content]
 }

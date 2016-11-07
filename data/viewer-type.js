@@ -3,6 +3,7 @@ import {
   GraphQLString,
   GraphQLObjectType,
   GraphQLList,
+  GraphQLID
 } from 'graphql';
 
 import {
@@ -13,7 +14,7 @@ import {
 // services
 import { businessService } from './services/businessService.js'
 import { goalService } from './services/goalService.js'
-import { goalTaskTypeService } from './services/goalTaskTypeService.js'
+import { taskTypeService } from './services/taskTypeService.js'
 import { goalTypeService } from './services/goalTypeService.js'
 import { viewerService } from './services/viewerService.js'
 
@@ -71,7 +72,7 @@ function getViewerFields() {
 	taskType: {
 		type: taskType_Type,
 		args: {taskTypeId: {type: GraphQLInt}},
-		resolve: (_,args) => new taskTypeService().getTaskType(args.taskTypeId)
+		resolve: (_,args) => new goalTaskTypeService().getTaskType(args.taskTypeId)
 	},
 	taskTypeByTag: {
 		type: taskType_Type,
@@ -95,9 +96,9 @@ function getViewerFields() {
 		resolve: (_, args) => new businessService().getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
 	},
 	userIdsByBusinessAndTeam: {
-		type: new GraphQLList(GraphQLID),
+		type: new GraphQLList(userIdType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getMembershipsByBusinessAndIndustry(args.businessId, args.teamId)
+		resolve: (_, args) => new businessService().getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
 	},
 	teamsByBusinessId: {
 		type: teamTreeType,
