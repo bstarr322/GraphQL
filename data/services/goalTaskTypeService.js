@@ -2,7 +2,6 @@ import { httpToGoalsApi } from '../utilities/serviceHelper.js'
 
 export const taskTypeService = function() {};
 
-//TaskTypes (from goals-service)
 taskTypeService.prototype.getTaskTypes = function() {
 	var route = '/reference/taskTypes';
 	return httpToGoalsApi('GET', route);

@@ -1,6 +1,6 @@
 import { httpToJsonPlaceholderApi } from '../utilities/serviceHelper.js'
 
-export const viewerServices = function() {};
+export const viewerService = function() {};
 
 viewerService.prototype.getViewer = function(viewerId) {
 	var route = '/users/' + viewerId;
