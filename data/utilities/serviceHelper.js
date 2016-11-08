@@ -83,7 +83,6 @@ function callHttp(options, transformFunc, requestBody) {
 					console.log("Data received -> " + data);
 					var jsonData = jsonUtility.tryParse(data);
 					if (transformFunc)  {
-						console.log('passed through here trandnfpaoijf.')
 						jsonData = transformFunc(jsonData);
 					} 
 					resolve(jsonData);
