@@ -1,5 +1,24 @@
 import {connectionDefinitions} from 'graphql-relay';
-import {goalType,goalType_Type,taskType_Type,teamType,contentType,collectionType,businessType} from './models.js';
+
+// .net api models
+import businessType from './models/businessType.js';
+import collectionTreeType from './models/collectionTreeType.js';
+import contentType from './models/contentType.js';
+import industryType from './models/industryType.js';
+import membershipType from './models/membershipType.js'
+import teamTreeType from './models/teamTreeType.js';
+import userIdType from './models/userIdType.js';
+// goal api models
+import goalType from './models/goalType.js';
+import taskTypeType from './models/taskTypeType.js';
+// input types - model of requests
+import contentInputType from './models/inputTypes/contentInputType.js';
+import goalInputType from './models/inputTypes/goalInputType.js';
+import goalTypeInputType from './models/inputTypes/goalTypeInputType.js';
+import taskInputType from './models/inputTypes/taskInputType.js';
+import taskTypeInputType from './models/inputTypes/taskTypeInputType.js';
+import teamInputType from './models/inputTypes/teamInputType.js';
+import userIdInputType from './models/inputTypes/userIdInputType.js';
 
 /*
   A feature that can be explored specifically for GoalType

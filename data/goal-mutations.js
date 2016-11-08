@@ -1,14 +1,19 @@
 import { 
   GraphQLString,
   GraphQLInt,
-  GraphQLOutputType
+  GraphQLOutputType,
+  GraphQLNonNull,
+  GraphQLBoolean,
+  GraphQLID
 } from 'graphql';
 import { 
   mutationWithClientMutationId, 
   fromGlobalId
 } from 'graphql-relay';
 import { goalConnection } from './connections';
-import { goalInputType,getGoalFields } from './models';
+
+// models
+import goalInputType from './models/inputTypes/goalInputType.js';
 import { goalService } from './services/goalService.js';
 import { viewerType } from './viewer-type'
 
@@ -34,7 +39,17 @@ export const updateGoalMutation = mutationWithClientMutationId ({
 		input: {type: goalInputType},
 		id: {type: GraphQLInt},
   },
-  outputFields: getGoalFields(),
+  outputFields: function () {
+    return {
+        id: {type: new GraphQLNonNull(GraphQLID)},
+        name: {type: GraphQLString},
+        description: {type: GraphQLString},
+        businessId: {type: GraphQLString},
+        isBusinessCritical: {type: GraphQLBoolean},
+        isSequential: {type: GraphQLBoolean},
+        startDate: {type: GraphQLString},
+        };
+    },
   mutateAndGetPayload: function(goal,id){
 	return new goalService().updateGoal(goal,id)
   }

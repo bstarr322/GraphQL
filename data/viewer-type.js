@@ -12,24 +12,41 @@ import {
 } from 'graphql-relay';
 
 // services
-import { businessService } from './services/businessService.js'
+import businessService from './services/businessService.js'
 import { goalService } from './services/goalService.js'
 import { taskTypeService } from './services/taskTypeService.js'
 import { goalTypeService } from './services/goalTypeService.js'
 import { viewerService } from './services/viewerService.js'
 
-import {
-  goalType,
-  goalType_Type,
-  taskType_Type,
-  teamTreeType,
-  contentType,
-  collectionTreeType,
-  businessType,
-  industryType,
-  userIdType,
-  membershipType
-} from './models.js';
+/*
+  Study Node Interface Feature if it is still needed
+  https://facebook.github.io/relay/docs/graphql-object-identification.html#content
+  https://facebook.github.io/relay/graphql/objectidentification.htm
+*/
+
+/*
+	Models
+ */
+// .net api models
+import businessType from './models/businessType.js';
+import collectionTreeType from './models/collectionTreeType.js';
+import contentType from './models/contentType.js';
+import industryType from './models/industryType.js';
+import membershipType from './models/membershipType.js'
+import teamTreeType from './models/teamTreeType.js';
+import userIdType from './models/userIdType.js';
+// goal api models
+import goalType from './models/goalType.js';
+import goalTypeType from './models/goalTypeType.js';
+import taskTypeType from './models/taskTypeType.js';
+// input types - model of requests
+import contentInputType from './models/inputTypes/contentInputType.js';
+import goalInputType from './models/inputTypes/goalInputType.js';
+import goalTypeInputType from './models/inputTypes/goalTypeInputType.js';
+import taskInputType from './models/inputTypes/taskInputType.js';
+import taskTypeInputType from './models/inputTypes/taskTypeInputType.js';
+import teamInputType from './models/inputTypes/teamInputType.js';
+import userIdInputType from './models/inputTypes/userIdInputType.js';
 
 import {
   goalConnection,
@@ -52,68 +69,68 @@ function getViewerFields() {
 	},
 	name: { type: GraphQLString },
 	goalTypes: {
-		type: new GraphQLList(goalType_Type),
-		resolve: (_,args) => new goalTypeService().getGoalTypes()
+		type: new GraphQLList(goalTypeType),
+		resolve: (_,args) => goalTypeService.getGoalTypes()
 	},
 	goalTypeById: {
-		type: goalType_Type,
+		type: goalTypeType,
 		args: {goalTypeId: {type: GraphQLInt}},
-		resolve: (_,args) => new goalTypeService().getGoalTypes()
+		resolve: (_,args) => goalTypeService.getGoalTypes()
 	},
 	goalTypeByTag: {
-		type: goalType_Type,
+		type: goalTypeType,
 		args: {tag: {type: GraphQLString}},
-		resolve: (_,args) => new goalTypeService().getGoalTypeByTag(args.tag)
+		resolve: (_,args) => goalTypeService.getGoalTypeByTag(args.tag)
 	},
 	taskTypes: {
-		type: new GraphQLList(taskType_Type),
-		resolve: (_,args) => new taskTypeService().getTaskTypes()
+		type: new GraphQLList(taskTypeType),
+		resolve: (_,args) => taskTypeService.getTaskTypes()
 	},
 	taskType: {
-		type: taskType_Type,
+		type: taskTypeType,
 		args: {taskTypeId: {type: GraphQLInt}},
-		resolve: (_,args) => new goalTaskTypeService().getTaskType(args.taskTypeId)
+		resolve: (_,args) => goalTaskTypeService.getTaskType(args.taskTypeId)
 	},
 	taskTypeByTag: {
-		type: taskType_Type,
+		type: taskTypeType,
 		args: {tag: {type: GraphQLString}},
-		resolve: (_,args) => new taskTypeService().getTaskTypeByTag(args.tag)
+		resolve: (_,args) => taskTypeService.getTaskTypeByTag(args.tag)
 	},
 
 	// business services
 	businesses: {
 		type: new GraphQLList(businessType),
-		resolve: (_, args) => new businessService().getGoalAssignableBusinesses()
+		resolve: (_, args) => businessService.getGoalAssignableBusinesses()
 	},
 	industriesByBusinessId: {
 		type: new GraphQLList(industryType),
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getIndustriesByBusiness(args.businessId)
+		resolve: (_, args) => businessService.getIndustriesByBusiness(args.businessId)
 	},
 	membershipsByBusinessAndIndustry: {
 		type: new GraphQLList(membershipType),
 		args: {businessId: {type: GraphQLString}, industryId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
+		resolve: (_, args) => businessService.getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
 	},
 	userIdsByBusinessAndTeam: {
 		type: new GraphQLList(userIdType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
+		resolve: (_, args) => businessService.getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
 	},
 	teamsByBusinessId: {
 		type: teamTreeType,
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_,args) => new businessService().getTeamsInTreeFormByBusiness(args.businessId)
+		resolve: (_,args) => businessService.getTeamsInTreeFormByBusiness(args.businessId)
 	},
 	collectionsByBusinessId: {
 		type: new GraphQLList(collectionTreeType),
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => new businessService().getCollectionsInTreeFormByBusiness(args.businessId)
+		resolve: (_, args) => businessService.getCollectionsInTreeFormByBusiness(args.businessId)
 	},
 	contentsByBusinessId: {
 		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => new businessService().getContentsByBusiness(args.businessId)
+		resolve: (_, args) => businessService.getContentsByBusiness(args.businessId)
 	},
   }
 };
