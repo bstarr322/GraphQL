@@ -13,10 +13,10 @@ import {
 
 // services
 import businessService from './services/businessService.js'
-import { goalService } from './services/goalService.js'
-import { taskTypeService } from './services/taskTypeService.js'
-import { goalTypeService } from './services/goalTypeService.js'
-import { viewerService } from './services/viewerService.js'
+import goalService from './services/goalService.js'
+import taskTypeService from './services/taskTypeService.js'
+import goalTypeService from './services/goalTypeService.js'
+import viewerService from './services/viewerService.js'
 
 /*
   Study Node Interface Feature if it is still needed
@@ -70,7 +70,11 @@ function getViewerFields() {
 	name: { type: GraphQLString },
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
-		resolve: (_,args) => goalTypeService.getGoalTypes()
+		resolve: function (_,args) { 
+			var g = goalTypeService.getGoalTypes();
+			console.log(g);
+			return g;
+		}
 	},
 	goalTypeById: {
 		type: goalTypeType,

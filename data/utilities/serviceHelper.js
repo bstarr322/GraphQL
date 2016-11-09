@@ -39,7 +39,7 @@ export function httpToLegacyApi(httpMethod, route, transformFunc, requestBody) {
  * @param {object}   [requestBody] - An optional object where url response is shaped into.
  */
 export function httpToGoalsApi(httpMethod, route, transformFunc, requestBody) {
-	var options = new httpRequestOptions(httpMethod, config.HOST, config.CPDONE_PORT, route);
+	var options = new httpRequestOptions(httpMethod, config.HOST, config.GOALS_PORT, route);
   	return callHttp(options, transformFunc, requestBody);
 }
 
@@ -71,7 +71,7 @@ function httpRequestOptions(method, host, port, path, headers) {
 function callHttp(options, transformFunc, requestBody) {
 
 	return new Promise(function(resolve, reject) {
-
+		console.log(options);
 		var callback = function(response) {
 			var data = '';
 			response

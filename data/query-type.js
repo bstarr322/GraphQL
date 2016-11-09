@@ -3,7 +3,7 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 
-import { viewerService } from './services/viewerService.js';
+import viewerService from './services/viewerService.js';
 import { viewerType } from './viewer-type';
 
 export var queryType = new GraphQLObjectType({
@@ -12,7 +12,7 @@ export var queryType = new GraphQLObjectType({
 	viewer: {
 		type: viewerType,
 		args: {viewerId: {type: GraphQLInt}},
-		resolve: (_,args) => (new viewerService).getViewer(args.viewerId)
+		resolve: (_,args) => viewerService.getViewer(args.viewerId)
 	}
   }),
 });
