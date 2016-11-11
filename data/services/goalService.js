@@ -13,6 +13,7 @@ export default new function() {
 	}
 
 	this.createGoal = function(goal) {
+		var route = '/goal/' + goal.goalType;
 		var transformFunc =  
 			function(result) { 
 			    var root = {};

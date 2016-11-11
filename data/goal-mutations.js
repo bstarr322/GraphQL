@@ -29,7 +29,7 @@ export const createGoalMutation = mutationWithClientMutationId({
     }
   }},
   mutateAndGetPayload: function(input){
-	  return new goalService().createGoal(input)
+	  return new goalService.createGoal(input)
   }
 });
 
