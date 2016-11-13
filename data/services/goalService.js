@@ -1,18 +1,30 @@
+
 import { httpToGoalsApi } from '../utilities/serviceHelper.js'
+import { HttpMethodEnum } from '../enums/enums.js'
 
-export default new function() {
+/**
+ * @description This module contains service calls 
+ * to goals microservice for goal object.
+ * @param  {object} authToken A jwt token object
+ */
+export default class {
 
-	this.getGoals = function(business) { 
+	constructor(authToken) {
+		this.authToken = authToken;
+	}
+
+
+	getGoals(business) { 
 		var route = '/goals/' + business;
-		return httpToGoalsApi('GET', route);
+		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
 	}
 
-	this.getGoal = function(goalId) {
+	getGoal(goalId) {
 		var route = '/goal/' + goalId;
-		return httpToGoalsApi('GET', route);
+		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
 	}
 
-	this.createGoal = function(goal) {
+	createGoal(goal) {
 		var transformFunc =  
 			function(result) { 
 			    var root = {};
@@ -32,14 +44,15 @@ export default new function() {
 			tasks: goalBody.tasks,
 			teams: goalBody.teams
 	  	}
-	  	return httpToGoalsApi('POST', route, transformFunc, requestBody);
+	  	return httpToGoalsApi(HttpMethodEnum.POST.name, route, this.authToken, transformFunc, requestBody);
 	}
 
-	this.updateGoal = function(goal) {
+	updateGoal(goal) {
 	  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
 	}
 
-	this.deleteGoal = function(goalId) {
+	deleteGoal(goalId) {
 	  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
 	}
+
 };

@@ -1,72 +1,79 @@
-/**
- * This module contains diffrent http service calls for business in 
- * the cpdone web service api.
- */
 
+import { HttpMethodEnum } from '../enums/enums.js'
 import { httpToLegacyApi } from '../utilities/serviceHelper.js'
 
-export default new function() {
+/**
+ * @description This module contains diffrent http service
+ * calls for business in the cpdone web service api.
+ * @param  {object} authToken A jwt token object
+ */
+export default class {
+
+  constructor(authToken) {
+    this.authToken = authToken;
+  }
 
   /**
    * Get businesses visible to the user ( based on user id encrypted in header).
    */
-  this.getGoalAssignableBusinesses = function() {
+  getGoalAssignableBusinesses() {
     var route = '/api/v1/businesses/goalassignable';
-    return httpToLegacyApi("GET", route);
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
   /**
    * Get all registered industries in a business.
    */
-  this.getIndustriesByBusiness = function(businessId) {
+  getIndustriesByBusiness(businessId) {
     var route = '/api/v1/businesses/' + businessId + '/industries';
-    return httpToLegacyApi("GET", route);
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
   /**
    * Get all registered memberships from an industry in a business.
    */
-  this.getMembershipsByBusinessAndIndustry = function(businessId, industryId) {
+  getMembershipsByBusinessAndIndustry(businessId, industryId) {
     var route = '/api/v1/businesses/' + businessId + '/industries/' + industryId + '/memberships';
-    return httpToLegacyApi("GET", route);
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
   /**
    * Gets all registered userIds from a team in a business.
    * @return {string[]} A list of user ids.
    */
-  this.getUserIdsByBusinessAndTeam = function(businessId, teamId) {
+  getUserIdsByBusinessAndTeam(businessId, teamId) {
     var route = '/api/v1/businesses/' + businessId + '/teams/' + teamId + '/users';
     var transformFunc = function(result) { 
           var root = {};
           root["data"] = result;
           return root;
       }; 
-    return httpToLegacyApi("GET", route);
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
   /**
    * Gets all teams in a business in tree structure
    */
-  this.getTeamsInTreeFormByBusiness = function(businessId) {
+  getTeamsInTreeFormByBusiness(businessId, reqs) {
     var route = '/api/v1/businesses/' + businessId + '/teams/tree';
-    return httpToLegacyApi("GET", route);
+    console.log('a');
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
   /**
    * Gets all collections visible to a business in tree structure
    */
-  this.getCollectionsInTreeFormByBusiness = function(businessId) {
+  getCollectionsInTreeFormByBusiness(businessId) {
     var route =  '/api/v1/businesses/' + businessId + '/collections/tree';
-    return httpToLegacyApi("GET", route);
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
   /**
-   * Gets all content visible to a business.
+   * Gets all content visible to a busin
    */
-  this.getContentsByBusiness = function(businessId) {
+  getContentsByBusiness(businessId) {
     var route = '/api/v1/businesses/' + businessId + '/contents';
-    return httpToLegacyApi("GET", route);
+    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
   }
 
 };

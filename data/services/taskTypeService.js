@@ -1,20 +1,31 @@
+
 import { httpToGoalsApi } from '../utilities/serviceHelper.js'
+import { HttpMethodEnum } from '../enums/enums.js'
 
-export default new function() {
+/**
+ * @description This module contains service calls 
+ * to goals microservice for task type object.
+ * @param  {object} authToken A jwt token object
+ */
+export default class {
 
-	this.getTaskTypes = function() {
+	constructor(authToken) {
+		this.authToken = authToken;
+	}
+
+	getTaskTypes() {
 		var route = '/reference/taskTypes';
-		return httpToGoalsApi('GET', route);
+		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
 	}
 
-	this.getTaskType = function(taskTypeId) {
+	getTaskType(taskTypeId) {
 		var route = '/reference/taskType/' + taskTypeId;
-		return httpToGoalsApi('GET', route);
+		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
 	}
 
-	this.getTaskTypeByTag = function(tag) {
+	getTaskTypeByTag(tag) {
 		var route = '/reference/taskTypeByTag/' + tag;
-		return httpToGoalsApi('GET', route);
+		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
 	}
 
 };

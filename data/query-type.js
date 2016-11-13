@@ -12,7 +12,7 @@ export var queryType = new GraphQLObjectType({
 	viewer: {
 		type: viewerType,
 		args: {viewerId: {type: GraphQLInt}},
-		resolve: (_,args) => viewerService.getViewer(args.viewerId)
+		resolve: (_,args) => new viewerService().getViewer(args.viewerId)
 	}
   }),
 });
