@@ -70,36 +70,26 @@ function getViewerFields() {
 	name: { type: GraphQLString },
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
-		resolve:  function(_,args, req) {
-			return new goalTypeService(getToken(req)).getGoalTypes();
-		}
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).getGoalTypes()
 	},
 	goalTypeById: {
 		type: goalTypeType,
 		args: {goalTypeId: {type: GraphQLInt}},
-		resolve:  function(_,args, req) {
-			return new goalTypeService(getToken(req)).goalTypeById(goalTypeId);
-		}
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).goalTypeById(goalTypeId)
 	},
 	goalTypeByTag: {
 		type: goalTypeType,
 		args: {tag: {type: GraphQLString}},
-		resolve:  function(_,args, req) {
-			return new goalTypeService(getToken(req)).getGoalTypeByTag(args.tag);
-		}
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).getGoalTypeByTag(args.tag)
 	},
 	taskTypes: {
 		type: new GraphQLList(taskTypeType),
-		resolve:  function(_,args, req) {
-			return new taskTypeService(getToken(req)).getTaskTypes();
-		}
+		resolve: (_,args, req) => new taskTypeService(getToken(req)).getTaskTypes()
 	},
 	taskType: {
 		type: taskTypeType,
 		args: {taskTypeId: {type: GraphQLInt}},
-		resolve:  function(_,args, req) {
-			return new taskTypeService(getToken(req)).getTaskType(args.taskTypeId);
-		}
+		resolve: (_,args, req) => new taskTypeService(getToken(req)).getTaskType(args.taskTypeId)
 	},
 	taskTypeByTag: {
 		type: taskTypeType,
@@ -110,51 +100,37 @@ function getViewerFields() {
 	// business services
 	businesses: {
 		type: new GraphQLList(businessType),
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getGoalAssignableBusinesses();
-		}
+		resolve: (_,args, req) => new businessService(getToken(req)).getGoalAssignableBusinesses()
 	},
 	industriesByBusinessId: {
 		type: new GraphQLList(industryType),
 		args: {businessId: {type: GraphQLString}},
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getIndustriesByBusiness(args.businessId);
-		}
+		resolve: (_,args, req) => new businessService(getToken(req)).getIndustriesByBusiness(args.businessId)
 	},
 	membershipsByBusinessAndIndustry: {
 		type: new GraphQLList(membershipType),
 		args: {businessId: {type: GraphQLString}, industryId: {type: GraphQLString}},
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getMembershipsByBusinessAndIndustry(args.businessId, args.industryId);
-		}
+		resolve: (_,args, req) => new businessService(getToken(req)).getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
 	},
 	userIdsByBusinessAndTeam: {
 		type: new GraphQLList(userIdType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getUserIdsByBusinessAndTeam(args.businessId, args.teamId);
-		}
+		resolve: (_,args, req) => new businessService(getToken(req)).getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
 	},
 	teamsByBusinessId: {
 		type: teamTreeType,
 		args: {businessId: {type: GraphQLString}},
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getTeamsInTreeFormByBusiness(args.businessId);
-		}
+		resolve:  (_,args, req) => new businessService(getToken(req)).getTeamsInTreeFormByBusiness(args.businessId)
 	},
 	collectionsByBusinessId: {
 		type: new GraphQLList(collectionTreeType),
 		args: {businessId: {type: GraphQLString}},
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getCollectionsInTreeFormByBusiness(args.businessId);
-		}
+		resolve: (_,args, req) => new businessService(getToken(req)).getCollectionsInTreeFormByBusiness(args.businessId)
 	},
 	contentsByBusinessId: {
 		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve:  function(_,args, req) {
-			return new businessService(getToken(req)).getContentsByBusiness(args.businessId);
-		}
+		resolve: (_,args, req) => new businessService(getToken(req)).getContentsByBusiness(args.businessId)
 	},
   }
 }
@@ -171,7 +147,6 @@ var getToken = function(request) {
 }
 
 var extractAuthToken = function(headers) {
-	console.log(headers);
 	return headers.authorization;
 }
 

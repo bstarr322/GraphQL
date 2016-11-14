@@ -1,16 +1,16 @@
 
+import BaseService from './BaseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
-import { httpToLegacyApi } from '../utilities/serviceHelper.js'
 
 /**
  * @description This module contains diffrent http service
  * calls for business in the cpdone web service api.
  * @param  {object} authToken A jwt token object
  */
-export default class {
+export default class extends BaseService {
 
   constructor(authToken) {
-    this.authToken = authToken;
+    super(authToken);
   }
 
   /**
@@ -18,7 +18,7 @@ export default class {
    */
   getGoalAssignableBusinesses() {
     var route = '/api/v1/businesses/goalassignable';
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -26,7 +26,7 @@ export default class {
    */
   getIndustriesByBusiness(businessId) {
     var route = '/api/v1/businesses/' + businessId + '/industries';
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -34,7 +34,7 @@ export default class {
    */
   getMembershipsByBusinessAndIndustry(businessId, industryId) {
     var route = '/api/v1/businesses/' + businessId + '/industries/' + industryId + '/memberships';
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -48,7 +48,7 @@ export default class {
           root["data"] = result;
           return root;
       }; 
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -56,16 +56,15 @@ export default class {
    */
   getTeamsInTreeFormByBusiness(businessId, reqs) {
     var route = '/api/v1/businesses/' + businessId + '/teams/tree';
-    console.log('a');
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
   /**
    * Gets all collections visible to a business in tree structure
    */
   getCollectionsInTreeFormByBusiness(businessId) {
-    var route =  '/api/v1/businesses/' + businessId + '/collections/tree';
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    var route = '/api/v1/businesses/' + businessId + '/collections/tree';
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -73,7 +72,7 @@ export default class {
    */
   getContentsByBusiness(businessId) {
     var route = '/api/v1/businesses/' + businessId + '/contents';
-    return httpToLegacyApi(HttpMethodEnum.GET.name, route, this.authToken);
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
 };

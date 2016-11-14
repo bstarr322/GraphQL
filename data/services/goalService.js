@@ -1,5 +1,5 @@
 
-import { httpToGoalsApi } from '../utilities/serviceHelper.js'
+import BaseService from './BaseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
@@ -7,21 +7,20 @@ import { HttpMethodEnum } from '../enums/enums.js'
  * to goals microservice for goal object.
  * @param  {object} authToken A jwt token object
  */
-export default class {
+export default class extends BaseService {
 
 	constructor(authToken) {
-		this.authToken = authToken;
+		super(authToken);
 	}
-
 
 	getGoals(business) { 
 		var route = '/goals/' + business;
-		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoal(goalId) {
 		var route = '/goal/' + goalId;
-		return httpToGoalsApi(HttpMethodEnum.GET.name, route, this.authToken);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	createGoal(goal) {
@@ -44,15 +43,15 @@ export default class {
 			tasks: goalBody.tasks,
 			teams: goalBody.teams
 	  	}
-	  	return httpToGoalsApi(HttpMethodEnum.POST.name, route, this.authToken, transformFunc, requestBody);
+	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name, route,transformFunc, requestBody);
 	}
 
 	updateGoal(goal) {
-	  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
+	  	return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
 	}
 
 	deleteGoal(goalId) {
-	  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
+	  	return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
 	}
 
 };
