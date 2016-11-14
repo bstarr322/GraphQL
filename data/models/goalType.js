@@ -8,7 +8,8 @@ import {
 	GraphQLString,
 	GraphQLNonNull,
 	GraphQLID,
-	GraphQLList
+	GraphQLList,
+	GraphQLBoolean
 } from 'graphql';
 
 

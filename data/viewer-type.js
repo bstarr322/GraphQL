@@ -58,9 +58,6 @@ import {
   businessConnection
 } from './connections.js';
 
-/*
- * Query aliases must be unique, cannot overload
- */
 function getViewerFields() {
   return {
 	viewerId: { 
@@ -68,6 +65,11 @@ function getViewerFields() {
 		resolve: (viewer) => viewer.id
 	},
 	name: { type: GraphQLString },
+	goalConnection: {
+		type: goalConnection,
+		args: {businessId: {type: GraphQLString},...connectionArgs},
+		resolve: (_, args) => connectionFromPromisedArray(new goalService.getGoals(args.businessId), args)
+	},
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
 		resolve: (_,args, req) => new goalTypeService(getToken(req)).getGoalTypes()

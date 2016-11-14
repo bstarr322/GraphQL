@@ -45,6 +45,34 @@ type DeleteGoalPayload {
   clientMutationId: String
 }
 
+type Goal {
+  id: ID!
+  name: String
+  description: String
+  businessId: String
+  isBusinessCritical: Boolean
+  isSequential: Boolean
+  startDate: String
+}
+
+# A connection to a list of items.
+type GoalConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [GoalEdge]
+}
+
+# An edge in a connection.
+type GoalEdge {
+  # The item at the end of the edge
+  node: Goal
+
+  # A cursor for use in pagination
+  cursor: String!
+}
+
 input GoalInput {
   name: String
   goalType: GoalTypeInput
@@ -82,6 +110,21 @@ type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   updateGoal(input: UpdateGoalInput!): UpdateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
 }
 
 type Query {
@@ -147,6 +190,7 @@ input UserIdInput {
 type Viewer {
   viewerId: String
   name: String
+  goalConnection(businessId: String, after: String, first: Int, before: String, last: Int): GoalConnection
   goalTypes: [GoalType]
   goalTypeById(goalTypeId: Int): GoalType
   goalTypeByTag(tag: String): GoalType

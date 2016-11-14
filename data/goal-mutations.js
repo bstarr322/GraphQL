@@ -14,7 +14,7 @@ import { goalConnection } from './connections';
 
 // models
 import goalInputType from './models/inputTypes/goalInputType.js';
-import { goalService } from './services/goalService.js';
+import goalService from './services/goalService.js';
 import { viewerType } from './viewer-type'
 
 export const createGoalMutation = mutationWithClientMutationId({
@@ -29,7 +29,7 @@ export const createGoalMutation = mutationWithClientMutationId({
     }
   }},
   mutateAndGetPayload: function(input){
-	  return new goalService().createGoal(input)
+	  return new goalService.createGoal(input)
   }
 });
 

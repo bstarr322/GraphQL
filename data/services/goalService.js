@@ -24,6 +24,7 @@ export default class extends BaseService {
 	}
 
 	createGoal(goal) {
+		var route = '/goal/' + goal.goalType;
 		var transformFunc =  
 			function(result) { 
 			    var root = {};
