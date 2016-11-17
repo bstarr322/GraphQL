@@ -8,6 +8,7 @@
     "enumify": "^1.0.4",
     "express": "4.14.0",
     "express-graphql": "0.5.4",
+    "extend": "^3.0.0",
     "graphql": "0.7.0",
     "graphql-relay": "^0.4.3"
   },
@@ -22,8 +23,6 @@
     "babel-relay-plugin": "0.9.3",
     "webpack": "1.13.2",
     "webpack-dev-server": "1.15.1",
-	"json-server": "^0.8.22"
+    "json-server": "^0.8.22"
   }
 }
-
-
