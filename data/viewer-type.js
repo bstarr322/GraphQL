@@ -72,72 +72,87 @@ function getViewerFields() {
 	},
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
-		resolve: (_,args) => goalTypeService.getGoalTypes()
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).getGoalTypes()
 	},
 	goalTypeById: {
 		type: goalTypeType,
 		args: {goalTypeId: {type: GraphQLInt}},
-		resolve: (_,args) => goalTypeService.getGoalTypes()
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).goalTypeById(goalTypeId)
 	},
 	goalTypeByTag: {
 		type: goalTypeType,
 		args: {tag: {type: GraphQLString}},
-		resolve: (_,args) => goalTypeService.getGoalTypeByTag(args.tag)
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).getGoalTypeByTag(args.tag)
 	},
 	taskTypes: {
 		type: new GraphQLList(taskTypeType),
-		resolve: (_,args) => taskTypeService.getTaskTypes()
+		resolve: (_,args, req) => new taskTypeService(getToken(req)).getTaskTypes()
 	},
 	taskType: {
 		type: taskTypeType,
 		args: {taskTypeId: {type: GraphQLInt}},
-		resolve: (_,args) => goalTaskTypeService.getTaskType(args.taskTypeId)
+		resolve: (_,args, req) => new taskTypeService(getToken(req)).getTaskType(args.taskTypeId)
 	},
 	taskTypeByTag: {
 		type: taskTypeType,
 		args: {tag: {type: GraphQLString}},
-		resolve: (_,args) => taskTypeService.getTaskTypeByTag(args.tag)
+		resolve: (_, args, req) => taskTypeService.getTaskTypeByTag(args.tag)
 	},
 
 	// business services
 	businesses: {
 		type: new GraphQLList(businessType),
-		resolve: (_, args) => businessService.getGoalAssignableBusinesses()
+		resolve: (_,args, req) => new businessService(getToken(req)).getGoalAssignableBusinesses()
 	},
 	industriesByBusinessId: {
 		type: new GraphQLList(industryType),
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => businessService.getIndustriesByBusiness(args.businessId)
+		resolve: (_,args, req) => new businessService(getToken(req)).getIndustriesByBusiness(args.businessId)
 	},
 	membershipsByBusinessAndIndustry: {
 		type: new GraphQLList(membershipType),
 		args: {businessId: {type: GraphQLString}, industryId: {type: GraphQLString}},
-		resolve: (_, args) => businessService.getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
+		resolve: (_,args, req) => new businessService(getToken(req)).getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
 	},
 	userIdsByBusinessAndTeam: {
 		type: new GraphQLList(userIdType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve: (_, args) => businessService.getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
+		resolve: (_,args, req) => new businessService(getToken(req)).getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
 	},
 	teamsByBusinessId: {
 		type: teamTreeType,
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_,args) => businessService.getTeamsInTreeFormByBusiness(args.businessId)
+		resolve:  (_,args, req) => new businessService(getToken(req)).getTeamsInTreeFormByBusiness(args.businessId)
 	},
 	collectionsByBusinessId: {
 		type: new GraphQLList(collectionTreeType),
 		args: {businessId: {type: GraphQLString}},
-		resolve: (_, args) => businessService.getCollectionsInTreeFormByBusiness(args.businessId)
+		resolve: (_,args, req) => new businessService(getToken(req)).getCollectionsInTreeFormByBusiness(args.businessId)
 	},
 	contentsByBusinessId: {
 		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => businessService.getContentsByBusiness(args.businessId)
+		resolve: (_,args, req) => new businessService(getToken(req)).getContentsByBusiness(args.businessId)
 	},
   }
-};
+}
+
 export const viewerType = new GraphQLObjectType({
-  name: 'Viewer',
-  description: 'Logged In User',
-  fields: () => getViewerFields()
+	name: 'Viewer',
+	description: 'Logged In User',
+	fields: () => getViewerFields()
 });
+
+var getToken = function(request) {
+	var token = extractAuthToken(request.headers);
+	return generateAuthToken(token);
+}
+
+var extractAuthToken = function(headers) {
+	return headers.authorization;
+}
+
+var generateAuthToken = function(token) {
+	return { 'authorization' : token };
+}
+

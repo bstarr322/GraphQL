@@ -1,8 +1,20 @@
-import { httpToJsonPlaceholderApi } from '../utilities/serviceHelper.js'
 
-export default new function () {
-	this.getViewer = function(viewerId) {
-		var route = '/users/' + viewerId;
-		return httpToJsonPlaceholderApi('GET', route);
+import BaseService from './BaseService.js'
+import { HttpMethodEnum } from '../enums/enums.js'
+
+/**
+ * @description This module contains service calls 
+ * to a sandbox json server.
+ */
+export default class extends BaseService {
+
+	constructor(authToken) {
+		super(authToken);
 	}
+
+	getViewer(viewerId) {
+		var route = '/users/' + viewerId;
+		return super.httpToJsonPlaceholderApi(HttpMethodEnum.GET.name, route);
+	}
+
 }

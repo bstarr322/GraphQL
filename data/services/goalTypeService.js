@@ -1,18 +1,31 @@
-import { httpToGoalsApi } from '../utilities/serviceHelper.js'
 
-export default new function() {
-	this.getGoalTypes = function() {
+import BaseService from './BaseService.js'
+import { HttpMethodEnum } from '../enums/enums.js'
+
+/**
+ * @description This module contains service calls 
+ * to goals microservice for goal type object.
+ * @param  {object} authToken A jwt token object
+ */
+export default class extends BaseService {
+
+	constructor(authToken) {
+		super(authToken);
+	}
+
+	getGoalTypes() {
 		var route = '/reference/goalTypes';
-		return httpToGoalsApi('GET', route);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	this.getGoalType = function(goalTypeId) {
+	getGoalTypeById(goalTypeId) {
 		var route = '/reference/goalType/' + goalTypeId;
-		return httpToGoalsApi('GET', route);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	this.getGoalTypeByTag = function(tag) {
+	getGoalTypeByTag(tag) {
 	  	var route = '/reference/goalTypeByTag/' + tag;
-		return httpToGoalsApi('GET', route);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
+
 };

@@ -1,18 +1,29 @@
-import { httpToGoalsApi } from '../utilities/serviceHelper.js'
 
-export default new function() {
+import BaseService from './BaseService.js'
+import { HttpMethodEnum } from '../enums/enums.js'
 
-	this.getGoals = function(businessId) { 
-		var route = '/goals/' + businessId;
-		return httpToGoalsApi('GET', route);
+/**
+ * @description This module contains service calls 
+ * to goals microservice for goal object.
+ * @param  {object} authToken A jwt token object
+ */
+export default class extends BaseService {
+
+	constructor(authToken) {
+		super(authToken);
 	}
 
-	this.getGoal = function(goalId) {
+	getGoals(business) { 
+		var route = '/goals/' + business;
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	}
+
+	getGoal(goalId) {
 		var route = '/goal/' + goalId;
-		return httpToGoalsApi('GET', route);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	this.createGoal = function(goal) {
+	createGoal(goal) {
 		var route = '/goal/' + goal.goalType;
 		var transformFunc =  
 			function(result) { 
@@ -33,14 +44,15 @@ export default new function() {
 			tasks: goalBody.tasks,
 			teams: goalBody.teams
 	  	}
-	  	return httpToGoalsApi('POST', route, transformFunc, requestBody);
+	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name, route,transformFunc, requestBody);
 	}
 
-	this.updateGoal = function(goal) {
-	  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
+	updateGoal(goal) {
+	  	return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
 	}
 
-	this.deleteGoal = function(goalId) {
-	  return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
+	deleteGoal(goalId) {
+	  	return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
 	}
+
 };
