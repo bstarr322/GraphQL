@@ -8,14 +8,15 @@ import {
 	GraphQLString,
 	GraphQLNonNull,
 	GraphQLID,
-	GraphQLList
+	GraphQLList,
+	GraphQLBoolean
 } from 'graphql';
 
 
 export default new GraphQLObjectType({
   	name: 'Goal',
 	fields: function() { return {
-		id: { 
+		goalId: { 
 			type: new GraphQLNonNull(GraphQLID)
 		},
 		name: {

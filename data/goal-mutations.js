@@ -10,26 +10,30 @@ import {
   mutationWithClientMutationId, 
   fromGlobalId
 } from 'graphql-relay';
-import { goalConnection } from './connections';
+import { 
+  goalConnection,
+  goalEdge 
+} from './connections';
 
 // models
 import goalInputType from './models/inputTypes/goalInputType.js';
-import { goalService } from './services/goalService.js';
+import goalService from './services/goalService.js';
 import { viewerType } from './viewer-type'
 
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
   inputFields: { input: { type: goalInputType },goalType:{ type : GraphQLString }},
-  outputFields: { result: { type: GraphQLString, resolve: function (result) { 
-	  if (result["data"].id == null) {
-		  return result["data"];
-	  } else {
-		  return result["data"].id;
-	  }
+  outputFields: { 
+    goalEdge: {
+      type: goalEdge,
+      resolve: (obj) => ({ node: [], cursor: obj.insertedId })
+    },
+    viewer: {
+      type: viewerType
     }
-  }},
+  },
   mutateAndGetPayload: function(input){
-	  return new goalService().createGoal(input)
+	  return new goalService.createGoal(input)
   }
 });
 

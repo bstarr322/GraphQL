@@ -13,7 +13,7 @@ import {
 export default new GraphQLObjectType({
 	name: 'Business',
 	fields: function() { return {
-		id: { 
+		businessId: { 
 			type: new GraphQLNonNull(GraphQLID), 
 			resolve: business => business.Id 
 		},

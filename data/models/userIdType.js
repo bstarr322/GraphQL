@@ -12,6 +12,6 @@ import {
 export default new GraphQLObjectType({
   name: 'UserId',
   fields: function () { return {
-    ids: { type: new GraphQLList(GraphQLString) }
+    userIds: { type: new GraphQLList(GraphQLString) }
   }},
 });

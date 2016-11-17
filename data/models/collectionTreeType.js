@@ -18,7 +18,7 @@ import collectionTreeType from './collectionTreeType.js'
 export default new GraphQLObjectType({
 	name: 'CollectionTree',
 	fields: function() { return {
-		id: { 
+		collectionId: { 
 			type: new GraphQLNonNull(GraphQLID), 
 			resolve: collection => collection.Id 
 		},

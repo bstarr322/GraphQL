@@ -1,11 +1,11 @@
 type Business {
-  id: ID!
+  businessId: ID!
   name: String
   image: String
 }
 
 type CollectionTree {
-  id: ID!
+  collectionId: ID!
   title: String
   parentNodeId: String
   contentCount: Int
@@ -14,7 +14,7 @@ type CollectionTree {
 }
 
 type Content {
-  id: ID!
+  contentId: ID!
   name: String
   type: String
   typeId: String
@@ -31,7 +31,8 @@ input CreateGoalInput {
 }
 
 type CreateGoalPayload {
-  result: String
+  goalEdge: GoalEdge
+  viewer: Viewer
   clientMutationId: String
 }
 
@@ -43,6 +44,34 @@ input DeleteGoalInput {
 type DeleteGoalPayload {
   output: String
   clientMutationId: String
+}
+
+type Goal {
+  goalId: ID!
+  name: String
+  description: String
+  businessId: String
+  isBusinessCritical: Boolean
+  isSequential: Boolean
+  startDate: String
+}
+
+# A connection to a list of items.
+type GoalConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [GoalEdge]
+}
+
+# An edge in a connection.
+type GoalEdge {
+  # The item at the end of the edge
+  node: Goal
+
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 input GoalInput {
@@ -58,7 +87,7 @@ input GoalInput {
 }
 
 type GoalType {
-  id: ID!
+  goalTypeId: ID!
   name: String
   iconReference: String
   tag: String
@@ -69,12 +98,12 @@ input GoalTypeInput {
 }
 
 type Industry {
-  id: ID!
+  industryId: ID!
   name: String
 }
 
 type Membership {
-  id: ID!
+  membershipId: ID!
   name: String
 }
 
@@ -82,6 +111,21 @@ type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   updateGoal(input: UpdateGoalInput!): UpdateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
 }
 
 type Query {
@@ -97,7 +141,7 @@ input TaskInput {
 }
 
 type TaskType {
-  id: ID!
+  taskTypeId: ID!
   name: String
   tag: String
 }
@@ -112,7 +156,7 @@ input TeamInput {
 }
 
 type TeamTree {
-  id: ID!
+  teamTreeId: ID!
   title: String
   parentNodeId: String
   childrenNodes: [TeamTree]
@@ -136,7 +180,7 @@ type UpdateGoalPayload {
 }
 
 type UserId {
-  ids: [String]
+  userIds: [String]
 }
 
 input UserIdInput {
@@ -147,6 +191,7 @@ input UserIdInput {
 type Viewer {
   viewerId: String
   name: String
+  goalConnection(businessId: String, after: String, first: Int, before: String, last: Int): GoalConnection
   goalTypes: [GoalType]
   goalTypeById(goalTypeId: Int): GoalType
   goalTypeByTag(tag: String): GoalType

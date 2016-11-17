@@ -2,8 +2,8 @@ import { httpToGoalsApi } from '../utilities/serviceHelper.js'
 
 export default new function() {
 
-	this.getGoals = function(business) { 
-		var route = '/goals/' + business;
+	this.getGoals = function(businessId) { 
+		var route = '/goals/' + businessId;
 		return httpToGoalsApi('GET', route);
 	}
 
@@ -13,6 +13,7 @@ export default new function() {
 	}
 
 	this.createGoal = function(goal) {
+		var route = '/goal/' + goal.goalType;
 		var transformFunc =  
 			function(result) { 
 			    var root = {};

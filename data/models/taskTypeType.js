@@ -15,8 +15,9 @@ import {
 export default new GraphQLObjectType({
 	name: 'TaskType',
 	fields: function() { return {
-		id: { 
-			type: new GraphQLNonNull(GraphQLID)
+		taskTypeId: { 
+			type: new GraphQLNonNull(GraphQLID),
+			resolve: taskType => taskType.id
 		},
 		name: { 
 			type: GraphQLString 

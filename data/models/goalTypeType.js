@@ -13,8 +13,9 @@ import {
 export default new GraphQLObjectType({
   name: 'GoalType',
   fields: function() { return {
-	id: { 
-		type: new GraphQLNonNull(GraphQLID)
+	goalTypeId: { 
+		type: new GraphQLNonNull(GraphQLID),
+		resolve: goalType => goalType.id
 	},
 	name: { 
 		type: GraphQLString 

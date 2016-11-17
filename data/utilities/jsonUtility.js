@@ -1,7 +1,7 @@
 /**
  * A library for json related shaping/manipulation.
  */
-function JsonUtility() {
+export default new function() {
 	// Tries to convert string to json.
 	var tryParse = function(str) {
 	    try {
@@ -14,5 +14,3 @@ function JsonUtility() {
 		tryParse: tryParse
 	}
 }
-
-export default JsonUtility();
