@@ -89,7 +89,6 @@ input GoalInput {
 type GoalType {
   goalTypeId: ID!
   name: String
-  iconReference: String
   tag: String
 }
 
@@ -204,5 +203,5 @@ type Viewer {
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   teamsByBusinessId(businessId: String): TeamTree
   collectionsByBusinessId(businessId: String): [CollectionTree]
-  contentsByBusinessId(businessId: String, after: String, first: Int, before: String, last: Int): [Content]
+  contentsByBusinessId(businessId: String): [Content]
 }

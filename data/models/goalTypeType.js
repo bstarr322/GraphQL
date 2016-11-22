@@ -20,9 +20,6 @@ export default new GraphQLObjectType({
 	name: { 
 		type: GraphQLString 
 	},
-	iconReference: { 
-		type: GraphQLString 
-	},
 	tag: { 
 		type: GraphQLString 
 	},

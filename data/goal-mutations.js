@@ -32,8 +32,8 @@ export const createGoalMutation = mutationWithClientMutationId({
       type: viewerType
     }
   },
-  mutateAndGetPayload: function(input){
-	  return new goalService.createGoal(input)
+  mutateAndGetPayload: function(input,req){
+	  return new goalService(getToken(req)).createGoal(input)
   }
 });
 
@@ -67,3 +67,17 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
     return new goalService().deleteGoal(id)
   }
 });
+
+var getToken = function(request) {
+  var token = extractAuthToken(request.headers);
+  return generateAuthToken(token);
+}
+
+var extractAuthToken = function(headers) {
+  //return headers.authorization;
+  return 'nothing';
+}
+
+var generateAuthToken = function(token) {
+  return { 'authorization' : token };
+}

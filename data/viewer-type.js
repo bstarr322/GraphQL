@@ -58,6 +58,12 @@ import {
   businessConnection
 } from './connections.js';
 
+export const viewerType = new GraphQLObjectType({
+	name: 'Viewer',
+	description: 'Logged In User',
+	fields: () => getViewerFields()
+});
+
 function getViewerFields() {
   return {
 	viewerId: { 
@@ -68,7 +74,7 @@ function getViewerFields() {
 	goalConnection: {
 		type: goalConnection,
 		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args) => connectionFromPromisedArray(new goalService.getGoals(args.businessId), args)
+		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(getToken(req)).getGoals(args.businessId), args)
 	},
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
@@ -96,7 +102,7 @@ function getViewerFields() {
 	taskTypeByTag: {
 		type: taskTypeType,
 		args: {tag: {type: GraphQLString}},
-		resolve: (_, args, req) => taskTypeService.getTaskTypeByTag(args.tag)
+		resolve: (_, args, req) => new taskTypeService(getToken(req)).getTaskTypeByTag(args.tag)
 	},
 
 	// business services
@@ -131,17 +137,11 @@ function getViewerFields() {
 	},
 	contentsByBusinessId: {
 		type: new GraphQLList(contentType),
-		args: {businessId: {type: GraphQLString},...connectionArgs},
+		args: {businessId: {type: GraphQLString}},
 		resolve: (_,args, req) => new businessService(getToken(req)).getContentsByBusiness(args.businessId)
 	},
   }
 }
-
-export const viewerType = new GraphQLObjectType({
-	name: 'Viewer',
-	description: 'Logged In User',
-	fields: () => getViewerFields()
-});
 
 var getToken = function(request) {
 	var token = extractAuthToken(request.headers);
@@ -149,10 +149,10 @@ var getToken = function(request) {
 }
 
 var extractAuthToken = function(headers) {
-	return headers.authorization;
+	//return headers.authorization;
+	return 'nothing';
 }
 
 var generateAuthToken = function(token) {
 	return { 'authorization' : token };
 }
-
