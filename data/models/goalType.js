@@ -9,33 +9,45 @@ import {
 	GraphQLNonNull,
 	GraphQLID,
 	GraphQLList,
-	GraphQLBoolean
+	GraphQLBoolean,
+	GraphQLInt
 } from 'graphql';
+
+import goalTypeType from './goalTypeType';
+import teamType from './teamType';
 
 
 export default new GraphQLObjectType({
   	name: 'Goal',
 	fields: function() { return {
-		goalId: { 
+		id: { 
 			type: new GraphQLNonNull(GraphQLID)
+		},
+		goalId: { 
+			type: GraphQLString
+		},
+		goalType: { 
+			type: goalTypeType
 		},
 		name: {
 			type: GraphQLString
 		},
-		description: {
-			type: GraphQLString
-		},
-		businessId: {
-			type: GraphQLString
-		},
-		isBusinessCritical: {
-			type: GraphQLBoolean
-		},
-		isSequential: {
-			type: GraphQLBoolean
+		teams: {
+			type: new GraphQLList(teamType)
+
 		},
 		startDate: {
 			type: GraphQLString
 		},
+		endDate: {
+			type: GraphQLString
+		},
+		numberOfTasks: {
+			type: GraphQLInt 
+		},
+		progress: {
+			type: GraphQLInt 
+		},
 	}},
 });
+

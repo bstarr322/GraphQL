@@ -48,13 +48,15 @@ type DeleteGoalPayload {
 }
 
 type Goal {
-  goalId: ID!
+  id: ID!
+  goalId: String
+  goalType: GoalType
   name: String
-  description: String
-  businessId: String
-  isBusinessCritical: Boolean
-  isSequential: Boolean
+  teams: [Team]
   startDate: String
+  endDate: String
+  numberOfTasks: Int
+  progress: Int
 }
 
 # A connection to a list of items.
@@ -150,6 +152,10 @@ input TaskTypeInput {
   id: Int
 }
 
+type Team {
+  teamId: ID!
+}
+
 input TeamInput {
   id: String
   users: [UserIdInput]
@@ -191,7 +197,7 @@ input UserIdInput {
 type Viewer {
   viewerId: String
   name: String
-  goalConnection(businessId: String, after: String, first: Int, before: String, last: Int): GoalConnection
+  goalConnection(businessId: String, page: Int, size: Int, after: String, first: Int, before: String, last: Int): GoalConnection
   goalTypes: [GoalType]
   goalTypeById(goalTypeId: Int): GoalType
   goalTypeByTag(tag: String): GoalType

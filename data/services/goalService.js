@@ -13,8 +13,13 @@ export default class extends BaseService {
 		super(authToken);
 	}
 
-	getGoals(business) { 
-		var route = '/goals/' + business;
+	getGoals(businessId, page, size) { 
+		var route
+		if (page == null || size == null) {
+			route = '/goals/' + businessId;
+		} else {
+			route = '/goals/' + businessId + '?page=' + page + '&size=' + size;
+		}
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 

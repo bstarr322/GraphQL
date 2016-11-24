@@ -37,7 +37,6 @@ export default new GraphQLInputObjectType ({
 		startDate: {
 			type: GraphQLString
 		},
-		/*still do not know how to enable object inputting*/
 		tasks: {
 			type: new GraphQLList(taskInputType) 
 		},

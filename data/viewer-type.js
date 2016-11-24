@@ -49,13 +49,7 @@ import teamInputType from './models/inputTypes/teamInputType.js';
 import userIdInputType from './models/inputTypes/userIdInputType.js';
 
 import {
-  goalConnection,
-  taskTypeConnection,
-  goalTypeConnection,
-  teamConnection,
-  contentConnection,
-  collectionConnection,
-  businessConnection
+  goalConnection
 } from './connections.js';
 
 export const viewerType = new GraphQLObjectType({
@@ -73,8 +67,13 @@ function getViewerFields() {
 	name: { type: GraphQLString },
 	goalConnection: {
 		type: goalConnection,
-		args: {businessId: {type: GraphQLString},...connectionArgs},
-		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(getToken(req)).getGoals(args.businessId), args)
+		args: {
+			businessId: {type: GraphQLString},
+			page: {type: GraphQLInt},
+			size: {type: GraphQLInt},
+			...connectionArgs
+		},
+		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(getToken(req)).getGoals(args.businessId, args.page, args.size), args)
 	},
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
