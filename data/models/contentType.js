@@ -28,6 +28,10 @@ export default new GraphQLObjectType({
 		typeId: { 
 			type: GraphQLString, 
 			resolve: content => content.TypeId 
+		},
+		image: {
+			type: GraphQLString, 
+			resolve: content => content.Image 
 		}
 	}},
 });

@@ -18,6 +18,7 @@ type Content {
   name: String
   type: String
   typeId: String
+  image: String
 }
 
 input ContentInput {
