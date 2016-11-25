@@ -16,6 +16,9 @@ import goalTypeInputType from './goalTypeInputType.js';
 export default new GraphQLInputObjectType ({
 	name:'GoalInput',
 	fields: function() { return {
+		id: {
+			type: GraphQLString
+		},
 		name: {
 			type: GraphQLString
 		},

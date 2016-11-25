@@ -78,6 +78,7 @@ type GoalEdge {
 }
 
 input GoalInput {
+  id: String
   name: String
   goalType: GoalTypeInput
   description: String

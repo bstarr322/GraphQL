@@ -28,26 +28,24 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	createGoal(goal) {
-		var route = '/goal/' + goal.goalType;
-		var transformFunc =  
-			function(result) { 
-			    var root = {};
-				root["data"] = result;
-			    return root;
-	  		}; 
-	  	var goalBody = goal["input"];
-	  	var requestBody = 
-	  	{
-		    name: goalBody.name, 
-		    description: goalBody.description,
-		    goalType: goalBody.goalType,
-			businessId: goalBody.businessId,
-		    isBusinessCritical: goalBody.isBusinessCritical,
-		    isSequential: goalBody.isSequential,
-		    startDate: goalBody.startDate,
-			tasks: goalBody.tasks,
-			teams: goalBody.teams
+	createGoal(input,goalType) {
+		console.log(goal);
+		var route = '/goal/' + goalType;
+		var transformFunc = function(result) { 
+		    var root = {};
+			root["data"] = result;
+		    return root;
+  		}; 
+	  	var requestBody = {
+		    name: input.name, 
+		    description: input.description,
+		    goalType: input.goalType,
+			businessId: input.businessId,
+		    isBusinessCritical: input.isBusinessCritical,
+		    isSequential: input.isSequential,
+		    startDate: input.startDate,
+			tasks: input.tasks,
+			teams: input.teams
 	  	}
 	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name, route,transformFunc, requestBody);
 	}

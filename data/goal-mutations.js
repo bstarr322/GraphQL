@@ -22,7 +22,10 @@ import { viewerType } from './viewer-type'
 
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
-  inputFields: { input: { type: goalInputType },goalType:{ type : GraphQLString }},
+  inputFields: { 
+    input: { type: goalInputType }, 
+    goalType:{ type : GraphQLString }
+  },
   outputFields: { 
     goalEdge: {
       type: goalEdge,
@@ -32,30 +35,29 @@ export const createGoalMutation = mutationWithClientMutationId({
       type: viewerType
     }
   },
-  mutateAndGetPayload: function(input,req){
-	  return new goalService(getToken(req)).createGoal(input)
+  mutateAndGetPayload: function(input,goalType,req){
+	  return new goalService(getToken(req)).createGoal(input,goalType)
   }
 });
 
 export const updateGoalMutation = mutationWithClientMutationId ({
   name: 'UpdateGoal',
-  inputFields: {
-		input: {type: goalInputType},
-		id: {type: GraphQLInt},
+  inputFields: { 
+    input: {type: goalInputType}, 
+    goalType:{ type : GraphQLString }, 
+    goalId: {type: GraphQLInt},
   },
-  outputFields: function () {
-    return {
-        id: {type: new GraphQLNonNull(GraphQLID)},
-        name: {type: GraphQLString},
-        description: {type: GraphQLString},
-        businessId: {type: GraphQLString},
-        isBusinessCritical: {type: GraphQLBoolean},
-        isSequential: {type: GraphQLBoolean},
-        startDate: {type: GraphQLString},
-        };
+  outputFields: { 
+    goalEdge: {
+      type: goalEdge,
+      resolve: (obj) => ({ node: [], cursor: obj.updatedId })
     },
+    viewer: {
+      type: viewerType
+    }
+  },
   mutateAndGetPayload: function(goal,id){
-	return new goalService().updateGoal(goal,id)
+    return new goalService().updateGoal(goal,id)
   }
 });
 
