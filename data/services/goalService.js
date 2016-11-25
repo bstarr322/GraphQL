@@ -28,26 +28,46 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	createGoal(input,goalType) {
-		console.log(goal);
-		var route = '/goal/' + goalType;
+	createGoal(input) {
+		var route = '/goal/' + input.goalType;
 		var transformFunc = function(result) { 
 		    var root = {};
 			root["data"] = result;
 		    return root;
   		}; 
-	  	var requestBody = {
-		    name: input.name, 
-		    description: input.description,
-		    goalType: input.goalType,
-			businessId: input.businessId,
-		    isBusinessCritical: input.isBusinessCritical,
-		    isSequential: input.isSequential,
-		    startDate: input.startDate,
-			tasks: input.tasks,
-			teams: input.teams
+		var requestBody = {
+		    name: input.goal.name, 
+		    goalType: input.goal.goalType,
+		    startDate: input.goal.startDate,
+			teams: input.goal.teams,
+
 	  	}
-	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name, route,transformFunc, requestBody);
+  		switch(input.goalType) {
+  			case "Induction": 
+  				Object.assign(requestBody, {
+  					description: input.goal.description,
+					businessId: input.goal.businessId,
+				    isBusinessCritical: input.goal.isBusinessCritical,
+				    isSequential: input.goal.isSequential,
+					tasks: input.goal.tasks
+  				});
+  				break;
+  			case "CpdOrgAdmin":
+  				Object.assign(requestBody, {
+					businessId: input.goal.businessId,
+					industryId: input.goal.industryId,
+					membershipId: input.goal.membershipId
+  				});
+  				break;
+  			case "Cpd":
+  				Object.assign(requestBody, {
+					industryId: input.goal.industryId,
+					membershipId: input.goal.membershipId,
+					pointsToComplete: input.goal.pointsToComplete
+  				});
+  				break;
+  		}
+	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
 	}
 
 	updateGoal(goal) {

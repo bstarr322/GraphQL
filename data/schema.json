@@ -1412,7 +1412,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "input",
+              "name": "goal",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -1452,16 +1452,6 @@
           "description": null,
           "fields": null,
           "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
             {
               "name": "name",
               "description": null,
@@ -1557,6 +1547,36 @@
                   "name": "TeamInput",
                   "ofType": null
                 }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "industryId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "membershipId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "pointsToComplete",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               },
               "defaultValue": null
             }
@@ -1799,7 +1819,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "input",
+              "name": "goal",
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -1809,11 +1829,21 @@
               "defaultValue": null
             },
             {
-              "name": "id",
+              "name": "goalType",
               "description": null,
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "goalId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null
@@ -1839,88 +1869,24 @@
           "description": null,
           "fields": [
             {
-              "name": "id",
+              "name": "goalEdge",
               "description": null,
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "GoalEdge",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "description",
+              "name": "viewer",
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "businessId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "isBusinessCritical",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "isSequential",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "startDate",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "Viewer",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1955,7 +1921,7 @@
               "description": null,
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "String",
                 "ofType": null
               },
               "defaultValue": null

@@ -6,7 +6,8 @@ import {
 	GraphQLInputObjectType,
 	GraphQLString,
 	GraphQLList,
-	GraphQLBoolean
+	GraphQLBoolean,
+	GraphQLInt
 } from 'graphql';
 
 import taskInputType from './taskInputType.js';
@@ -16,9 +17,6 @@ import goalTypeInputType from './goalTypeInputType.js';
 export default new GraphQLInputObjectType ({
 	name:'GoalInput',
 	fields: function() { return {
-		id: {
-			type: GraphQLString
-		},
 		name: {
 			type: GraphQLString
 		},
@@ -45,6 +43,15 @@ export default new GraphQLInputObjectType ({
 		},
 		teams: {
 			type: new GraphQLList(teamInputType)
-		}
+		},
+		industryId: {
+			type: GraphQLString
+		},
+		membershipId: {
+			type: GraphQLString
+		},
+		pointsToComplete: {
+			type: GraphQLInt
+		},
   	}},
 });

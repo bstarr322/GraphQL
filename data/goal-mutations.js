@@ -23,7 +23,7 @@ import { viewerType } from './viewer-type'
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
   inputFields: { 
-    input: { type: goalInputType }, 
+    goal: { type: goalInputType }, 
     goalType:{ type : GraphQLString }
   },
   outputFields: { 
@@ -35,17 +35,18 @@ export const createGoalMutation = mutationWithClientMutationId({
       type: viewerType
     }
   },
-  mutateAndGetPayload: function(input,goalType,req){
-	  return new goalService(getToken(req)).createGoal(input,goalType)
+  mutateAndGetPayload: function(input,req){
+    console.log(input);
+	  return new goalService(getToken(req)).createGoal(input)
   }
 });
 
 export const updateGoalMutation = mutationWithClientMutationId ({
   name: 'UpdateGoal',
   inputFields: { 
-    input: {type: goalInputType}, 
-    goalType:{ type : GraphQLString }, 
-    goalId: {type: GraphQLInt},
+    goal: {type: goalInputType}, 
+    goalType:{ type : GraphQLString}, 
+    goalId: {type: GraphQLString},
   },
   outputFields: { 
     goalEdge: {
@@ -56,14 +57,14 @@ export const updateGoalMutation = mutationWithClientMutationId ({
       type: viewerType
     }
   },
-  mutateAndGetPayload: function(goal,id){
-    return new goalService().updateGoal(goal,id)
+  mutateAndGetPayload: function(input,req){
+    return new goalService(getToken(req)).updateGoal(input)
   }
 });
 
 export const deleteGoalMutation = mutationWithClientMutationId ({
   name: 'DeleteGoal',
-  inputFields: {input: {type: GraphQLInt}},
+  inputFields: {input: {type: GraphQLString}},
   outputFields: {output: {type: GraphQLString}},
   mutateAndGetPayload: function(id){
     return new goalService().deleteGoal(id)

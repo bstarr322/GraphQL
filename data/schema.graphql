@@ -26,7 +26,7 @@ input ContentInput {
 }
 
 input CreateGoalInput {
-  input: GoalInput
+  goal: GoalInput
   goalType: String
   clientMutationId: String
 }
@@ -38,7 +38,7 @@ type CreateGoalPayload {
 }
 
 input DeleteGoalInput {
-  input: Int
+  input: String
   clientMutationId: String
 }
 
@@ -78,7 +78,6 @@ type GoalEdge {
 }
 
 input GoalInput {
-  id: String
   name: String
   goalType: GoalTypeInput
   description: String
@@ -88,6 +87,9 @@ input GoalInput {
   startDate: String
   tasks: [TaskInput]
   teams: [TeamInput]
+  industryId: String
+  membershipId: String
+  pointsToComplete: Int
 }
 
 type GoalType {
@@ -170,19 +172,15 @@ type TeamTree {
 }
 
 input UpdateGoalInput {
-  input: GoalInput
-  id: Int
+  goal: GoalInput
+  goalType: String
+  goalId: String
   clientMutationId: String
 }
 
 type UpdateGoalPayload {
-  id: ID!
-  name: String
-  description: String
-  businessId: String
-  isBusinessCritical: Boolean
-  isSequential: Boolean
-  startDate: String
+  goalEdge: GoalEdge
+  viewer: Viewer
   clientMutationId: String
 }
 
