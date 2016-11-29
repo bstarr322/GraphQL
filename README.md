@@ -23,7 +23,7 @@ At this point the graphql-frontend will be running accessible on *http://localho
 It is necessary to update the schema.json everytime a graphql object has been modified or created. Run the script to update the schema.
 ```
 npm run update-schema
-npm start && npm run update-schema
+npm run update-schema && npm start 
 ```
 
 ### Adding dependencies
