@@ -1,4 +1,3 @@
-
 mutation createGoalMutation ($input: CreateGoalInput!) {
 	createGoal(input:$input) {
     clientMutationId,

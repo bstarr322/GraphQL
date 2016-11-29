@@ -35,9 +35,8 @@ export default class {
 	  	return this._callHttp(options, transformFunc, requestBody);
 	}
 
-
 	/**
-	 * Calls an http request to 'http://jsonplaceholder.typicode.com'
+	 * Calls an http request to cpdone goals service 
 	 * @param {string}   	httpMethod 		- The http method.
 	 * @param {string}   	route 			- The request url route.
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
@@ -79,5 +78,4 @@ export default class {
 			request.end();
 		});
 	}
-
 }

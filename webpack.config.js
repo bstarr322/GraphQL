@@ -10,7 +10,7 @@ module.exports = {
 				include: [
 					path.resolve(__dirname, './data'),
 					path.resolve(__dirname, './config.js'),
-					path.resolve(__dirname, './index.js')
+					path.resolve(__dirname, './server.js')
 				],
                 loader: "babel",
             }

@@ -1,3 +1,16 @@
+/**
+ * viewer-type.js root for all queries available to viewer/user
+ * The top level entity to model the various data served to the user can be named as viewer.
+ * viewer as a root query field of the GraphQL schema enables us to provide data based on the current user.
+ * Purpose of viewer root query field -> https://goo.gl/fxFexR 
+ */
+
+/**
+ * Node Interface Feature study if it is still needed
+ * https://facebook.github.io/relay/docs/graphql-object-identification.html#content
+ * https://facebook.github.io/relay/graphql/objectidentification.htm
+ */
+
 import {
   GraphQLInt,
   GraphQLString,
@@ -11,50 +24,39 @@ import {
   connectionFromPromisedArray,
 } from 'graphql-relay';
 
-// services
-import businessService from './services/businessService.js'
-import goalService from './services/goalService.js'
-import taskTypeService from './services/taskTypeService.js'
-import goalTypeService from './services/goalTypeService.js'
-import viewerService from './services/viewerService.js'
-
-/*
-  Study Node Interface Feature if it is still needed
-  https://facebook.github.io/relay/docs/graphql-object-identification.html#content
-  https://facebook.github.io/relay/graphql/objectidentification.htm
-*/
-
-/*
-	Models
- */
 // .net api models
-import businessType from './models/businessType.js';
-import collectionTreeType from './models/collectionTreeType.js';
-import contentType from './models/contentType.js';
-import industryType from './models/industryType.js';
-import membershipType from './models/membershipType.js'
-import teamTreeType from './models/teamTreeType.js';
-import userIdType from './models/userIdType.js';
+import businessType from '../models/businessType.js';
+import collectionTreeType from '../models/collectionTreeType.js';
+import contentType from '../models/contentType.js';
+import industryType from '../models/industryType.js';
+import membershipType from '../models/membershipType.js'
+import teamTreeType from '../models/teamTreeType.js';
+import userIdType from '../models/userIdType.js';
 // goal api models
-import goalType from './models/goalType.js';
-import goalTypeType from './models/goalTypeType.js';
-import taskTypeType from './models/taskTypeType.js';
+import goalType from '../models/goalType.js';
+import goalTypeType from '../models/goalTypeType.js';
+import taskTypeType from '../models/taskTypeType.js';
 // input types - model of requests
-import contentInputType from './models/inputTypes/contentInputType.js';
-import goalInputType from './models/inputTypes/goalInputType.js';
-import goalTypeInputType from './models/inputTypes/goalTypeInputType.js';
-import taskInputType from './models/inputTypes/taskInputType.js';
-import taskTypeInputType from './models/inputTypes/taskTypeInputType.js';
-import teamInputType from './models/inputTypes/teamInputType.js';
-import userIdInputType from './models/inputTypes/userIdInputType.js';
+import contentInputType from '../models/inputTypes/contentInputType.js';
+import goalInputType from '../models/inputTypes/goalInputType.js';
+import goalTypeInputType from '../models/inputTypes/goalTypeInputType.js';
+import taskInputType from '../models/inputTypes/taskInputType.js';
+import taskTypeInputType from '../models/inputTypes/taskTypeInputType.js';
+import teamInputType from '../models/inputTypes/teamInputType.js';
+import userIdInputType from '../models/inputTypes/userIdInputType.js';
 
-import {
-  goalConnection
-} from './connections.js';
+// services
+import businessService from '../services/businessService.js'
+import goalService from '../services/goalService.js'
+import taskTypeService from '../services/taskTypeService.js'
+import goalTypeService from '../services/goalTypeService.js'
+import viewerService from '../services/viewerService.js'
+
+import { goalConnection } from './connections.js';
 
 export const viewerType = new GraphQLObjectType({
 	name: 'Viewer',
-	description: 'Logged In User',
+	description: 'Logged In User, root for all queries available to viewer/user',
 	fields: () => getViewerFields()
 });
 
@@ -65,6 +67,8 @@ function getViewerFields() {
 		resolve: (viewer) => viewer.id
 	},
 	name: { type: GraphQLString },
+	
+	// goals services
 	goalConnection: {
 		type: goalConnection,
 		args: {

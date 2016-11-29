@@ -56,7 +56,7 @@
         {
           "kind": "OBJECT",
           "name": "Viewer",
-          "description": "Logged In User",
+          "description": "Logged In User, root for all queries available to viewer/user",
           "fields": [
             {
               "name": "viewerId",
@@ -1346,33 +1346,6 @@
               "deprecationReason": null
             },
             {
-              "name": "updateGoal",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "UpdateGoalInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "UpdateGoalPayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "deleteGoal",
               "description": null,
               "args": [
@@ -1768,104 +1741,6 @@
         {
           "kind": "OBJECT",
           "name": "CreateGoalPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "goalEdge",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "GoalEdge",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "viewer",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Viewer",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "UpdateGoalInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "goal",
-              "description": null,
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "GoalInput",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "goalType",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "goalId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "UpdateGoalPayload",
           "description": null,
           "fields": [
             {

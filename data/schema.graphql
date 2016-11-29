@@ -114,7 +114,6 @@ type Membership {
 
 type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
-  updateGoal(input: UpdateGoalInput!): UpdateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
 }
 
@@ -171,19 +170,6 @@ type TeamTree {
   childrenNodes: [TeamTree]
 }
 
-input UpdateGoalInput {
-  goal: GoalInput
-  goalType: String
-  goalId: String
-  clientMutationId: String
-}
-
-type UpdateGoalPayload {
-  goalEdge: GoalEdge
-  viewer: Viewer
-  clientMutationId: String
-}
-
 type UserId {
   userIds: [String]
 }
@@ -192,7 +178,7 @@ input UserIdInput {
   id: String
 }
 
-# Logged In User
+# Logged In User, root for all queries available to viewer/user
 type Viewer {
   viewerId: String
   name: String

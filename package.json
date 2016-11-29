@@ -1,7 +1,11 @@
 {
+  "name": "cpdone-graphql-frontend",
   "private": true,
+  "description": "cpdone backend for frontend service",
+  "repository": "CPDOne/graphql-frontend",
   "scripts": {
-    "start": "babel-node ./index.js"
+    "start": "babel-node ./server.js",
+    "update-schema": "babel-node ./scripts/updateSchema.js"
   },
   "dependencies": {
     "cors": "^2.8.1",
@@ -22,7 +26,6 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-relay-plugin": "0.9.3",
     "webpack": "1.13.2",
-    "webpack-dev-server": "1.15.1",
-    "json-server": "^0.8.22"
+    "webpack-dev-server": "1.15.1"
   }
 }
