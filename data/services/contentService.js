@@ -1,4 +1,4 @@
-import BaseService from './BaseService.js'
+import BaseService from './baseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
@@ -12,7 +12,7 @@ export default class extends BaseService {
     super(authToken);
     this.routePrefix = '/api/v1/contents/';
   }
-  
+
   /**
    * Gets all content visible to a business
    */

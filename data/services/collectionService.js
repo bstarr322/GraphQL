@@ -1,4 +1,4 @@
-import BaseService from './BaseService.js'
+import BaseService from './baseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
@@ -8,17 +8,17 @@ import { HttpMethodEnum } from '../enums/enums.js'
  */
 export default class extends BaseService {
 
-  constructor(authToken) {
-    super(authToken);
-    this.routePrefix = '/api/v1/collections/';
-}
+	constructor(authToken) {
+		super(authToken);
+		this.routePrefix = '/api/v1/collections/';
+	}
 
-  /**
-   * Gets all collections visible to a business in tree structure
-   */
-  getCollectionsInTreeFormByBusiness(businessId) {
-    var route = this.routePrefix + 'tree/businesses/' + businessId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
-  }
+	/**
+	* Gets all collections visible to a business in tree structure
+	*/
+	getCollectionsInTreeFormByBusiness(businessId) {
+		var route = this.routePrefix + 'tree/businesses/' + businessId;
+		return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+  	}
 
 }

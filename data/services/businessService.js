@@ -1,4 +1,4 @@
-import BaseService from './BaseService.js'
+import BaseService from './baseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
