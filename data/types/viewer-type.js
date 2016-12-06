@@ -28,6 +28,7 @@ import {
 import businessType from '../models/businessType.js';
 import collectionTreeType from '../models/collectionTreeType.js';
 import contentType from '../models/contentType.js';
+import contentIdType from '../models/contentIdType.js';
 import industryType from '../models/industryType.js';
 import membershipType from '../models/membershipType.js'
 import teamTreeType from '../models/teamTreeType.js';
@@ -47,8 +48,11 @@ import userIdInputType from '../models/inputTypes/userIdInputType.js';
 
 // services
 import businessService from '../services/businessService.js'
+import collectionService from '../services/collectionService.js'
+import contentService from '../services/contentService.js'
 import goalService from '../services/goalService.js'
 import taskTypeService from '../services/taskTypeService.js'
+import userService from '../services/userService.js'
 import goalTypeService from '../services/goalTypeService.js'
 import viewerService from '../services/viewerService.js'
 
@@ -108,7 +112,33 @@ function getViewerFields() {
 		resolve: (_, args, req) => new taskTypeService(getToken(req)).getTaskTypeByTag(args.tag)
 	},
 
-	// business services
+	// user service
+	userIdsByBusinessAndTeam: {
+		type: new GraphQLList(userIdType),
+		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
+		resolve: (_,args, req) => new userService(getToken(req)).getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
+	},
+
+	// content service
+	contentsByBusinessId: {
+		type: new GraphQLList(contentType),
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_,args, req) => new contentService(getToken(req)).getContentsByBusiness(args.businessId)
+	},
+	contentIdsByBusinessIdAndCollectionId: {
+		type: new GraphQLList(contentIdType),
+		args: {businessId: {type: GraphQLString}, collectionId: {type: GraphQLString}},
+		resolve: (_,args, req) => new contentService(getToken(req)).getContentByCollectionIdAndBusinessId(args.collectionId, args.businessId)
+	},
+
+	// collection service
+	collectionsByBusinessId: {
+		type: new GraphQLList(collectionTreeType),
+		args: {businessId: {type: GraphQLString}},
+		resolve: (_,args, req) => new collectionService(getToken(req)).getCollectionsInTreeFormByBusiness(args.businessId)
+	},
+
+	// business service
 	businesses: {
 		type: new GraphQLList(businessType),
 		resolve: (_,args, req) => new businessService(getToken(req)).getGoalAssignableBusinesses()
@@ -123,26 +153,13 @@ function getViewerFields() {
 		args: {businessId: {type: GraphQLString}, industryId: {type: GraphQLString}},
 		resolve: (_,args, req) => new businessService(getToken(req)).getMembershipsByBusinessAndIndustry(args.businessId, args.industryId)
 	},
-	userIdsByBusinessAndTeam: {
-		type: new GraphQLList(userIdType),
-		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve: (_,args, req) => new businessService(getToken(req)).getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
-	},
 	teamsByBusinessId: {
 		type: teamTreeType,
 		args: {businessId: {type: GraphQLString}},
 		resolve:  (_,args, req) => new businessService(getToken(req)).getTeamsInTreeFormByBusiness(args.businessId)
 	},
-	collectionsByBusinessId: {
-		type: new GraphQLList(collectionTreeType),
-		args: {businessId: {type: GraphQLString}},
-		resolve: (_,args, req) => new businessService(getToken(req)).getCollectionsInTreeFormByBusiness(args.businessId)
-	},
-	contentsByBusinessId: {
-		type: new GraphQLList(contentType),
-		args: {businessId: {type: GraphQLString}},
-		resolve: (_,args, req) => new businessService(getToken(req)).getContentsByBusiness(args.businessId)
-	},
+
+
   }
 }
 

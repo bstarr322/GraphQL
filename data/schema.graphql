@@ -21,6 +21,10 @@ type Content {
   image: String
 }
 
+type ContentId {
+  Id: String
+}
+
 input ContentInput {
   contentId: String
 }
@@ -189,11 +193,12 @@ type Viewer {
   taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
+  userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
+  contentsByBusinessId(businessId: String): [Content]
+  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
+  collectionsByBusinessId(businessId: String): [CollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
   membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
-  userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   teamsByBusinessId(businessId: String): TeamTree
-  collectionsByBusinessId(businessId: String): [CollectionTree]
-  contentsByBusinessId(businessId: String): [Content]
 }

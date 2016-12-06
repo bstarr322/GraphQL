@@ -1,4 +1,3 @@
-
 import BaseService from './BaseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
@@ -11,25 +10,26 @@ export default class extends BaseService {
 
 	constructor(authToken) {
 		super(authToken);
+		this.routePrefix = '/goal/'
 	}
 
 	getGoals(businessId, page, size) { 
 		var route
 		if (page == null || size == null) {
-			route = '/goals/' + businessId;
+			route = this.routePrefix + businessId;
 		} else {
-			route = '/goals/' + businessId + '?page=' + page + '&size=' + size;
+			route = this.routePrefix + businessId + '?page=' + page + '&size=' + size;
 		}
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoal(goalId) {
-		var route = '/goal/' + goalId;
+		var route = this.routePrefix + goalId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	createGoal(input) {
-		var route = '/goal/' + input.goalType;
+		var route = this.routePrefix + input.goalType;
 		var transformFunc = function(result) { 
 		    var root = {};
 			root["data"] = result;
