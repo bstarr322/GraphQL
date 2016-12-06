@@ -109,6 +109,7 @@ input GoalTypeInput {
 type Industry {
   industryId: ID!
   name: String
+  requireCpdPoints: Int
 }
 
 type Membership {
