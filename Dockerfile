@@ -41,6 +41,9 @@ RUN chmod +x /app/start-service.sh
 # Copy supervisor configuration into container (should this be here?)
 COPY supervisord.conf /etc/supervisord.conf
 
+# Setup hosts from configuration
+RUN cat /etc/hosts /tmp/etc_hosts | sort | uniq > /etc/hosts
+
 # Cleanup
 RUN yum remove -y unzip make
 
