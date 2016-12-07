@@ -42,7 +42,7 @@ RUN chmod +x /app/start-service.sh
 COPY supervisord.conf /etc/supervisord.conf
 
 # Setup hosts from configuration
-RUN cat /etc/hosts /tmp/etc_hosts | sort | uniq > /etc/hosts
+RUN cat /etc/hosts /app/config/etc_hosts | sort | uniq > /tmp/hosts_tmp && mv /tmp/hosts_tmp /etc/hosts
 
 # Cleanup
 RUN yum remove -y unzip make
