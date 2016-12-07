@@ -35,7 +35,7 @@ COPY . ${DIST_FOLDER}
 RUN npm install
 
 # Prepare the start script executable
-RUN MV ${DIST_FOLDER}/start-service.sh /app/start-service.sh
+RUN mv ${DIST_FOLDER}/start-service.sh /app/start-service.sh
 RUN chmod +x /app/start-service.sh
 
 # Copy supervisor configuration into container (should this be here?)
