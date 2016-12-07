@@ -19,16 +19,16 @@ import extend from 'extend';
 export default function(serviceType, method, route, headers) {
 	switch (serviceType) {
 		case CpdoneApiEnum.GOAL: 
-			return new httpRequestOptions(method, config.HOST, config.GOAL_PORT, route, headers);
+			return new httpRequestOptions(method, config.GOALS_HOST, config.GOALS_PORT, route, headers);
 			break;
 		case CpdoneApiEnum.LEGACY:
-			return new httpRequestOptions(method, config.HOST, config.CPDONE_PORT, route, headers);
+			return new httpRequestOptions(method, config.LEGACY_HOST, config.LEGACY_PORT, route, headers);
 			break;
 		case CpdoneApiEnum.VIEWER:
 			return new httpRequestOptions(method, config.JSON_HOST, config.JSON_PORT, route, headers);
 			break;
 		default:
-			return new httpRequestOptions(method, config.HOST, config.GOALS_PORT, route, headers);
+			return new httpRequestOptions(method, config.LEGACY_HOST, config.LEGACY_PORT, route, headers);
 	}
 }
 
