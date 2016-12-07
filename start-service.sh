@@ -6,4 +6,4 @@ test -f $env_file && source $env_file
 
 env
 
-cd /app; npm start
+cd ${DIST_FOLDER}; npm start

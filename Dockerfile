@@ -4,7 +4,7 @@ FROM centos:7.1.1503
 ENV APP_NAME graphql-frontend
 ENV APP_VERSION 0.0.1
 ENV APP_FULL_NAME ${APP_NAME}-${APP_VERSION}
-ENV DIST_FILE ${APP_FULL_NAME}.zip
+ENV DIST_FOLDER /app/${APP_FULL_NAME}
 
 RUN yum -y install epel-release
 
@@ -26,15 +26,16 @@ RUN yum install -y unzip
 RUN yum install -y nodejs npm make supervisor
 
 # Create app directory
-RUN mkdir -p /app
-WORKDIR /app
+RUN mkdir -p ${DIST_FOLDER}
+WORKDIR ${DIST_FOLDER}
 
 # Bundle code into app.
-COPY . /app/
+COPY . ${DIST_FOLDER}
 # Retrieve node dependencies
 RUN npm install
 
-# Make start script executable
+# Prepare the start script executable
+RUN MV ${DIST_FOLDER}/start-service.sh /app/start-service.sh
 RUN chmod +x /app/start-service.sh
 
 # Copy supervisor configuration into container (should this be here?)
