@@ -18,7 +18,7 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	getGoalTypeById(goalTypeId) {
+	getGoalType(goalTypeId) {
 		var route = this.reference + 'goalType/' + goalTypeId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}

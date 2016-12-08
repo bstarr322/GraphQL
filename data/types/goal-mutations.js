@@ -24,6 +24,7 @@ import goalInputType from '../models/inputTypes/goalInputType.js';
 import goalService from '../services/goalService.js';
 import { viewerType } from '../types/viewer-type'
 
+//outputFields are to be discussed and decided 
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
   inputFields: { 
@@ -40,17 +41,24 @@ export const createGoalMutation = mutationWithClientMutationId({
     }
   },
   mutateAndGetPayload: function(input,req){
-    console.log(input);
 	  return new goalService(getToken(req)).createGoal(input)
   }
 });
 
 export const deleteGoalMutation = mutationWithClientMutationId ({
   name: 'DeleteGoal',
-  inputFields: {input: {type: GraphQLString}},
-  outputFields: {output: {type: GraphQLString}},
-  mutateAndGetPayload: function(id){
-    return new goalService().deleteGoal(id)
+  inputFields: {goalId: {type: GraphQLString}},
+  outputFields: { 
+    goalEdge: {
+      type: goalEdge,
+      resolve: (obj) => ({ node: [], cursor: obj.deletedId })
+    },
+    viewer: {
+      type: viewerType
+    }
+  },
+  mutateAndGetPayload: function(input,req){
+    return new goalService(getToken(req)).deleteGoal(input)
   }
 });
 

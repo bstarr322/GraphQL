@@ -42,12 +42,13 @@ type CreateGoalPayload {
 }
 
 input DeleteGoalInput {
-  input: String
+  goalId: String
   clientMutationId: String
 }
 
 type DeleteGoalPayload {
-  output: String
+  goalEdge: GoalEdge
+  viewer: Viewer
   clientMutationId: String
 }
 
@@ -104,6 +105,15 @@ type GoalType {
 
 input GoalTypeInput {
   id: Int
+}
+
+type GoalUser {
+  goalUserId: ID!
+  goalId: String
+  user: User
+  teams: [Team]
+  progress: String
+  lastUpdate: String
 }
 
 type Industry {
@@ -175,6 +185,11 @@ type TeamTree {
   childrenNodes: [TeamTree]
 }
 
+type User {
+  userId: String
+  name: String
+}
+
 type UserId {
   userIds: [String]
 }
@@ -188,12 +203,14 @@ type Viewer {
   viewerId: String
   name: String
   goalConnection(businessId: String, page: Int, size: Int, after: String, first: Int, before: String, last: Int): GoalConnection
+  goal(goalId: String): Goal
   goalTypes: [GoalType]
-  goalTypeById(goalTypeId: Int): GoalType
+  goalType(goalTypeId: Int): GoalType
   goalTypeByTag(tag: String): GoalType
   taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
+  goalUsers(goalId: String): [GoalUser]
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   contentsByBusinessId(businessId: String): [Content]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]

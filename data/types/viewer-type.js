@@ -37,6 +37,7 @@ import userIdType from '../models/userIdType.js';
 import goalType from '../models/goalType.js';
 import goalTypeType from '../models/goalTypeType.js';
 import taskTypeType from '../models/taskTypeType.js';
+import goalUserType from '../models/goalUserType.js';
 // input types - model of requests
 import contentInputType from '../models/inputTypes/contentInputType.js';
 import goalInputType from '../models/inputTypes/goalInputType.js';
@@ -83,14 +84,19 @@ function getViewerFields() {
 		},
 		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(getToken(req)).getGoals(args.businessId, args.page, args.size), args)
 	},
+	goal: {
+		type: goalType,
+		args: {goalId: {type: GraphQLString}},
+		resolve: (_,args, req) => new goalService(getToken(req)).getGoal(args.goalId)
+	},
 	goalTypes: {
 		type: new GraphQLList(goalTypeType),
 		resolve: (_,args, req) => new goalTypeService(getToken(req)).getGoalTypes()
 	},
-	goalTypeById: {
+	goalType: {
 		type: goalTypeType,
 		args: {goalTypeId: {type: GraphQLInt}},
-		resolve: (_,args, req) => new goalTypeService(getToken(req)).goalTypeById(goalTypeId)
+		resolve: (_,args, req) => new goalTypeService(getToken(req)).goalType(goalTypeId)
 	},
 	goalTypeByTag: {
 		type: goalTypeType,
@@ -111,6 +117,20 @@ function getViewerFields() {
 		args: {tag: {type: GraphQLString}},
 		resolve: (_, args, req) => new taskTypeService(getToken(req)).getTaskTypeByTag(args.tag)
 	},
+	goalUsers: {
+		type: new GraphQLList(goalUserType),
+		args: {goalId: {type:GraphQLString}},
+		resolve: (_,args, req) => new goalService(getToken(req)).getGoalUsers(args.goalId)
+	},
+	goalUser: {
+		type: goalUserType,
+		args: {
+			goalId: {type:GraphQLString},
+			userId: {type:GraphQLString}
+		},
+		resolve: (_,args, req) => new goalService(getToken(req)).getGoalUser(args.goalId, args.userId)
+	},
+
 
 	// user service
 	userIdsByBusinessAndTeam: {

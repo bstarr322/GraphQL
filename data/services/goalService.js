@@ -29,6 +29,16 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
+	getGoalUsers(goalId) {
+		var route = this.goal + goalId + "/users";
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	}
+
+	getGoalUser(goalId,userId) {
+		var route = this.goal + goalId + "/user/" + userId;
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	}
+
 	createGoal(input) {
 		var route = this.goal + input.goalType;
 		var transformFunc = function(result) { 
@@ -41,7 +51,6 @@ export default class extends BaseService {
 		    goalType: input.goal.goalType,
 		    startDate: input.goal.startDate,
 			teams: input.goal.teams,
-
 	  	}
   		switch(input.goalType) {
   			case "Induction": 
@@ -71,7 +80,8 @@ export default class extends BaseService {
 	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
 	}
 	
-	deleteGoal(goalId) {
-	  	return null; //httpPost(config.LOCALHOST, config.GOALS_PORT, '/goal', function(result) { result.name = result.title; return result; }, {userId: 1, id: 2, title: goal.name, body: goal.name});
+	deleteGoal(input) {
+	  	var route = this.goal + input.goalId
+	  	return super.httpToGoalsApi(HttpMethodEnum.DELETE.name,route);
 	}
 };

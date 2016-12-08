@@ -1,25 +1,23 @@
 mutation createGoalMutation ($input: CreateGoalInput!) {
-	createGoal(input:$input) {
-    clientMutationId,
-    result
+  createGoal(input:$input) {
+    clientMutationId
   }  
 }
 
-QUERY VARIABLES
 {
   "input": {
-    "goalType": "induction",
+    "goalType": "Induction",
     "clientMutationId": "1a",
-    "input": {
+    "goal": {
       "name": "Task Goal 3",
       "goalType": {
         "id" : 1
       },
       "description" : "Task goal 3 JT",
-      "businessId" : "64559246-e091-40af-bad6-529697f787137",
+      "businessId" : "417f3525-9793-4c44-b853-3ca5f5cd1db1",
       "isBusinessCritical" : true,
       "isSequential": true,
-      "startDate" : "2016-09-30T14:31:56",
+      "startDate" : "2017-09-30T14:31:56",
       "tasks" : [{
         "taskType" : {
           "id" :4
@@ -35,7 +33,7 @@ QUERY VARIABLES
         "instruction" : "this is an instruction",
         "order" : 2,
         "daysToComplete": 5
-      }],	
+      }], 
       "teams" : [{
         "id" : "64559246-e091-40af-bad6-529697f787134",
         "users" : [
