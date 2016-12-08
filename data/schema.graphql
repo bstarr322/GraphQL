@@ -114,6 +114,7 @@ type Industry {
 type Membership {
   membershipId: ID!
   name: String
+  cpdPoints: Int
 }
 
 type Mutation {

@@ -7,7 +7,8 @@ import {
 	GraphQLObjectType,
 	GraphQLString,
 	GraphQLNonNull,
-	GraphQLID
+	GraphQLID,
+	GraphQLInt
 } from 'graphql';
 
 export default new GraphQLObjectType({
@@ -21,5 +22,9 @@ export default new GraphQLObjectType({
 			type: GraphQLString, 
 			resolve: membership => membership.Name 
 		},
+		cpdPoints: {
+			type: GraphQLInt, 
+			resolve: membership => membership.cpdPoints 
+		}
 	}},
 });
