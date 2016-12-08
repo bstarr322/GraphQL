@@ -10,14 +10,14 @@ export default class extends BaseService {
 
 	constructor(authToken) {
 		super(authToken);
-		this.routePrefix = '/api/v1/collections/';
+		this.collections = '/api/v1/collections/';
 	}
 
 	/**
 	* Gets all collections visible to a business in tree structure
 	*/
 	getCollectionsInTreeFormByBusiness(businessId) {
-		var route = this.routePrefix + 'tree/businesses/' + businessId;
+		var route = this.collections + 'tree/businesses/' + businessId;
 		return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   	}
 

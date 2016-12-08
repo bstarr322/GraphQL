@@ -10,14 +10,14 @@ export default class extends BaseService {
 
   constructor(authToken) {
     super(authToken);
-    this.routePrefix = '/api/v1/contents/';
+    this.contents = '/api/v1/contents/';
   }
 
   /**
    * Gets all content visible to a business
    */
   getContentsByBusiness(businessId) {
-    var route = this.routePrefix + 'businesses/' + businessId;
+    var route = this.contents + 'businesses/' + businessId;
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
@@ -25,7 +25,7 @@ export default class extends BaseService {
    * Gets all the content ids in a collection by id and by business id
    */
   getContentByCollectionIdAndBusinessId(collectionId, businessId) {
-    var route = this.routePrefix + 'collections/' + collectionId + '/businesses/' + businessId;
+    var route = this.contents + 'collections/' + collectionId + '/businesses/' + businessId;
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 

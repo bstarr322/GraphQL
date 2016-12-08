@@ -42,7 +42,7 @@ export default class {
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
 	httpToGoalsApi(httpMethod, route, transformFunc, requestBody) {
-	    var options = createHttpRequestOption(CpdoneApiEnum.GOALS, httpMethod, route, this.authToken);
+	    var options = createHttpRequestOption(CpdoneApiEnum.GOAL, httpMethod, route, this.authToken);
 	  	return this._callHttp(options, transformFunc, requestBody);
 	}
 

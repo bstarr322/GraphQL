@@ -10,21 +10,21 @@ export default class extends BaseService {
 
 	constructor(authToken) {
 		super(authToken);
-		this.routePrefix = '/reference/'
+		this.reference = '/reference/'
 	}
 
 	getTaskTypes() {
-		var route = this.routePrefix + 'taskTypes';
+		var route = this.reference + 'taskTypes';
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getTaskType(taskTypeId) {
-		var route = this.routePrefix + 'taskType/' + taskTypeId;
+		var route = this.reference + 'taskType/' + taskTypeId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getTaskTypeByTag(tag) {
-		var route = this.routePrefix + 'taskTypeByTag/' + tag;
+		var route = this.reference + 'taskTypeByTag/' + tag;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 

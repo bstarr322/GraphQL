@@ -10,7 +10,7 @@ export default class extends BaseService {
 
   constructor(authToken) {
     super(authToken);
-    this.routePrefix = '/api/v1/users/'
+    this.users = '/api/v1/users/'
   }
 
   /**
@@ -18,7 +18,7 @@ export default class extends BaseService {
    * @return {string[]} A list of user ids.
    */
   getUserIdsByBusinessAndTeam(businessId, teamId) {
-    var route = this.routePrefix + 'teams/' + teamId + 'businesses' + businessId;
+    var route = this.users + 'teams/' + teamId + 'businesses' + businessId;
     var transformFunc = function(result) { 
           var root = {};
           root["data"] = result;

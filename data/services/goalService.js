@@ -10,26 +10,27 @@ export default class extends BaseService {
 
 	constructor(authToken) {
 		super(authToken);
-		this.routePrefix = '/goal/'
+		this.goals = '/goals/';
+		this.goal = '/goal/';
 	}
 
 	getGoals(businessId, page, size) { 
-		var route
+		var route;
 		if (page == null || size == null) {
-			route = this.routePrefix + businessId;
+			route = this.goals + businessId;
 		} else {
-			route = this.routePrefix + businessId + '?page=' + page + '&size=' + size;
+			route = this.goals + businessId + '?page=' + page + '&size=' + size;
 		}
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoal(goalId) {
-		var route = this.routePrefix + goalId;
+		var route = this.goal + goalId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	createGoal(input) {
-		var route = this.routePrefix + input.goalType;
+		var route = this.goal + input.goalType;
 		var transformFunc = function(result) { 
 		    var root = {};
 			root["data"] = result;

@@ -10,14 +10,14 @@ export default class extends BaseService {
 
   constructor(authToken) {
     super(authToken);
-    this.routePrefix = '/api/v1/businesses/';
+    this.businesses = '/api/v1/businesses/';
   }
 
   /**
    * Get businesses visible to the user ( based on user id encrypted in header).
    */
   getGoalAssignableBusinesses() {
-    var route = this.routePrefix + 'goalassignable';
+    var route = this.businesses + 'goalassignable';
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
@@ -25,7 +25,7 @@ export default class extends BaseService {
    * Get all registered industries in a business.
    */
   getIndustriesByBusiness(businessId) {
-    var route = this.routePrefix + businessId + '/industries';
+    var route = this.businesses + businessId + '/industries';
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
@@ -33,7 +33,7 @@ export default class extends BaseService {
    * Get all registered memberships from an industry in a business.
    */
   getMembershipsByBusinessAndIndustry(businessId, industryId) {
-    var route = this.routePrefix + businessId + '/industries/' + industryId + '/memberships';
+    var route = this.businesses + businessId + '/industries/' + industryId + '/memberships';
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
@@ -41,7 +41,7 @@ export default class extends BaseService {
    * Gets all teams in a business in tree structure
    */
   getTeamsInTreeFormByBusiness(businessId, reqs) {
-    var route = this.routePrefix + businessId + '/teams/tree';
+    var route = this.businesses + businessId + '/teams/tree';
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 

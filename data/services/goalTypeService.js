@@ -10,21 +10,21 @@ export default class extends BaseService {
 
 	constructor(authToken) {
 		super(authToken);
-		this.routePrefix = '/reference/'
+		this.reference = '/reference/'
 	}
 
 	getGoalTypes() {
-		var route = this.routePrefix + 'goalTypes';
+		var route = this.reference + 'goalTypes';
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoalTypeById(goalTypeId) {
-		var route = this.routePrefix + 'goalType/' + goalTypeId;
+		var route = this.reference + 'goalType/' + goalTypeId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoalTypeByTag(tag) {
-	  	var route = this.routePrefix + 'goalTypeByTag/' + tag;
+	  	var route = this.reference + 'goalTypeByTag/' + tag;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
