@@ -19,7 +19,7 @@ export default new GraphQLObjectType({
 	name: 'CollectionTree',
 	fields: function() { return {
 		collectionId: { 
-			type: new GraphQLNonNull(GraphQLID), 
+			type: GraphQLID, 
 			resolve: collection => collection.Id 
 		},
 		title: { 
@@ -41,6 +41,7 @@ export default new GraphQLObjectType({
 		childrenNodes: { 
 			type: new GraphQLList(collectionTreeType), 
 			resolve: collection => collection.ChildrenNodes 
-		} 
+		},
+		progress: { type: GraphQLString },
 	}},
 })

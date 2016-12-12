@@ -1,6 +1,6 @@
 /**
- * Model for getting goals
- * from goals service api.
+ * Model for getting goals from goals service api.
+ * Parallel to userGoalType except in id value (goalId not equal to userGoalId)
  */
 
 import {
@@ -15,39 +15,28 @@ import {
 
 import goalTypeType from './goalTypeType';
 import teamType from './teamType';
-
+import taskType from './taskType';
 
 export default new GraphQLObjectType({
   	name: 'Goal',
 	fields: function() { return {
-		id: { 
-			type: new GraphQLNonNull(GraphQLID)
-		},
 		goalId: { 
-			type: GraphQLString
+			type: GraphQLID,
+			resolve: goal => goal.id
 		},
-		goalType: { 
-			type: goalTypeType
-		},
-		name: {
-			type: GraphQLString
-		},
-		teams: {
-			type: new GraphQLList(teamType)
-
-		},
-		startDate: {
-			type: GraphQLString
-		},
-		endDate: {
-			type: GraphQLString
-		},
-		numberOfTasks: {
-			type: GraphQLInt 
-		},
-		progress: {
-			type: GraphQLInt 
-		},
+		extensionId: { type: GraphQLString },
+		name: { type: GraphQLString	},
+		goalType: { type: goalTypeType },
+		description: { type: GraphQLString },
+		businessId: { type: GraphQLString },
+		teams: { type: new GraphQLList(teamType) },
+		startDate: { type: GraphQLString },
+		isBusinessCritical: { type: GraphQLBoolean },
+		isSequential: { type: GraphQLBoolean },
+		endDate: { type: GraphQLString },
+		numberOfTasks: { type: GraphQLInt },
+		progress: { type: GraphQLInt },
+		tasks: { type: taskType },
 	}},
 });
 

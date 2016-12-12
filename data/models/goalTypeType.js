@@ -14,7 +14,7 @@ export default new GraphQLObjectType({
   name: 'GoalType',
   fields: function() { return {
 	goalTypeId: { 
-		type: new GraphQLNonNull(GraphQLID),
+		type: GraphQLID,
 		resolve: goalType => goalType.id
 	},
 	name: { 

@@ -15,7 +15,7 @@ export default new GraphQLObjectType({
 	name: 'Membership',
 	fields: function() { return {
 	  	membershipId: { 
-	  		type: new GraphQLNonNull(GraphQLID), 
+	  		type: GraphQLID, 
 	  		resolve: membership => membership.Id 
 	  	},
 		name: { 
