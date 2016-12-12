@@ -1,24 +1,26 @@
 type Business {
-  businessId: ID!
+  businessId: ID
   name: String
   image: String
 }
 
 type CollectionTree {
-  collectionId: ID!
+  collectionId: ID
   title: String
   parentNodeId: String
   contentCount: Int
   image: String
   childrenNodes: [CollectionTree]
+  progress: String
 }
 
 type Content {
-  contentId: ID!
+  contentId: ID
   name: String
   type: String
   typeId: String
   image: String
+  progress: String
 }
 
 type ContentId {
@@ -53,15 +55,20 @@ type DeleteGoalPayload {
 }
 
 type Goal {
-  id: ID!
-  goalId: String
-  goalType: GoalType
+  goalId: ID
+  extensionId: String
   name: String
+  goalType: GoalType
+  description: String
+  businessId: String
   teams: [Team]
   startDate: String
+  isBusinessCritical: Boolean
+  isSequential: Boolean
   endDate: String
   numberOfTasks: Int
   progress: Int
+  tasks: Task
 }
 
 # A connection to a list of items.
@@ -98,7 +105,7 @@ input GoalInput {
 }
 
 type GoalType {
-  goalTypeId: ID!
+  goalTypeId: ID
   name: String
   tag: String
 }
@@ -108,21 +115,25 @@ input GoalTypeInput {
 }
 
 type GoalUser {
-  goalUserId: ID!
+  goalUserId: ID
+  extensionId: String
   goalId: String
   user: User
+  userId: String
+  goalInfo: Goal
   teams: [Team]
-  progress: String
+  progress: Int
   lastUpdate: String
+  tasks: [Task]
 }
 
 type Industry {
-  industryId: ID!
+  industryId: ID
   name: String
 }
 
 type Membership {
-  membershipId: ID!
+  membershipId: ID
   name: String
   cpdPoints: Int
 }
@@ -151,6 +162,20 @@ type Query {
   viewer(viewerId: Int): Viewer
 }
 
+type Task {
+  taskId: ID
+  userTaskId: String
+  userId: String
+  taskType: TaskType
+  instruction: String
+  order: Int
+  daysToComplete: Int
+  data: String
+  content: Content
+  collection: CollectionTree
+  isCompleted: Boolean
+}
+
 input TaskInput {
   taskType: TaskTypeInput
   instruction: String
@@ -160,7 +185,7 @@ input TaskInput {
 }
 
 type TaskType {
-  taskTypeId: ID!
+  taskTypeId: ID
   name: String
   tag: String
 }
@@ -170,7 +195,7 @@ input TaskTypeInput {
 }
 
 type Team {
-  teamId: ID!
+  teamId: ID
 }
 
 input TeamInput {
@@ -179,14 +204,14 @@ input TeamInput {
 }
 
 type TeamTree {
-  teamTreeId: ID!
+  teamTreeId: ID
   title: String
   parentNodeId: String
   childrenNodes: [TeamTree]
 }
 
 type User {
-  userId: String
+  userId: ID
   name: String
 }
 
@@ -203,6 +228,7 @@ type Viewer {
   viewerId: String
   name: String
   goalConnection(businessId: String, page: Int, size: Int, after: String, first: Int, before: String, last: Int): GoalConnection
+  goalsByUserId(businessId: String, userId: String, page: Int, size: Int): [Goal]
   goal(goalId: String): Goal
   goalTypes: [GoalType]
   goalType(goalTypeId: Int): GoalType
@@ -211,6 +237,7 @@ type Viewer {
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
   goalUsers(goalId: String): [GoalUser]
+  goalUser(goalId: String, userId: String): GoalUser
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   contentsByBusinessId(businessId: String): [Content]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
