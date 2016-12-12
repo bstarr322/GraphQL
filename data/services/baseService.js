@@ -63,6 +63,7 @@ export default class {
 						data += str.replace("\\", "\\\\");
 					})
 					.on('end', function () {
+						console.log("data -> " + data)
 						var jsonData = jsonUtility.tryParse(data);
 						if (transformFunc)  {
 							jsonData = transformFunc(jsonData);

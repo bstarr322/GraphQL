@@ -84,6 +84,16 @@ function getViewerFields() {
 		},
 		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(getToken(req)).getGoals(args.businessId, args.page, args.size), args)
 	},
+	goalsByUserId: {
+		type: new GraphQLList(goalType),
+		args: {
+			businessId: {type: GraphQLString},
+			userId: {type: GraphQLString},
+			page: {type: GraphQLInt},
+			size: {type: GraphQLInt}
+		},
+		resolve: (_,args, req) => new goalService(getToken(req)).getGoalsByUserId(args.businessId, args.userId, args.page, args.size)
+	},
 	goal: {
 		type: goalType,
 		args: {goalId: {type: GraphQLString}},
@@ -131,7 +141,6 @@ function getViewerFields() {
 		resolve: (_,args, req) => new goalService(getToken(req)).getGoalUser(args.goalId, args.userId)
 	},
 
-
 	// user service
 	userIdsByBusinessAndTeam: {
 		type: new GraphQLList(userIdType),
@@ -178,8 +187,6 @@ function getViewerFields() {
 		args: {businessId: {type: GraphQLString}},
 		resolve:  (_,args, req) => new businessService(getToken(req)).getTeamsInTreeFormByBusiness(args.businessId)
 	},
-
-
   }
 }
 

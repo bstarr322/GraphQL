@@ -24,6 +24,16 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
+	getGoalsByUserId(businessId, userId, page, size) {
+		var route;
+		if (page == null || size == null) {
+			route = this.goals + businessId + '/user/' + userId;
+		} else {
+			route = this.goals + businessId + '/user/' + userId + '?page=' + page + '&size=' + size;
+		}
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	}
+
 	getGoal(goalId) {
 		var route = this.goal + goalId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
