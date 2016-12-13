@@ -24,7 +24,7 @@ export default new GraphQLObjectType({
 		},
 		cpdPoints: {
 			type: GraphQLInt, 
-			resolve: membership => membership.cpdPoints 
+			resolve: membership => membership.CpdPoints 
 		}
 	}},
 });
