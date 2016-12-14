@@ -196,7 +196,7 @@ var getToken = function(request) {
 }
 
 var extractAuthToken = function(headers) {
-	return headers.authorization;
+	return "nothing"; //headers.authorization;
 }
 
 var generateAuthToken = function(token) {
