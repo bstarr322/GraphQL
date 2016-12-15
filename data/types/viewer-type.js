@@ -155,7 +155,7 @@ function getViewerFields() {
 		resolve: (_,args, req) => new contentService(getToken(req)).getContentsByBusiness(args.businessId)
 	},
 	contentIdsByBusinessIdAndCollectionId: {
-		type: new GraphQLList(contentIdType),
+		type: new GraphQLList(contentType),
 		args: {businessId: {type: GraphQLString}, collectionId: {type: GraphQLString}},
 		resolve: (_,args, req) => new contentService(getToken(req)).getContentByCollectionIdAndBusinessId(args.collectionId, args.businessId)
 	},

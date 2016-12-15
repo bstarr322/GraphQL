@@ -9,9 +9,12 @@ import {
 	GraphQLBoolean
 } from 'graphql';
 
+import contentInputType from './contentInputType';
+
 export default new GraphQLInputObjectType ({
-	name: 'ContentInput',
+	name: 'CollectionInput',
 	fields: function() { return { 
-		contentId: { type: GraphQLString }
+		collectionId: { type: GraphQLString },
+		contents: { type: new GraphQLList(contentInputType) }
 	}},
 });

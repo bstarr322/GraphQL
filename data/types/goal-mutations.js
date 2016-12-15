@@ -22,14 +22,15 @@ import {
 
 import goalInputType from '../models/inputTypes/goalInputType.js';
 import goalService from '../services/goalService.js';
-import { viewerType } from '../types/viewer-type'
+import { viewerType } from '../types/viewer-type.js';
+import contentService from '../services/contentService.js';
+import userService from '../services/userService.js';
 
 //outputFields are to be discussed and decided 
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
   inputFields: { 
-    goal: { type: goalInputType }, 
-    goalType:{ type : GraphQLString }
+    goal: { type: goalInputType }
   },
   outputFields: { 
     goalEdge: {
@@ -41,9 +42,44 @@ export const createGoalMutation = mutationWithClientMutationId({
     }
   },
   mutateAndGetPayload: function(input,req){
-	  return new goalService(getToken(req)).createGoal(input)
+    //return chained promises until creategoal
+    return chainedPromisesForCreateGoal(input,req);
   }
 });
+
+//loop through all tasks with collection and chain all promises 
+function chainedPromisesForCreateGoal(input,req){
+  //promise tasks
+  input.goal.tasks.forEach(function(task, idx, array) {
+    if('collection' in task){
+      var promiseTask = new contentService(getToken(req)).getContentByCollectionIdAndBusinessId(task.collection.collectionId, input.goal.businessId)
+      promiseTask.then(function(data){
+        input.goal.tasks[idx].collection.contents = data;
+        if (idx === array.length - 1){ 
+          promiseTeams(input,req);
+        }
+      })
+    }
+  });
+}
+
+//loop through all teams and chain all promises
+function promiseTeams(input,req){
+  input.goal.teams.forEach((team, idx, array) => {
+    var promiseTeam = new userService(getToken(req)).getUserIdsByBusinessAndTeam(team.id, input.goal.businessId)
+    promiseTeam.then(function(data) {
+      input.goal.teams[idx].users = data;
+      if (idx === array.length - 1){ 
+        promiseCreateGoal(input,req);
+      }
+    });
+  });
+} 
+
+//pass newly formed input to CreateGoal
+function promiseCreateGoal(input,req){
+  return new goalService(getToken(req)).createGoal(input);
+}
 
 export const deleteGoalMutation = mutationWithClientMutationId ({
   name: 'DeleteGoal',
@@ -58,9 +94,10 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
     }
   },
   mutateAndGetPayload: function(input,req){
-    return new goalService(getToken(req)).deleteGoal(input)
+    return new goalService(getToken(req)).deleteGoal(input);
   }
 });
+
 
 var getToken = function(request) {
   var token = extractAuthToken(request.headers);
@@ -68,7 +105,7 @@ var getToken = function(request) {
 }
 
 var extractAuthToken = function(headers) {
-  return headers.authorization;
+  return "nothing"; //headers.authorization;
 }
 
 var generateAuthToken = function(token) {

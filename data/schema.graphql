@@ -4,6 +4,11 @@ type Business {
   image: String
 }
 
+input CollectionInput {
+  collectionId: String
+  contents: [ContentInput]
+}
+
 type CollectionTree {
   collectionId: ID
   title: String
@@ -23,17 +28,12 @@ type Content {
   progress: String
 }
 
-type ContentId {
-  Id: String
-}
-
 input ContentInput {
   contentId: String
 }
 
 input CreateGoalInput {
   goal: GoalInput
-  goalType: String
   clientMutationId: String
 }
 
@@ -182,6 +182,7 @@ input TaskInput {
   order: Int
   daysToComplete: Int
   content: ContentInput
+  collection: CollectionInput
 }
 
 type TaskType {
@@ -240,7 +241,7 @@ type Viewer {
   goalUser(goalId: String, userId: String): GoalUser
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   contentsByBusinessId(businessId: String): [Content]
-  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
+  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [Content]
   collectionsByBusinessId(businessId: String): [CollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
