@@ -7,14 +7,15 @@ import {
 	GraphQLObjectType,
 	GraphQLString,
 	GraphQLNonNull,
-	GraphQLID
+	GraphQLID,
+	GraphQLInt
 } from 'graphql';
 
 export default new GraphQLObjectType({
 	name: 'Content',
 	fields: function () { return {
 		contentId: {
-			type: new GraphQLNonNull(GraphQLID), 
+			type: GraphQLID, 
 			resolve: content => content.Id 
 		},
 		name: { 
@@ -32,6 +33,7 @@ export default new GraphQLObjectType({
 		image: {
 			type: GraphQLString, 
 			resolve: content => content.Image 
-		}
+		},
+		progress: { type: GraphQLString },
 	}},
 });

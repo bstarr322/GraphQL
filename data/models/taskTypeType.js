@@ -16,7 +16,7 @@ export default new GraphQLObjectType({
 	name: 'TaskType',
 	fields: function() { return {
 		taskTypeId: { 
-			type: new GraphQLNonNull(GraphQLID),
+			type: GraphQLID,
 			resolve: taskType => taskType.id
 		},
 		name: { 

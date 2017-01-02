@@ -1,6 +1,6 @@
 /**
- * Model for getting Users Goal
- * from cpdone web service api.
+ * Model for getting user goals from cpdone web service api.
+ * parallel to goalType except in id value (goalId not equal to userGoalId)
  */
 
 import {
@@ -21,9 +21,10 @@ export default new GraphQLObjectType ({
 	name: 'GoalUser',
 	fields: function() { return {
 		goalUserId: { 
-			type: new GraphQLNonNull(GraphQLID), 
-			resolve: goalUser => goalUser.id 
+			type: GraphQLID, 
+			resolve: userGoal => userGoal.id 
 		},
+		extensionId: { type: GraphQLString },
 		goalId: { type: GraphQLString },
 		user: { type: userType },
 		userId: { type: GraphQLString },

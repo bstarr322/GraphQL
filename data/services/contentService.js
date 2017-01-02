@@ -26,7 +26,16 @@ export default class extends BaseService {
    */
   getContentByCollectionIdAndBusinessId(collectionId, businessId) {
     var route = this.contents + 'collections/' + collectionId + '/businesses/' + businessId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+
+    var transformFunc = function(result) { 
+      var list = [];
+      result.forEach(function(contentId) {
+        list.push({ 'contentId':contentId })
+      });
+      return list;
+    }; 
+
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name,route,transformFunc);
   }
 
 }

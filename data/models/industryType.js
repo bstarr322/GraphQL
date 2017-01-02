@@ -15,7 +15,7 @@ export default new GraphQLObjectType({
 	name: 'Industry',
 	fields: function() { return {
 		industryId: { 
-			type: new GraphQLNonNull(GraphQLID), 
+			type: GraphQLID, 
 			resolve: industry => industry.Id 
 		},
 		name: { 

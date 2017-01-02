@@ -17,14 +17,16 @@ export default class extends BaseService {
    * Gets all registered userIds from a team in a business.
    * @return {string[]} A list of user ids.
    */
-  getUserIdsByBusinessAndTeam(businessId, teamId) {
-    var route = this.users + 'teams/' + teamId + 'businesses' + businessId;
+  getUserIdsByBusinessAndTeam(teamId,businessId) {
+    var route = this.users + 'teams/' + teamId + '/businesses/' + businessId;
     var transformFunc = function(result) { 
-          var root = {};
-          root["data"] = result;
-          return root;
-      }; 
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+      var list = [];
+      result.forEach(function(userId) {
+        list.push({ 'id':userId })
+      });
+      return list;
+    }; 
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route,transformFunc);
   }
 
 }

@@ -6,7 +6,6 @@ mutation createGoalMutation ($input: CreateGoalInput!) {
 
 {
   "input": {
-    "goalType": "Induction",
     "clientMutationId": "1a",
     "goal": {
       "name": "Task Goal 3",

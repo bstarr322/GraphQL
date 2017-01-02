@@ -18,7 +18,7 @@ export default new GraphQLObjectType({
 	name: 'TeamTree',
 	fields: function() { return {
 		teamTreeId: {
-			type: new GraphQLNonNull(GraphQLID), 
+			type: GraphQLID, 
 			resolve: team => team.Id 
 		},
 		title: { 

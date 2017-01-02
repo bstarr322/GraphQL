@@ -14,11 +14,7 @@ import userIdInputType from './userIdInputType.js';
 export default new GraphQLInputObjectType ({
 	name: 'TeamInput',
 	fields: function () { return {
-		id: { 
-			type: GraphQLString 
-		},
-		users: { 
-			type: new GraphQLList(userIdInputType)
-		}
+		id: { type: GraphQLString },
+		users: { type: new GraphQLList(userIdInputType) }
 	}},
 });

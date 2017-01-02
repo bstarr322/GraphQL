@@ -27,5 +27,4 @@ export default class extends BaseService {
 	  	var route = this.reference + 'goalTypeByTag/' + tag;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
-
 };

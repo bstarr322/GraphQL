@@ -5,7 +5,8 @@ import {
 	GraphQLObjectType,
 	GraphQLString,
 	GraphQLInt,
-	GraphQLBoolean 
+	GraphQLBoolean,
+	GraphQLID 
 } from 'graphql';
 
 import taskTypeType from './taskTypeType.js';
@@ -15,8 +16,8 @@ import collectionTreeType from './collectionTreeType.js';
 export default new GraphQLObjectType ({
 	name: 'Task',
 	fields: function() { return {
+		taskId: { type: GraphQLID },
 		userTaskId: { type: GraphQLString },
-		taskId: { type: GraphQLString },
 		userId: { type: GraphQLString },
 		taskType: {type: taskTypeType },
 		instruction: {  type: GraphQLString },
