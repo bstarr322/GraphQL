@@ -8,8 +8,8 @@ import { HttpMethodEnum } from '../enums/enums.js'
  */
 export default class extends BaseService {
 
-  constructor(authToken) {
-    super(authToken);
+  constructor(authHeader) {
+    super(authHeader);
     this.contents = '/api/v1/contents/';
   }
 

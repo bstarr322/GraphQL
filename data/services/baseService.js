@@ -3,11 +3,12 @@ import config from '../../config.js';
 import jsonUtility from '../utilities/jsonUtility.js';
 import createHttpRequestOption from '../utilities/httpRequestOption.js'
 import {CpdoneApiEnum} from '../enums/enums.js';
+import authHeader from '../utilities/authHeader.js'
 
 export default class {
 
-	constructor(authToken) {
-		this.authToken = authToken;
+	constructor(authHeader) {
+		this.authHeader = authHeader;
 	}
 
 	/**
@@ -18,7 +19,7 @@ export default class {
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
 	httpToJsonPlaceholderApi(httpMethod, route, transformFunc, requestBody) {
-	    var options = createHttpRequestOption(CpdoneApiEnum.VIEWER, httpMethod, route, this.authToken);
+	    var options = createHttpRequestOption(CpdoneApiEnum.VIEWER, httpMethod, route, this.authHeader);
 	  	return this._callHttp(options, transformFunc, requestBody);
 	}
 
@@ -30,7 +31,7 @@ export default class {
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
 	httpToLegacyApi(httpMethod, route, headers, transformFunc, requestBody) {
-	    var options = createHttpRequestOption(CpdoneApiEnum.LEGACY, httpMethod, route, this.authToken);
+	    var options = createHttpRequestOption(CpdoneApiEnum.LEGACY, httpMethod, route, this.authHeader);
 	  	return this._callHttp(options, transformFunc, requestBody);
 	}
 
@@ -42,7 +43,7 @@ export default class {
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
 	httpToGoalsApi(httpMethod, route, transformFunc, requestBody) {
-	    var options = createHttpRequestOption(CpdoneApiEnum.GOAL, httpMethod, route, this.authToken);
+	    var options = createHttpRequestOption(CpdoneApiEnum.GOAL, httpMethod, route, this.authHeader);
 	  	return this._callHttp(options, transformFunc, requestBody);
 	}
 
@@ -54,6 +55,7 @@ export default class {
 	 * @return {object}   A json object as response from a performed http request.
 	 */
 	 _callHttp(options, transformFunc, requestBody) {
+	 	console.log(options);
 		return new Promise(function(resolve, reject) {
 			var callback = function(response) {
 				var data = '';
