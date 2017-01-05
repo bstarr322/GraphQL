@@ -16,8 +16,6 @@ import {
   fromGlobalId
 } from 'graphql-relay';
 
-import bluePromise from 'bluebird';
-
 import { 
   goalConnection,
   goalEdge 
@@ -29,6 +27,9 @@ import { viewerType } from '../types/viewer-type.js';
 import goalService from '../services/goalService.js';
 import contentService from '../services/contentService.js';
 import userService from '../services/userService.js';
+
+// infrastructure
+import httpParser from '../utilities/httpParser.js'
 
 //outputFields are to be discussed and decided 
 //Q: Will goalConnection be queried again in managegoals if we inserted a new goal or not? (if not,
@@ -81,7 +82,7 @@ export const createGoalMutation = mutationWithClientMutationId({
         mapData.shift();   
       });
 
-      return new goalService(getToken(req)).createGoal(input);
+      return new goalService(httpParser(req)).createGoal(input);
 
     }).catch(errorMessage => {
       console.log(errorMessage);
@@ -94,14 +95,14 @@ function iterableQryPromises(input,req){
   if ('tasks' in input.goal) {
     input.goal.tasks.forEach(function(task) {
       if('collection' in task){
-        var promiseTask = new contentService(getToken(req)).getContentByCollectionIdAndBusinessId(task.collection.collectionId, input.goal.businessId);
+        var promiseTask = new contentService(httpParser(req)).getContentByCollectionIdAndBusinessId(task.collection.collectionId, input.goal.businessId);
         promiseArr.push(promiseTask); 
       }
     });
   }
-  
+
   input.goal.teams.forEach((team) => {
-    var promiseTeam = new userService(getToken(req)).getUserIdsByBusinessAndTeam(team.id, input.goal.businessId);
+    var promiseTeam = new userService(httpParser(req)).getUserIdsByBusinessAndTeam(team.id, input.goal.businessId);
     promiseArr.push(promiseTeam);
   });
 
@@ -117,21 +118,6 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
     }
   },
   mutateAndGetPayload: function(input,req){
-    return new goalService(getToken(req)).deleteGoal(input);
+    return new goalService(httpParser(req)).deleteGoal(input);
   
 }});
-
-
-var getToken = function(request) {
-  var token = extractAuthToken(request.headers);
-  return generateAuthToken(token);
-}
-
-var extractAuthToken = function(headers) {
-  return "nothing"; //headers.authorization;
-}
-
-var generateAuthToken = function(token) {
-  return { 'authorization' : token };
-}
-

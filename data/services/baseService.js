@@ -30,7 +30,7 @@ export default class {
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
-	httpToLegacyApi(httpMethod, route, headers, transformFunc, requestBody) {
+	httpToLegacyApi(httpMethod, route, transformFunc, headers, requestBody) {
 	    var options = createHttpRequestOption(CpdoneApiEnum.LEGACY, httpMethod, route, this.authHeader);
 	  	return this._callHttp(options, transformFunc, requestBody);
 	}

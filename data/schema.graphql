@@ -39,6 +39,10 @@ type Content {
   progress: String
 }
 
+type ContentId {
+  Id: String
+}
+
 input ContentInput {
   contentId: String
 }
@@ -260,8 +264,8 @@ type TeamTree {
   teamTreeId: ID
   title: String
   parentNodeId: String
-  userCount: Int
   childrenNodes: [TeamTree]
+  userCount: Int
 }
 
 type User {
@@ -282,7 +286,6 @@ type Viewer {
   viewerId: String
   name: String
   goalConnection(businessId: String, page: Int, size: Int, after: String, first: Int, before: String, last: Int): GoalConnection
-  goalsByUserId(businessId: String, userId: String, page: Int, size: Int): [Goal]
   goal(goalId: String): Goal
   goalTypes: [GoalType]
   goalType(goalTypeId: Int): GoalType
@@ -298,7 +301,7 @@ type Viewer {
   cpdGoalUser(cpdGoalId: String, userId: String, year: Int): CpdGoalUser
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   contentsByBusinessId(businessId: String): [Content]
-  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [Content]
+  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
   collectionsByBusinessId(businessId: String): [CollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
