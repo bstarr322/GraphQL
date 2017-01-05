@@ -1,4 +1,5 @@
-import BaseService from './baseService.js'
+
+import BaseService from './BaseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
@@ -7,13 +8,13 @@ import { HttpMethodEnum } from '../enums/enums.js'
  */
 export default class extends BaseService {
 
-	constructor(authToken) {
-		super(authToken);
+	constructor() {
+		super(null);
 	}
 
 	getViewer(viewerId) {
 		var route = '/users/' + viewerId;
 		return super.httpToJsonPlaceholderApi(HttpMethodEnum.GET.name, route);
 	}
-
 }
+
