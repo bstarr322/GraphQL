@@ -38,6 +38,11 @@ import goalType from '../models/goalType.js';
 import goalTypeType from '../models/goalTypeType.js';
 import taskTypeType from '../models/taskTypeType.js';
 import goalUserType from '../models/goalUserType.js';
+import cpdAvailableYearsType from '../models/cpdAvailableYearsType.js'; 
+import cpdGoalSummaryType from '../models/cpdGoalSummaryType.js';
+import cpdGoalUsersType from '../models/cpdGoalUsersType.js'; 
+import cpdGoalUserType from '../models/cpdGoalUserType.js'; 
+
 // input types - model of requests
 import contentInputType from '../models/inputTypes/contentInputType.js';
 import goalInputType from '../models/inputTypes/goalInputType.js';
@@ -139,6 +144,38 @@ function getViewerFields() {
 			userId: {type:GraphQLString}
 		},
 		resolve: (_,args, req) => new goalService(getToken(req)).getGoalUser(args.goalId, args.userId)
+	},
+	cpdAvailableYears: {
+		type: new GraphQLList(cpdAvailableYearsType),
+		args: {
+			cpdGoalId: {type:GraphQLString},
+			userId: {type:GraphQLString}
+		},
+		resolve: (_,args,req) => new goalService(getToken(req)).getCpdAvailableYears(args.cpdGoalId, args.userId)
+	},
+	cpdGoalSummary: {
+		type: cpdGoalSummaryType,
+		args: { cpdGoalId: {type:GraphQLString} },
+		resolve: (_,args,req) => new goalService(getToken(req)).getCpdGoalSummary(args.cpdGoalId)
+	},
+	cpdGoalUsers: {
+		type: new GraphQLList(cpdGoalUsersType),
+		args: {
+			cpdGoalId: {type:GraphQLString},
+			page: {type:GraphQLInt},
+			size: {type:GraphQLInt},
+			month: {type:GraphQLInt}
+		},
+		resolve: (_,args,req) => new goalService(getToken(req)).getCpdGoalUsers(args.cpdGoalId, args.page, args.size, args.month)
+	},
+	cpdGoalUser: {
+		type: cpdGoalUserType,
+		args: {
+			cpdGoalId: {type:GraphQLString},
+			userId: {type:GraphQLString},
+			year: {type:GraphQLInt}
+		},
+		resolve: (_,args,req) => new goalService(getToken(req)).getCpdGoalUser(args.cpdGoalId,args.userId,args.year)
 	},
 
 	// user service

@@ -54,28 +54,33 @@ export default class {
 	 * @return {object}   A json object as response from a performed http request.
 	 */
 	 _callHttp(options, transformFunc, requestBody) {
-		return new Promise(function(resolve, reject) {
-			var callback = function(response) {
-				var data = '';
-				response
-					.on('data', function (chunk) {
-						var str = "" + chunk;
-						data += str.replace("\\", "\\\\");
-					})
-					.on('end', function () {
-						console.log("data -> " + data)
-						var jsonData = jsonUtility.tryParse(data);
-						if (transformFunc)  {
-							jsonData = transformFunc(jsonData);
-						} 
-						resolve(jsonData);
-					});
-			}
-			var request = http.request(options, callback);
-			if (requestBody) {
-			  	request.write(JSON.stringify(requestBody));
-			}
-			request.end();
-		});
+	 	//console.log(options);
+	 	//console.log(requestBody);
+		return new Promise(
+			function(resolve, reject) {
+				var callback = function(response) {
+					var data = '';
+					response
+						.on('data', function (chunk) {
+							var str = "" + chunk;
+							data += str.replace("\\", "\\\\");
+						})
+						.on('end', function () {
+		 					//console.log("data ->" + data);
+							var jsonData = jsonUtility.tryParse(data);
+							if (transformFunc)  {
+								jsonData = transformFunc(jsonData);
+							} 
+							resolve(jsonData);
+						});
+				}
+				var request = http.request(options, callback);
+				if (requestBody) {
+				  	request.write(JSON.stringify(requestBody));
+				}
+				request.end();
+			},
+
+		);
 	}
 }
