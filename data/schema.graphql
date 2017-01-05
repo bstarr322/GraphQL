@@ -1,3 +1,14 @@
+type Activity {
+  activityId: ID
+  taskType: TaskType
+  datePerformed: String
+  title: String
+  description: String
+  cpdCategory: String
+  contentId: String
+  points: Int
+}
+
 type Business {
   businessId: ID
   name: String
@@ -32,14 +43,56 @@ input ContentInput {
   contentId: String
 }
 
+type CpdAvailableYears {
+  year: Int
+  from: String
+  to: String
+}
+
+type CpdGoalSummary {
+  cpdGoalSummaryId: ID
+  extensionId: String
+  summary: [CpdSummary]
+}
+
+type CpdGoalUser {
+  cpdGoalUserId: ID
+  goalId: String
+  goalCpdPersonalId: String
+  goalCpdOrgAdminId: String
+  membershipId: String
+  dateJoined: String
+  pointsCompleted: Int
+  pointsToComplete: Int
+  dateRange: CpdAvailableYears
+  activities: [Activity]
+}
+
+type CpdGoalUsers {
+  cpdGoalUsersId: ID
+  goalId: String
+  userId: String
+  startDate: String
+  anniversaryDate: String
+  timeRemaining: Int
+  pointsCompleted: Int
+  percentage: Int
+}
+
+type CpdSummary {
+  monthsRemaining: Int
+  numberOfUsers: Int
+}
+
 input CreateGoalInput {
   goal: GoalInput
   clientMutationId: String
 }
 
 type CreateGoalPayload {
-  goalEdge: GoalEdge
+  goalId: String
   viewer: Viewer
+  errorMessage: String
   clientMutationId: String
 }
 
@@ -49,7 +102,6 @@ input DeleteGoalInput {
 }
 
 type DeleteGoalPayload {
-  goalEdge: GoalEdge
   viewer: Viewer
   clientMutationId: String
 }
@@ -208,6 +260,7 @@ type TeamTree {
   teamTreeId: ID
   title: String
   parentNodeId: String
+  userCount: Int
   childrenNodes: [TeamTree]
 }
 
@@ -239,6 +292,10 @@ type Viewer {
   taskTypeByTag(tag: String): TaskType
   goalUsers(goalId: String): [GoalUser]
   goalUser(goalId: String, userId: String): GoalUser
+  cpdAvailableYears(cpdGoalId: String, userId: String): [CpdAvailableYears]
+  cpdGoalSummary(cpdGoalId: String): CpdGoalSummary
+  cpdGoalUsers(cpdGoalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]
+  cpdGoalUser(cpdGoalId: String, userId: String, year: Int): CpdGoalUser
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   contentsByBusinessId(businessId: String): [Content]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [Content]
