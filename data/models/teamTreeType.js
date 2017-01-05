@@ -8,7 +8,8 @@ import {
 	GraphQLString,
 	GraphQLNonNull,
 	GraphQLID,
-	GraphQLList
+	GraphQLList,
+	GraphQLInt
 } from 'graphql';
 
 // self reference on children nodes
@@ -32,6 +33,10 @@ export default new GraphQLObjectType({
 		childrenNodes : { 
 			type: new GraphQLList(teamTreeType), 
 			resolve: team => team.ChildrenNodes  
-		} 
+		},
+		userCount : { 
+			type: GraphQLInt, 
+			resolve: team => team.UserCount 
+		},
 	}},
 });
