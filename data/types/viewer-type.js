@@ -138,6 +138,17 @@ function getViewerFields() {
 		},
 		resolve: (_,args, req) => new goalService(httpParser(req)).getGoalUser(args.goalId, args.userId)
 	},
+	myGoals: {
+		type: new GraphQLList(goalType),
+		args: {
+			businessId: {type:GraphQLString},
+			userId: {type:GraphQLString},
+			page: {type:GraphQLInt},
+			size: {type:GraphQLInt}
+		},
+		resolve: (_,args, req) => new goalService(httpParser(req)).getMyGoals(args.businessId, args.userId, args.page, args.size)
+	},
+
 	cpdAvailableYears: {
 		type: new GraphQLList(cpdAvailableYearsType),
 		args: {

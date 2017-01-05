@@ -295,6 +295,7 @@ type Viewer {
   taskTypeByTag(tag: String): TaskType
   goalUsers(goalId: String): [GoalUser]
   goalUser(goalId: String, userId: String): GoalUser
+  myGoals(businessId: String, userId: String, page: Int, size: Int): [Goal]
   cpdAvailableYears(cpdGoalId: String, userId: String): [CpdAvailableYears]
   cpdGoalSummary(cpdGoalId: String): CpdGoalSummary
   cpdGoalUsers(cpdGoalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]

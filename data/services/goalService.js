@@ -27,7 +27,7 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	getGoalsByUserId(businessId, userId, page, size) {
+	getMyGoals(businessId, userId, page, size) {
 		var route;
 		if (page == null || size == null) {
 			route = this.goals + businessId + this.user + userId;
