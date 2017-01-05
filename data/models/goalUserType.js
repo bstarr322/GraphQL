@@ -22,7 +22,7 @@ export default new GraphQLObjectType ({
 	fields: function() { return {
 		goalUserId: { 
 			type: GraphQLID, 
-			resolve: userGoal => userGoal.id 
+			resolve: goalUser => goalUser.id 
 		},
 		extensionId: { type: GraphQLString },
 		goalId: { type: GraphQLString },
