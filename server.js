@@ -30,5 +30,8 @@ var corsOptions = {
 graphQLApp.options('/graphql', 
 	config.IS_CORS_ENABLED ? cors(corsOptions) : cors());
 
+// Connection configuration of graphql schema to express
+graphQLApp.use('/graphql', graphqlHTTP({ schema, graphiql: true, pretty: true }));
+
 graphQLApp.listen(config.EXPRESS_PORT);
 console.log('GraphQL server running on http://localhost:' + config.EXPRESS_PORT + '/graphql');
