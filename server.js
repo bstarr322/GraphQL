@@ -17,9 +17,18 @@ const graphQLApp = express();
 
 // enable cors pre-flight request
 graphQLApp.use(cors());
-graphQLApp.options('/graphql', cors());
 
-// Connection configuration of graphql schema to express
-graphQLApp.use('/graphql', graphqlHTTP({ schema, graphiql: true, pretty: true }));
+/**
+ * Allows cross origin request for this service
+ * @ref https://www.npmjs.com/package/cors
+ */
+var corsOptions = {
+  origin: config.CORS_CLIENTS
+  // optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+};
+
+graphQLApp.options('/graphql', 
+	config.IS_CORS_ENABLED ? cors(corsOptions) : cors());
+
 graphQLApp.listen(config.EXPRESS_PORT);
 console.log('GraphQL server running on http://localhost:' + config.EXPRESS_PORT + '/graphql');

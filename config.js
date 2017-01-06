@@ -10,4 +10,7 @@ config.LEGACY_HOST = process.env.LEGACY_HOST || 'localhost';
 config.GOALS_PORT = process.env.GOALS_PORT || '9000';
 config.LEGACY_PORT = process.env.LEGACY_PORT || '12222';
 
+config.IS_CORS_ENABLED = process.env.IS_CORS_ENABLED || false; 
+config.CORS_CLIENTS = process.env.CORS_CLIENTS || [];
+
 module.exports = config;
