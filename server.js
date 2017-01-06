@@ -23,7 +23,7 @@ graphQLApp.use(cors());
  * @ref https://www.npmjs.com/package/cors
  */
 var corsOptions = {
-  origin: config.CORS_CLIENTS
+  origin: config.CORS_CLIENT
   // optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 };
 
