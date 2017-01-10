@@ -7,6 +7,6 @@
  */
  
 import {connectionDefinitions} from 'graphql-relay';
-import goalType from '../models/goalType.js';
+import goalType from '../models/goalsApi/goalType.js';
 
 export const {connectionType: goalConnection, edgeType: goalEdge} = connectionDefinitions({ name: 'Goal', nodeType: goalType });

@@ -25,23 +25,23 @@ import {
 } from 'graphql-relay';
 
 // .net api models
-import businessType from '../models/businessType.js';
-import collectionTreeType from '../models/collectionTreeType.js';
-import contentType from '../models/contentType.js';
-import contentIdType from '../models/contentIdType.js';
-import industryType from '../models/industryType.js';
-import membershipType from '../models/membershipType.js'
-import teamTreeType from '../models/teamTreeType.js';
-import userIdType from '../models/userIdType.js';
+import businessType from '../models/legacyApi/businessType.js';
+import collectionTreeType from '../models/legacyApi/collectionTreeType.js';
+import contentType from '../models/legacyApi/contentType.js';
+import contentIdType from '../models/legacyApi/contentIdType.js';
+import industryType from '../models/legacyApi/industryType.js';
+import membershipType from '../models/legacyApi/membershipType.js';
+import teamTreeType from '../models/legacyApi/teamTreeType.js';
+import userIdType from '../models/legacyApi/userIdType.js';
 // goal api models
-import goalType from '../models/goalType.js';
-import goalTypeType from '../models/goalTypeType.js';
-import taskTypeType from '../models/taskTypeType.js';
-import goalUserType from '../models/goalUserType.js';
-import cpdAvailableYearsType from '../models/cpdAvailableYearsType.js'; 
-import cpdGoalSummaryType from '../models/cpdGoalSummaryType.js';
-import cpdGoalUsersType from '../models/cpdGoalUsersType.js'; 
-import cpdGoalUserType from '../models/cpdGoalUserType.js'; 
+import goalType from '../models/goalsApi/goalType.js';
+import goalTypeType from '../models/goalsApi/goalTypeType.js';
+import taskTypeType from '../models/goalsApi/taskTypeType.js';
+import goalUserType from '../models/goalsApi/goalUserType.js';
+import cpdAvailableYearsType from '../models/goalsApi/cpdAvailableYearsType.js'; 
+import cpdGoalSummaryType from '../models/goalsApi/cpdGoalSummaryType.js';
+import cpdGoalUsersType from '../models/goalsApi/cpdGoalUsersType.js'; 
+import cpdGoalUserType from '../models/goalsApi/cpdGoalUserType.js'; 
 
 // input types - model of requests
 import contentInputType from '../models/inputTypes/contentInputType.js';
@@ -52,15 +52,16 @@ import taskTypeInputType from '../models/inputTypes/taskTypeInputType.js';
 import teamInputType from '../models/inputTypes/teamInputType.js';
 import userIdInputType from '../models/inputTypes/userIdInputType.js';
 
-// services
-import businessService from '../services/businessService.js'
-import collectionService from '../services/collectionService.js'
-import contentService from '../services/contentService.js'
-import goalService from '../services/goalService.js'
-import taskTypeService from '../services/taskTypeService.js'
-import userService from '../services/userService.js'
-import goalTypeService from '../services/goalTypeService.js'
-import viewerService from '../services/viewerService.js'
+// legacy services
+import businessService from '../services/businessService.js';
+import collectionService from '../services/collectionService.js';
+import contentService from '../services/contentService.js';
+import goalService from '../services/goalService.js';
+import taskTypeService from '../services/taskTypeService.js';
+import userService from '../services/userService.js';
+import goalTypeService from '../services/goalTypeService.js';
+import teamService from '../services/teamService.js';
+import viewerService from '../services/viewerService.js';
 
 // infrastructure
 import httpParser from '../utilities/httpParser.js'
@@ -229,5 +230,16 @@ function getViewerFields() {
 		args: {businessId: {type: GraphQLString}},
 		resolve:  (_,args, req) => new businessService(httpParser(req)).getTeamsInTreeFormByBusiness(args.businessId)
 	},
+
+	// team Service
+	teamInformationByTeamIdAndBusinessId: {
+		type: teamTreeType,
+		args: {
+			teamId: {type: GraphQLString},
+			businessId: {type: GraphQLString}
+		},
+		resolve:  (_,args, req) => new teamService(httpParser(req)).getTeamInformationByTeamIdAndBusinessId(args.teamId, args.businessId)
+	},
+
   }
 }

@@ -819,6 +819,39 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "teamInformationByTeamIdAndBusinessId",
+              "description": null,
+              "args": [
+                {
+                  "name": "teamId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "businessId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "TeamTree",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1081,7 +1114,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Team",
+                  "name": "GoalServiceTeam",
                   "ofType": null
                 }
               },
@@ -1237,7 +1270,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Team",
+          "name": "GoalServiceTeam",
           "description": null,
           "fields": [
             {
@@ -1247,6 +1280,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "title",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1716,7 +1761,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "Team",
+                  "name": "GoalServiceTeam",
                   "ofType": null
                 }
               },
