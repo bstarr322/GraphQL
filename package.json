@@ -8,6 +8,7 @@
     "update-schema": "babel-node ./scripts/updateSchema.js"
   },
   "dependencies": {
+    "boom": "^4.2.0",
     "cors": "^2.8.1",
     "enumify": "^1.0.4",
     "express": "4.14.0",

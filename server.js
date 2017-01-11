@@ -12,6 +12,7 @@ import express from 'express';
 import cors from 'cors';
 import schema from './data/schema.js';
 import config from './config.js';
+import {formatError} from './data/utilities/errorFormatter.js'
 
 const graphQLApp = express();
 
@@ -30,8 +31,17 @@ var corsOptions = {
 graphQLApp.options('/graphql', 
 	config.IS_CORS_ENABLED ? cors(corsOptions) : cors());
 
-// Connection configuration of graphql schema to express
-graphQLApp.use('/graphql', graphqlHTTP({ schema, graphiql: true, pretty: true }));
+// Connection configuration of graphql schema to express 
+graphQLApp.use('/graphql', graphqlHTTP(request => {
+  return {
+    schema: schema,
+    graphiql: true,
+    pretty: true,
+    formatError: error => formatError(error)
+  }
+}));
 
 graphQLApp.listen(config.EXPRESS_PORT);
 console.log('GraphQL server running on http://localhost:' + config.EXPRESS_PORT + '/graphql');
+
+
