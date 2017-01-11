@@ -61,7 +61,7 @@ export const createGoalMutation = mutationWithClientMutationId({
     }
   },
   mutateAndGetPayload: function(input,req){
-    return Promise.all(iterableQryPromises(input,req)).then(data => {
+    return Promise.all(promisesForCreateGoal(input,req)).then(data => {
       //response is aligned with the request in data object
       var mapData = data;
       if ('tasks' in input.goal) {
@@ -90,7 +90,7 @@ export const createGoalMutation = mutationWithClientMutationId({
   }
 });
 
-function iterableQryPromises(input,req){
+function promisesForCreateGoal(input,req){
   var promiseArr = [];
   if ('tasks' in input.goal) {
     input.goal.tasks.forEach(function(task) {

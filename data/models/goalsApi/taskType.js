@@ -10,8 +10,8 @@ import {
 } from 'graphql';
 
 import taskTypeType from './taskTypeType.js';
-import contentType from './contentType.js';
-import collectionTreeType from './collectionTreeType.js';
+import contentType from '../legacyApi/contentType.js';
+import collectionTreeType from '../legacyApi/collectionTreeType.js';
 
 export default new GraphQLObjectType ({
 	name: 'Task',

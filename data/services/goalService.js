@@ -1,4 +1,5 @@
 import BaseService from './baseService.js'
+import teamService from './teamService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
@@ -19,13 +20,36 @@ export default class extends BaseService {
 
 	getGoals(businessId, page, size) { 
 		var route;
+		//testing purposes (to be fixed and automated)
+		page = 1;
+		size = 10;
+
 		if (page == null || size == null) {
 			route = this.goals + businessId;
 		} else {
 			route = this.goals + businessId + '?page=' + page + '&size=' + size;
 		}
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		var transformFunc = (result) => {
+			var req = super.authHeader;
+			return Promise.all(promisesForGetGoals(result,businessId,req)).then(data => {
+				var goals = [];
+				result.forEach((goal,goalIdx) => {
+					goal.teams.forEach((team,teamIdx) => {
+						for (var teamDetails of data) {
+							if (team.id == teamDetails.Id) { 
+								team.title = teamDetails.Title;
+								goals.push(goal);
+								break;
+							};
+						}
+					});
+				});
+				return goals;
+			});
+		}
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
 	}
+
 
 	getMyGoals(businessId, userId, page, size) {
 		var route;
@@ -152,3 +176,14 @@ export default class extends BaseService {
 	  	return super.httpToGoalsApi(HttpMethodEnum.DELETE.name,route);
 	}
 };
+
+function promisesForGetGoals(result,businessId, req) {
+	var promiseArr = [];
+	result.forEach( goal => {
+		goal.teams.forEach( (team,idx) => {
+			var promiseTeamName = new teamService(req).getTeamInformationByTeamIdAndBusinessId(team.id,businessId);
+			promiseArr.push(promiseTeamName);
+		})
+	});
+	return promiseArr;
+}

@@ -1,5 +1,5 @@
 /**
- * Model for getting teams in tree form
+ * Model for getting team
  * from cpdone web service api.
  */
 
@@ -12,11 +12,12 @@ import {
 } from 'graphql';
 
 export default new GraphQLObjectType({
-	name: 'Team',
+	name: 'GoalServiceTeam',
 	fields: function() { return {
 		teamId: {
 			type: GraphQLID, 
 			resolve: team => team.id
 		},
+		title: { type: GraphQLString }
 	}},
 });

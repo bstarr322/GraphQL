@@ -117,7 +117,7 @@ type Goal {
   goalType: GoalType
   description: String
   businessId: String
-  teams: [Team]
+  teams: [GoalServiceTeam]
   startDate: String
   isBusinessCritical: Boolean
   isSequential: Boolean
@@ -160,6 +160,11 @@ input GoalInput {
   pointsToComplete: Int
 }
 
+type GoalServiceTeam {
+  teamId: ID
+  title: String
+}
+
 type GoalType {
   goalTypeId: ID
   name: String
@@ -177,7 +182,7 @@ type GoalUser {
   user: User
   userId: String
   goalInfo: Goal
-  teams: [Team]
+  teams: [GoalServiceTeam]
   progress: Int
   lastUpdate: String
   tasks: [Task]
@@ -251,10 +256,6 @@ input TaskTypeInput {
   id: Int
 }
 
-type Team {
-  teamId: ID
-}
-
 input TeamInput {
   id: String
   users: [UserIdInput]
@@ -308,4 +309,5 @@ type Viewer {
   industriesByBusinessId(businessId: String): [Industry]
   membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
   teamsByBusinessId(businessId: String): TeamTree
+  teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): TeamTree
 }
