@@ -10,8 +10,8 @@ import {
 } from 'graphql';
 
 import taskTypeType from './taskTypeType.js';
-import contentType from '../legacyApi/contentType.js';
-import collectionTreeType from '../legacyApi/collectionTreeType.js';
+import contentType from './contentType.js';
+import collectionType from './collectionType.js';
 
 export default new GraphQLObjectType ({
 	name: 'Task',
@@ -26,7 +26,7 @@ export default new GraphQLObjectType ({
 		endDate: { type: GraphQLString },
 		data: {type: GraphQLString }, 
 		content: { type: contentType },
-		collection: { type: collectionTreeType },
+		collection: { type: collectionType },
 		isCompleted: { type: GraphQLBoolean }
 	}},
 });

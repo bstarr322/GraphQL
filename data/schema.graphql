@@ -20,25 +20,6 @@ input CollectionInput {
   contents: [ContentInput]
 }
 
-type CollectionTree {
-  collectionId: ID
-  title: String
-  parentNodeId: String
-  contentCount: Int
-  image: String
-  childrenNodes: [CollectionTree]
-  progress: String
-}
-
-type Content {
-  contentId: ID
-  name: String
-  type: String
-  typeId: String
-  image: String
-  progress: String
-}
-
 type ContentId {
   Id: String
 }
@@ -161,6 +142,16 @@ input GoalInput {
   pointsToComplete: Int
 }
 
+type GoalServiceCollection {
+  collectionId: ID
+  contents: [GoalServiceContent]
+}
+
+type GoalServiceContent {
+  contentId: ID
+  progress: String
+}
+
 type GoalServiceTeam {
   teamId: ID
   title: String
@@ -192,6 +183,25 @@ type GoalUser {
 type Industry {
   industryId: ID
   name: String
+}
+
+type LegacyCollectionTree {
+  collectionId: ID
+  title: String
+  parentNodeId: String
+  contentCount: Int
+  image: String
+  childrenNodes: [LegacyCollectionTree]
+  progress: String
+}
+
+type LegacyContent {
+  contentId: ID
+  name: String
+  type: String
+  typeId: String
+  image: String
+  progress: String
 }
 
 type Membership {
@@ -234,8 +244,8 @@ type Task {
   daysToComplete: Int
   endDate: String
   data: String
-  content: Content
-  collection: CollectionTree
+  content: GoalServiceContent
+  collection: GoalServiceCollection
   isCompleted: Boolean
 }
 
@@ -304,9 +314,9 @@ type Viewer {
   cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
-  contentsByBusinessId(businessId: String): [Content]
+  contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
-  collectionsByBusinessId(businessId: String): [CollectionTree]
+  collectionsByBusinessId(businessId: String): [LegacyCollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
   membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
