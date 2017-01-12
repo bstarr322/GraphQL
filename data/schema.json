@@ -434,7 +434,7 @@
               "description": null,
               "args": [
                 {
-                  "name": "cpdGoalId",
+                  "name": "goalId",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -471,7 +471,7 @@
               "description": null,
               "args": [
                 {
-                  "name": "cpdGoalId",
+                  "name": "goalId",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -494,7 +494,7 @@
               "description": null,
               "args": [
                 {
-                  "name": "cpdGoalId",
+                  "name": "goalId",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -551,7 +551,7 @@
               "description": null,
               "args": [
                 {
-                  "name": "cpdGoalId",
+                  "name": "goalId",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -1198,9 +1198,13 @@
               "description": null,
               "args": [],
               "type": {
-                "kind": "OBJECT",
-                "name": "Task",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Task",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1387,6 +1391,18 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "endDate",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1926,6 +1942,18 @@
               "deprecationReason": null
             },
             {
+              "name": "membership",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Membership",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "summary",
               "description": null,
               "args": [],
@@ -1937,6 +1965,53 @@
                   "name": "CpdSummary",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "Membership",
+          "description": null,
+          "fields": [
+            {
+              "name": "membershipId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "cpdPoints",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2452,53 +2527,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Membership",
-          "description": null,
-          "fields": [
-            {
-              "name": "membershipId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "cpdPoints",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
                 "ofType": null
               },
               "isDeprecated": false,

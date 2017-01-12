@@ -21,8 +21,8 @@ export default class extends BaseService {
 	getGoals(businessId, page, size) { 
 		var route;
 		//testing purposes (to be fixed and automated)
-		page = 1;
-		size = 10;
+		// page = 1;
+		// size = 10;
 
 		if (page == null || size == null) {
 			route = this.goals + businessId;
@@ -38,11 +38,11 @@ export default class extends BaseService {
 						for (var teamDetails of data) {
 							if (team.id == teamDetails.Id) { 
 								team.title = teamDetails.Title;
-								goals.push(goal);
 								break;
 							};
 						}
 					});
+					goals.push(goal);
 				});
 				return goals;
 			});
@@ -77,28 +77,33 @@ export default class extends BaseService {
 	}
 
 	//Cpd Goal related 
-	getCpdAvailableYears(cpdGoalId,userId) {
-		var route = '/yearRange' + this.goal + cpdGoalId + this.user + userId;
+	getCpdAvailableYears(goalId,userId) {
+		var route = '/yearRange' + this.goal + goalId + this.user + userId;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	getCpdGoalSummary(cpdGoalId) {
-		var route = this.goals + this.cpd + cpdGoalId ;
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	getCpdGoalSummary(goalId) {
+		var route = this.goals + this.cpd + goalId;
+		var transformFunc = (result) => {
+			result.membership = {Id: result.membershipId, Name: null, CpdPoints: null};
+			delete result.membershipId; 
+			return result;
+		};
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
 	}
 
-	getCpdGoalUsers(cpdGoalId,page,size,month) {
+	getCpdGoalUsers(goalId,page,size,month) {
 		var route;
 		if (page == null || size == null || month == null) {
-			route = this.goal + this.cpd + cpdGoalId + this.users;
+			route = this.goal + this.cpd + goalId + this.users;
 		} else {
-			route = this.goal + this.cpd + cpdGoalId + this.users + '?page=' + page + '&size=' + size + '&month=' + month;
+			route = this.goal + this.cpd + goalId + this.users + '?page=' + page + '&size=' + size + '&month=' + month;
 		}	
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	getCpdGoalUser(cpdGoalId,userId,year) {
-		var route = this.goal + this.cpd + cpdGoalId +  this.user + userId + '/' + year;
+	getCpdGoalUser(goalId,userId,year) {
+		var route = this.goal + this.cpd + goalId +  this.user + userId + '/' + year;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 	//

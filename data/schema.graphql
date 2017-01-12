@@ -56,6 +56,7 @@ type CpdAvailableYears {
 type CpdGoalSummary {
   cpdGoalSummaryId: ID
   extensionId: String
+  membership: Membership
   summary: [CpdSummary]
 }
 
@@ -124,7 +125,7 @@ type Goal {
   endDate: String
   numberOfTasks: Int
   progress: Int
-  tasks: Task
+  tasks: [Task]
 }
 
 # A connection to a list of items.
@@ -231,6 +232,7 @@ type Task {
   instruction: String
   order: Int
   daysToComplete: Int
+  endDate: String
   data: String
   content: Content
   collection: CollectionTree
@@ -297,10 +299,10 @@ type Viewer {
   goalUsers(goalId: String): [GoalUser]
   goalUser(goalId: String, userId: String): GoalUser
   myGoals(businessId: String, userId: String, page: Int, size: Int): [Goal]
-  cpdAvailableYears(cpdGoalId: String, userId: String): [CpdAvailableYears]
-  cpdGoalSummary(cpdGoalId: String): CpdGoalSummary
-  cpdGoalUsers(cpdGoalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]
-  cpdGoalUser(cpdGoalId: String, userId: String, year: Int): CpdGoalUser
+  cpdAvailableYears(goalId: String, userId: String): [CpdAvailableYears]
+  cpdGoalSummary(goalId: String): CpdGoalSummary
+  cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]
+  cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
   userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
   contentsByBusinessId(businessId: String): [Content]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]

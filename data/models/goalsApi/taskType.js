@@ -23,6 +23,7 @@ export default new GraphQLObjectType ({
 		instruction: {  type: GraphQLString },
 		order: { type: GraphQLInt },
 		daysToComplete: { type: GraphQLInt },
+		endDate: { type: GraphQLString },
 		data: {type: GraphQLString }, 
 		content: { type: contentType },
 		collection: { type: collectionTreeType },

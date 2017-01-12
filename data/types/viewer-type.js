@@ -153,34 +153,34 @@ function getViewerFields() {
 	cpdAvailableYears: {
 		type: new GraphQLList(cpdAvailableYearsType),
 		args: {
-			cpdGoalId: {type:GraphQLString},
+			goalId: {type:GraphQLString},
 			userId: {type:GraphQLString}
 		},
-		resolve: (_,args,req) => new goalService(getToken(req)).getCpdAvailableYears(args.cpdGoalId, args.userId)
+		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdAvailableYears(args.goalId, args.userId)
 	},
 	cpdGoalSummary: {
 		type: cpdGoalSummaryType,
-		args: { cpdGoalId: {type:GraphQLString} },
-		resolve: (_,args,req) => new goalService(getToken(req)).getCpdGoalSummary(args.cpdGoalId)
+		args: { goalId: {type:GraphQLString} },
+		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalSummary(args.goalId)
 	},
 	cpdGoalUsers: {
 		type: new GraphQLList(cpdGoalUsersType),
 		args: {
-			cpdGoalId: {type:GraphQLString},
+			goalId: {type:GraphQLString},
 			page: {type:GraphQLInt},
 			size: {type:GraphQLInt},
 			month: {type:GraphQLInt}
 		},
-		resolve: (_,args,req) => new goalService(getToken(req)).getCpdGoalUsers(args.cpdGoalId, args.page, args.size, args.month)
+		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalUsers(args.goalId, args.page, args.size, args.month)
 	},
 	cpdGoalUser: {
 		type: cpdGoalUserType,
 		args: {
-			cpdGoalId: {type:GraphQLString},
+			goalId: {type:GraphQLString},
 			userId: {type:GraphQLString},
 			year: {type:GraphQLInt}
 		},
-		resolve: (_,args,req) => new goalService(getToken(req)).getCpdGoalUser(args.cpdGoalId,args.userId,args.year)
+		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalUser(args.goalId,args.userId,args.year)
 	},
 
 

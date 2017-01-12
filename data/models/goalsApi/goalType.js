@@ -36,7 +36,7 @@ export default new GraphQLObjectType({
 		endDate: { type: GraphQLString },
 		numberOfTasks: { type: GraphQLInt },
 		progress: { type: GraphQLInt },
-		tasks: { type: taskType },
+		tasks: { type: new GraphQLList(taskType) },
 	}},
 });
 
