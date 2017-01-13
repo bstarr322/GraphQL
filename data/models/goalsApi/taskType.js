@@ -16,7 +16,10 @@ import collectionType from './collectionType.js';
 export default new GraphQLObjectType ({
 	name: 'Task',
 	fields: function() { return {
-		taskId: { type: GraphQLID },
+		taskId: { 
+			type: GraphQLID,
+			resolve: task => task.id
+		},
 		userTaskId: { type: GraphQLString },
 		userId: { type: GraphQLString },
 		taskType: {type: taskTypeType },

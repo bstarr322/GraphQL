@@ -135,6 +135,7 @@ input GoalInput {
   isBusinessCritical: Boolean
   isSequential: Boolean
   startDate: String
+  endDate: String
   tasks: [TaskInput]
   teams: [TeamInput]
   industryId: String

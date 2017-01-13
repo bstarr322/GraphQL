@@ -24,6 +24,7 @@ export default new GraphQLInputObjectType ({
 		isBusinessCritical: { type: GraphQLBoolean },
 		isSequential: { type: GraphQLBoolean },
 		startDate: { type: GraphQLString },
+		endDate: { type: GraphQLString },
 		tasks: { type: new GraphQLList(taskInputType) },
 		teams: { type: new GraphQLList(teamInputType) },
 		industryId: { type: GraphQLString },

@@ -114,7 +114,8 @@ export default class extends BaseService {
 		    businessId: input.goal.businessId,
 		    goalType: input.goal.goalType,
 			teams: input.goal.teams,
-			startDate: input.goal.startDate
+			startDate: input.goal.startDate,
+			endDate: input.goal.endDate
 	  	}
 	  	var nonCpdOrgAdminReqBody = {
 			description: input.goal.description,
