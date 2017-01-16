@@ -9,6 +9,13 @@ type Activity {
   points: Int
 }
 
+input ActivityContentInput {
+  userId: String
+  contentId: String
+  isComplete: Boolean
+  membershipPoints: [MembershipInput]
+}
+
 type Business {
   businessId: ID
   name: String
@@ -18,6 +25,23 @@ type Business {
 input CollectionInput {
   collectionId: String
   contents: [ContentInput]
+}
+
+input CompleteActivitiesInput {
+  activityc: [CompleteActivityInput]
+  clientMutationId: String
+}
+
+type CompleteActivitiesPayload {
+  clientMutationId: String
+}
+
+input CompleteActivityInput {
+  taskId: String
+  user: UserIdInput
+  taskType: TaskTypeInput
+  datePerformed: String
+  data: String
 }
 
 type ContentId {
@@ -211,9 +235,16 @@ type Membership {
   cpdPoints: Int
 }
 
+input MembershipInput {
+  membershipId: String
+  points: Int
+}
+
 type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
+  completeActivities(input: CompleteActivitiesInput!): CompleteActivitiesPayload
+  updateActivityContent(input: UpdateActivityContentInput!): UpdateActivityContentPayload
 }
 
 # Information about pagination in a connection.
@@ -280,6 +311,15 @@ type TeamTree {
   parentNodeId: String
   childrenNodes: [TeamTree]
   userCount: Int
+}
+
+input UpdateActivityContentInput {
+  activityContent: ActivityContentInput
+  clientMutationId: String
+}
+
+type UpdateActivityContentPayload {
+  clientMutationId: String
 }
 
 type User {

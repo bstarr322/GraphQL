@@ -17,10 +17,17 @@ import {
   deleteGoalMutation
 } from './goal-mutations';
 
+import { 
+  completeActivitiesMutation,
+  updateActivityContentMutation 
+} from './activity-mutations';
+
 export var mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
-	createGoal: createGoalMutation,
-	deleteGoal: deleteGoalMutation
+  	createGoal: createGoalMutation,
+  	deleteGoal: deleteGoalMutation,
+  	completeActivities: completeActivitiesMutation,
+  	updateActivityContent: updateActivityContentMutation
   }),
 });
