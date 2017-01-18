@@ -12,6 +12,8 @@ import {
 	GraphQLList
 } from 'graphql';
 
+import userType from "./userType.js";
+
 export default new GraphQLObjectType ({
 	name: 'CpdGoalUsers',
 	fields: function() { return {
@@ -20,7 +22,7 @@ export default new GraphQLObjectType ({
 			resolve: cpdGoalUsers => cpdGoalUsers.id 
 		},
 		goalId: { type: GraphQLString },
-		userId: { type: GraphQLString },
+		user: { type: userType },
 		startDate: { type: GraphQLString },
 		anniversaryDate: { type: GraphQLString },
 		timeRemaining: { type: GraphQLInt },

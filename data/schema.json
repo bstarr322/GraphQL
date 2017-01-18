@@ -2067,12 +2067,12 @@
               "deprecationReason": null
             },
             {
-              "name": "userId",
+              "name": "user",
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "GoalServiceUser",
                 "ofType": null
               },
               "isDeprecated": false,

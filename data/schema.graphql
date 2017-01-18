@@ -81,7 +81,7 @@ type CpdGoalUser {
 type CpdGoalUsers {
   cpdGoalUsersId: ID
   goalId: String
-  userId: String
+  user: GoalServiceUser
   startDate: String
   anniversaryDate: String
   timeRemaining: Int
