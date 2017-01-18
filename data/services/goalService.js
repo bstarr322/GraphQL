@@ -1,5 +1,6 @@
 import BaseService from './baseService.js'
 import teamService from './teamService.js'
+import referenceService from './referenceService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
@@ -20,34 +21,12 @@ export default class extends BaseService {
 
 	getGoals(businessId, page, size) { 
 		var route;
-		//testing purposes (to be fixed and automated)
-		// page = 1;
-		// size = 10;
-
 		if (page == null || size == null) {
 			route = this.goals + businessId;
 		} else {
 			route = this.goals + businessId + '?page=' + page + '&size=' + size;
 		}
-		var transformFunc = (result) => {
-			var req = super.authHeader;
-			return Promise.all(promisesForGetGoals(result,businessId,req)).then(data => {
-				var goals = [];
-				result.forEach((goal,goalIdx) => {
-					goal.teams.forEach((team,teamIdx) => {
-						for (var teamDetails of data) {
-							if (team.id == teamDetails.Id) { 
-								team.title = teamDetails.Title;
-								break;
-							};
-						}
-					});
-					goals.push(goal);
-				});
-				return goals;
-			});
-		}
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
 
@@ -63,7 +42,18 @@ export default class extends BaseService {
 
 	getGoal(goalId) {
 		var route = this.goal + goalId;
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		var transformFunc = result => {
+			return new referenceService(super.authHeader).getBusiness(result.businessId).then(business => {
+				result.business = business;
+				delete result.businessId;
+				return result;
+			}).catch(error => {
+		      console.log(error);
+		      console.log("getGoal error -> " + error.message);
+		      return error;
+		    });
+		};
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
 	}
 
 	getGoalUsers(goalId) {
@@ -85,10 +75,17 @@ export default class extends BaseService {
 	getCpdGoalSummary(goalId) {
 		var route = this.goals + this.cpd + goalId;
 		var transformFunc = (result) => {
-			result.membership = {Id: result.membershipId, Name: null, CpdPoints: null};
-			delete result.membershipId; 
-			return result;
-		};
+			return new referenceService(super.authHeader).getMembership(result.membershipId).then(membership => {
+				console.log(JSON.stringify(membership));
+				result.membership = membership;
+				delete result.membershipId; 
+				return result;
+			}).catch(error => {
+		      console.log(error);
+		      console.log("getCpdGoalSummary error -> " + error.message);
+		      return error;
+		    });
+		}
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
 	}
 
@@ -106,7 +103,6 @@ export default class extends BaseService {
 		var route = this.goal + this.cpd + goalId +  this.user + userId + '/' + year;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
-	//
 
 	createGoal(input) {
 		var requestBody = {
@@ -155,14 +151,13 @@ export default class extends BaseService {
 				Object.assign(requestBody,nonCpdOrgAdminReqBody);
   				break;
   			case 6:
-  				routeGoalType = "GeneralAdvisories"; 
+  				routeGoalType = "Training"; 
 				Object.assign(requestBody,nonCpdOrgAdminReqBody);
   				break;
   			case 7:
   				routeGoalType = "Cpd"; 
 				Object.assign(requestBody,cpdReqBody);
   				break;
-
   		}
   		var route = this.goal + routeGoalType;
 		var transformFunc = function(result) { 
@@ -182,14 +177,3 @@ export default class extends BaseService {
 	  	return super.httpToGoalsApi(HttpMethodEnum.DELETE.name,route);
 	}
 };
-
-function promisesForGetGoals(result,businessId, req) {
-	var promiseArr = [];
-	result.forEach( goal => {
-		goal.teams.forEach( (team,idx) => {
-			var promiseTeamName = new teamService(req).getTeamInformationByTeamIdAndBusinessId(team.id,businessId);
-			promiseArr.push(promiseTeamName);
-		})
-	});
-	return promiseArr;
-}

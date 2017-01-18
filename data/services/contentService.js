@@ -11,6 +11,7 @@ export default class extends BaseService {
   constructor(authHeader) {
     super(authHeader);
     this.contents = '/api/v1/contents/';
+    this.business = '/businesses/';
   }
 
   /**
@@ -25,7 +26,7 @@ export default class extends BaseService {
    * Gets all the content ids in a collection by id and by business id
    */
   getContentByCollectionIdAndBusinessId(collectionId, businessId) {
-    var route = this.contents + 'collections/' + collectionId + '/businesses/' + businessId;
+    var route = this.contents + 'collections/' + collectionId + this.business + businessId;
 
     var transformFunc = function(result) { 
       var list = [];
@@ -38,4 +39,11 @@ export default class extends BaseService {
     return super.httpToLegacyApi(HttpMethodEnum.GET.name,route,transformFunc);
   }
 
+  /**
+   * Gets complete content details by contentid and businessid
+   */
+  getContentSummaryByBusiness(contentId, businessId) {
+    var route = this.contents + contentId + this.business + businessId;
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+  }
 }

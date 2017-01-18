@@ -11,22 +11,33 @@ export default class extends BaseService {
   constructor(authHeader) {
     super(authHeader);
     this.users = '/api/v1/users/'
+    this.business = '/businesses/';
   }
 
   /**
    * Gets all registered userIds from a team in a business.
    * @return {string[]} A list of user ids.
    */
-  getUserIdsByBusinessAndTeam(teamId,businessId) {
-    var route = this.users + 'teams/' + teamId + '/businesses/' + businessId;
-    var transformFunc = function(result) { 
-      var list = [];
-      result.forEach(function(userId) {
-        list.push({ 'id':userId })
+  getUserByBusinessAndTeam(teamId,businessId) {
+    var route = this.users + 'teams/' + teamId + this.business + businessId;
+    var transfromFunc = results => {
+      var users = [];
+      results.forEach(result => {
+        var user = { id: result.Id, name: result.FullName };
+        users.push(user);
       });
-      return list;
-    }; 
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route,transformFunc);
+      return users;
+    }
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route,transfromFunc);
+  }
+
+  /**
+   * Gets all registered userIds from a team in a business.
+   * @return {string[]} A list of user ids.
+   */
+  getUserSummaryByBusiness(userId,businessId) {
+    var route = this.users + userId + this.business + businessId;
+    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
 }

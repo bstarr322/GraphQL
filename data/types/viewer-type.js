@@ -32,7 +32,7 @@ import contentIdType from '../models/legacyApi/contentIdType.js';
 import industryType from '../models/legacyApi/industryType.js';
 import membershipType from '../models/legacyApi/membershipType.js';
 import teamTreeType from '../models/legacyApi/teamTreeType.js';
-import userIdType from '../models/legacyApi/userIdType.js';
+import userType from '../models/legacyApi/userType.js';
 // goal api models
 import goalType from '../models/goalsApi/goalType.js';
 import goalTypeType from '../models/goalsApi/goalTypeType.js';
@@ -42,15 +42,6 @@ import cpdAvailableYearsType from '../models/goalsApi/cpdAvailableYearsType.js';
 import cpdGoalSummaryType from '../models/goalsApi/cpdGoalSummaryType.js';
 import cpdGoalUsersType from '../models/goalsApi/cpdGoalUsersType.js'; 
 import cpdGoalUserType from '../models/goalsApi/cpdGoalUserType.js'; 
-
-// input types - model of requests
-import contentInputType from '../models/inputTypes/contentInputType.js';
-import goalInputType from '../models/inputTypes/goalInputType.js';
-import goalTypeInputType from '../models/inputTypes/goalTypeInputType.js';
-import taskInputType from '../models/inputTypes/taskInputType.js';
-import taskTypeInputType from '../models/inputTypes/taskTypeInputType.js';
-import teamInputType from '../models/inputTypes/teamInputType.js';
-import userIdInputType from '../models/inputTypes/userIdInputType.js';
 
 // legacy services
 import businessService from '../services/businessService.js';
@@ -185,10 +176,10 @@ function getViewerFields() {
 
 
 	// user service
-	userIdsByBusinessAndTeam: {
-		type: new GraphQLList(userIdType),
+	userByBusinessAndTeam: {
+		type: new GraphQLList(userType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
-		resolve: (_,args, req) => new userService(httpParser(req)).getUserIdsByBusinessAndTeam(args.businessId, args.teamId)
+		resolve: (_,args, req) => new userService(httpParser(req)).getUserByBusinessAndTeam(args.businessId, args.teamId)
 	},
 
 	// content service

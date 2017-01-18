@@ -590,7 +590,7 @@
               "deprecationReason": null
             },
             {
-              "name": "userIdsByBusinessAndTeam",
+              "name": "userByBusinessAndTeam",
               "description": null,
               "args": [
                 {
@@ -619,7 +619,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "UserId",
+                  "name": "LegacyUser",
                   "ofType": null
                 }
               },
@@ -1094,12 +1094,12 @@
               "deprecationReason": null
             },
             {
-              "name": "businessId",
+              "name": "business",
               "description": null,
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "Business",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1274,6 +1274,53 @@
         },
         {
           "kind": "OBJECT",
+          "name": "Business",
+          "description": null,
+          "fields": [
+            {
+              "name": "businessId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "name",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "image",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
           "name": "GoalServiceTeam",
           "description": null,
           "fields": [
@@ -1290,7 +1337,7 @@
               "deprecationReason": null
             },
             {
-              "name": "title",
+              "name": "name",
               "description": null,
               "args": [],
               "type": {
@@ -1630,7 +1677,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "GoalServiceUser",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1724,7 +1771,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "User",
+          "name": "GoalServiceUser",
           "description": null,
           "fields": [
             {
@@ -2300,21 +2347,77 @@
         },
         {
           "kind": "OBJECT",
-          "name": "UserId",
+          "name": "LegacyUser",
           "description": null,
           "fields": [
             {
-              "name": "userIds",
+              "name": "userId",
               "description": null,
               "args": [],
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "firstName",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "lastName",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "fullName",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "state",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "city",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2514,53 +2617,6 @@
             },
             {
               "name": "progress",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Business",
-          "description": null,
-          "fields": [
-            {
-              "name": "businessId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "name",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "image",
               "description": null,
               "args": [],
               "type": {
@@ -3172,32 +3228,7 @@
               "defaultValue": null
             },
             {
-              "name": "users",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UserIdInput",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "UserIdInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "id",
+              "name": "name",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -3343,7 +3374,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "activityc",
+              "name": "activity",
               "description": null,
               "type": {
                 "kind": "LIST",
@@ -3392,7 +3423,7 @@
               "description": null,
               "type": {
                 "kind": "INPUT_OBJECT",
-                "name": "UserIdInput",
+                "name": "UserInput",
                 "ofType": null
               },
               "defaultValue": null
@@ -3419,6 +3450,37 @@
             },
             {
               "name": "data",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "UserInput",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "userId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "fullName",
               "description": null,
               "type": {
                 "kind": "SCALAR",

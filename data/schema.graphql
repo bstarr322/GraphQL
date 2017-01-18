@@ -28,7 +28,7 @@ input CollectionInput {
 }
 
 input CompleteActivitiesInput {
-  activityc: [CompleteActivityInput]
+  activity: [CompleteActivityInput]
   clientMutationId: String
 }
 
@@ -38,7 +38,7 @@ type CompleteActivitiesPayload {
 
 input CompleteActivityInput {
   taskId: String
-  user: UserIdInput
+  user: UserInput
   taskType: TaskTypeInput
   datePerformed: String
   data: String
@@ -122,7 +122,7 @@ type Goal {
   name: String
   goalType: GoalType
   description: String
-  businessId: String
+  business: Business
   teams: [GoalServiceTeam]
   startDate: String
   isBusinessCritical: Boolean
@@ -179,7 +179,12 @@ type GoalServiceContent {
 
 type GoalServiceTeam {
   teamId: ID
-  title: String
+  name: String
+}
+
+type GoalServiceUser {
+  userId: ID
+  name: String
 }
 
 type GoalType {
@@ -196,7 +201,7 @@ type GoalUser {
   goalUserId: ID
   extensionId: String
   goalId: String
-  user: User
+  user: GoalServiceUser
   userId: String
   goalInfo: Goal
   teams: [GoalServiceTeam]
@@ -227,6 +232,15 @@ type LegacyContent {
   typeId: String
   image: String
   progress: String
+}
+
+type LegacyUser {
+  userId: String
+  firstName: String
+  lastName: String
+  fullName: String
+  state: String
+  city: String
 }
 
 type Membership {
@@ -302,7 +316,7 @@ input TaskTypeInput {
 
 input TeamInput {
   id: String
-  users: [UserIdInput]
+  name: String
 }
 
 type TeamTree {
@@ -322,17 +336,9 @@ type UpdateActivityContentPayload {
   clientMutationId: String
 }
 
-type User {
-  userId: ID
-  name: String
-}
-
-type UserId {
-  userIds: [String]
-}
-
-input UserIdInput {
-  id: String
+input UserInput {
+  userId: String
+  fullName: String
 }
 
 # Logged In User, root for all queries available to viewer/user
@@ -354,7 +360,7 @@ type Viewer {
   cpdGoalSummary(goalId: String): CpdGoalSummary
   cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
-  userIdsByBusinessAndTeam(businessId: String, teamId: String): [UserId]
+  userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
   collectionsByBusinessId(businessId: String): [LegacyCollectionTree]

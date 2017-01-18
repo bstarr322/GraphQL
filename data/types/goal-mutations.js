@@ -31,9 +31,6 @@ import userService from '../services/userService.js';
 // infrastructure
 import httpParser from '../utilities/httpParser.js'
 
-//outputFields are to be discussed and decided 
-//Q: Will goalConnection be queried again in managegoals if we inserted a new goal or not? (if not,
-//we need goalEdge to output and insert the new edge to goalConnection)
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
   inputFields: { 
@@ -62,8 +59,8 @@ export const createGoalMutation = mutationWithClientMutationId({
   },
   mutateAndGetPayload: function(input,req){
     return Promise.all(promisesForCreateGoal(input,req)).then(data => {
-      //response is aligned with the request in data object
       var mapData = data;
+      //response is aligned with the request in data object
       if ('tasks' in input.goal) {
         //assign tasks to input
         input.goal.tasks.forEach((task,idx) => {
@@ -84,12 +81,14 @@ export const createGoalMutation = mutationWithClientMutationId({
 
       return new goalService(httpParser(req)).createGoal(input);
 
-    }).catch(errorMessage => {
-      console.log(errorMessage);
+    }).catch(error => {
+      console.log("promisesForCreateGoal error -> " + error.message);
+      return error;
     });
   }
 });
 
+//promise for collection contentsIds and team's userIds 
 function promisesForCreateGoal(input,req){
   var promiseArr = [];
   if ('tasks' in input.goal) {
@@ -102,7 +101,7 @@ function promisesForCreateGoal(input,req){
   }
 
   input.goal.teams.forEach((team) => {
-    var promiseTeam = new userService(httpParser(req)).getUserIdsByBusinessAndTeam(team.id, input.goal.businessId);
+    var promiseTeam = new userService(httpParser(req)).getUserByBusinessAndTeam(team.id, input.goal.businessId);
     promiseArr.push(promiseTeam);
   });
 
