@@ -38,6 +38,7 @@ import goalType from '../models/goalsApi/goalType.js';
 import goalTypeType from '../models/goalsApi/goalTypeType.js';
 import taskTypeType from '../models/goalsApi/taskTypeType.js';
 import goalUserType from '../models/goalsApi/goalUserType.js';
+import goalUsersType from '../models/goalsApi/goalUsersType.js';
 import cpdAvailableYearsType from '../models/goalsApi/cpdAvailableYearsType.js'; 
 import cpdGoalSummaryType from '../models/goalsApi/cpdGoalSummaryType.js';
 import cpdGoalUsersType from '../models/goalsApi/cpdGoalUsersType.js'; 
@@ -118,7 +119,7 @@ function getViewerFields() {
 		resolve: (_, args, req) => new taskTypeService(httpParser(req)).getTaskTypeByTag(args.tag)
 	},
 	goalUsers: {
-		type: new GraphQLList(goalUserType),
+		type: new GraphQLList(goalUsersType),
 		args: {goalId: {type:GraphQLString}},
 		resolve: (_,args, req) => new goalService(httpParser(req)).getGoalUsers(args.goalId)
 	},

@@ -12,21 +12,19 @@ import {
 	GraphQLList
 } from 'graphql';
 
-import goalType from "./goalType.js";
-import taskType from "./taskType.js";
+import teamType from "./teamType.js";
 import userType from "./userType.js";
 
 export default new GraphQLObjectType ({
-	name: 'GoalUser',
+	name: 'GoalUsers',
 	fields: function() { return {
-		goalId: { 
+		goalUserId: { 
 			type: GraphQLID, 
-			resolve: goal => goal.id 
+			resolve: goalUser => goalUser.id 
 		},
-		extensionId: { type: GraphQLString },
 		user: { type: userType },
-		goalInfo: { type: goalType },
+		teams: { type: new GraphQLList(teamType) },
 		progress: { type: GraphQLInt },
-		tasks: { type: new GraphQLList(taskType) },
+		lastUpdate: { type: GraphQLString }
 	}},
 });
