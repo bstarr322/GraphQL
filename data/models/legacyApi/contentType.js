@@ -32,8 +32,27 @@ export default new GraphQLObjectType({
 		},
 		image: {
 			type: GraphQLString, 
-			resolve: content => content.Image 
+			resolve: content => content.Image
 		},
-		progress: { type: GraphQLString },
+		purchased: {
+			type: GraphQLString, 
+			resolve: content => content.Purchased 
+		},
+		duration: {
+			type: GraphQLString, 
+			resolve: content => content.Duration 
+		},
+		presenter: {
+			type: GraphQLString, 
+			resolve: content => content.Presenter 
+		},
+		datePublished: {
+			type: GraphQLString, 
+			resolve: content => content.DatePublished 
+		},
+		contentRating: {
+			type: GraphQLString, 
+			resolve: content => content.ContentRating 
+		},
 	}},
 });

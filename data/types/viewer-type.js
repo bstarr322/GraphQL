@@ -140,7 +140,6 @@ function getViewerFields() {
 		},
 		resolve: (_,args, req) => new goalService(httpParser(req)).getMyGoals(args.businessId, args.userId, args.page, args.size)
 	},
-
 	cpdAvailableYears: {
 		type: new GraphQLList(cpdAvailableYearsType),
 		args: {
@@ -193,6 +192,20 @@ function getViewerFields() {
 		args: {businessId: {type: GraphQLString}, collectionId: {type: GraphQLString}},
 		resolve: (_,args, req) => new contentService(httpParser(req)).getContentByCollectionIdAndBusinessId(args.collectionId, args.businessId)
 	},
+	contentSummaryByBusinessAndContentId: {
+		type: new GraphQLList(contentType),
+		args: {businessId: {type: GraphQLString}, contentIds: {type: new GraphQLList(GraphQLString)}},
+		resolve: (_,args, req) => { 
+			var promiseArr = [];	
+			args.contentIds.forEach(contentId => {
+				var promise = new contentService(httpParser(req)).getContentSummaryByBusinessAndContentId(contentId, args.businessId); 
+				promiseArr.push(promise)
+			});
+			return Promise.all(promiseArr).then(data => {
+				return data;
+			})
+		}
+	},
 
 	// collection service
 	collectionsByBusinessId: {
@@ -225,10 +238,7 @@ function getViewerFields() {
 	// team Service
 	teamInformationByTeamIdAndBusinessId: {
 		type: teamTreeType,
-		args: {
-			teamId: {type: GraphQLString},
-			businessId: {type: GraphQLString}
-		},
+		args: {teamId: {type: GraphQLString}, businessId: {type: GraphQLString}},
 		resolve:  (_,args, req) => new teamService(httpParser(req)).getTeamInformationByTeamIdAndBusinessId(args.teamId, args.businessId)
 	},
 

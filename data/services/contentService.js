@@ -42,7 +42,7 @@ export default class extends BaseService {
   /**
    * Gets complete content details by contentid and businessid
    */
-  getContentSummaryByBusiness(contentId, businessId) {
+  getContentSummaryByBusinessAndContentId(contentId, businessId) {
     var route = this.contents + contentId + this.business + businessId;
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }

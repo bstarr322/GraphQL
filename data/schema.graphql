@@ -231,7 +231,11 @@ type LegacyContent {
   type: String
   typeId: String
   image: String
-  progress: String
+  purchased: String
+  duration: String
+  presenter: String
+  datePublished: String
+  contentRating: String
 }
 
 type LegacyUser {
@@ -363,6 +367,7 @@ type Viewer {
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
+  contentSummaryByBusinessAndContentId(businessId: String, contentIds: [String]): [LegacyContent]
   collectionsByBusinessId(businessId: String): [LegacyCollectionTree]
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
