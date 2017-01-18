@@ -9,12 +9,12 @@ import {
 } from 'graphql';
 
 
-import userIdInputType from './userIdInputType.js';
+import userInputType from './userInputType.js';
 
 export default new GraphQLInputObjectType ({
 	name: 'TeamInput',
 	fields: function () { return {
 		id: { type: GraphQLString },
-		users: { type: new GraphQLList(userIdInputType) }
+		name: { type: GraphQLString }
 	}},
 });

@@ -32,7 +32,7 @@ import httpParser from '../utilities/httpParser.js'
 export const completeActivitiesMutation = mutationWithClientMutationId({
   name: 'CompleteActivities',
   inputFields: { 
-    activityc: { type: new GraphQLList(completeActivityInputType) }
+    activity: { type: new GraphQLList(completeActivityInputType) }
   },
   outputFields: { 
     clientMutationId: { type: GraphQLString }

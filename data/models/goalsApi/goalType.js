@@ -16,6 +16,7 @@ import {
 import goalTypeType from './goalTypeType';
 import teamType from './teamType';
 import taskType from './taskType';
+import businessType from '../legacyApi/businessType'
 
 export default new GraphQLObjectType({
   	name: 'Goal',
@@ -28,7 +29,7 @@ export default new GraphQLObjectType({
 		name: { type: GraphQLString	},
 		goalType: { type: goalTypeType },
 		description: { type: GraphQLString },
-		businessId: { type: GraphQLString },
+		business: { type: businessType },
 		teams: { type: new GraphQLList(teamType) },
 		startDate: { type: GraphQLString },
 		isBusinessCritical: { type: GraphQLBoolean },

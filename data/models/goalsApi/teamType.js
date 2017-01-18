@@ -18,6 +18,6 @@ export default new GraphQLObjectType({
 			type: GraphQLID, 
 			resolve: team => team.id
 		},
-		title: { type: GraphQLString }
+		name: { type: GraphQLString }
 	}},
 });

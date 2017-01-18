@@ -9,7 +9,7 @@ import {
 } from 'graphql';
 
 export default new GraphQLObjectType({
-  name: 'User',
+  name: 'GoalServiceUser',
   fields: function () { return {
     userId: { 
     	type: GraphQLID,
