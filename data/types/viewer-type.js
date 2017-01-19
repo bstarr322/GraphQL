@@ -85,7 +85,7 @@ function getViewerFields() {
 			sortField:  {type: GraphQLString},
 			sortDirection: {type: GraphQLString},
 			priorityBusinessCritical: {type: GraphQLBoolean},
-			goalType: {type: GraphQLString},
+			goalType: {type: GraphQLInt},
 			...connectionArgs
 		},
 		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(httpParser(req)).getGoals(

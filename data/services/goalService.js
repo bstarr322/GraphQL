@@ -23,13 +23,13 @@ export default class extends BaseService {
 		var route = this.goals + businessId + '?page=' + page + '&size=' + size;
 
 		// name || progress || goalType || deadline
-		route = (sortField) ? route + '&sortField=' + sortField : route + "";
+		route = route + ((sortField) ? '&sortField=' + sortField : "");
 		// ascending || descending
-		route = (sortDirection) ? route + '&sortDirection=' + sortDirection : route + "";
+		route = route + ((sortDirection) ? '&sortDirection=' + sortDirection : "");
 		// boolean
-		route = (priorityBusinessCritical) ? route + '&priorityBusinessCritical=' + priorityBusinessCritical : route + "";
+		route = route + ((priorityBusinessCritical) ? '&priorityBusinessCritical=' + priorityBusinessCritical : "");
 		// goalType specific id 
-		route = (goalType) ? route + '&goalType=' + goalType : route + "";
+		route = route + ((goalType) ? '&goalType=' + goalType : "");
 
 		console.log(route);
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
