@@ -19,16 +19,21 @@ export default class extends BaseService {
 		this.users = '/users';
 	}
 
-	getGoals(businessId, page, size) { 
-		var route;
-		if (page == null || size == null) {
-			route = this.goals + businessId;
-		} else {
-			route = this.goals + businessId + '?page=' + page + '&size=' + size;
-		}
+	getGoals(businessId, page, size, sortField, sortDirection, priorityBusinessCritical, goalType) { 
+		var route = this.goals + businessId + '?page=' + page + '&size=' + size;
+
+		// name || progress || goalType || deadline
+		route = (sortField) ? route + '&sortField=' + sortField : route + "";
+		// ascending || descending
+		route = (sortDirection) ? route + '&sortDirection=' + sortDirection : route + "";
+		// boolean
+		route = (priorityBusinessCritical) ? route + '&priorityBusinessCritical=' + priorityBusinessCritical : route + "";
+		// goalType specific id 
+		route = (goalType) ? route + '&goalType=' + goalType : route + "";
+
+		console.log(route);
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
-
 
 	getMyGoals(businessId, userId, page, size) {
 		var route;

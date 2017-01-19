@@ -8,9 +8,6 @@ import {
 	GraphQLList
 } from 'graphql';
 
-
-import userInputType from './userInputType.js';
-
 export default new GraphQLInputObjectType ({
 	name: 'TeamInput',
 	fields: function () { return {

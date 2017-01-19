@@ -198,16 +198,20 @@ input GoalTypeInput {
 }
 
 type GoalUser {
-  goalUserId: ID
+  goalId: ID
   extensionId: String
-  goalId: String
   user: GoalServiceUser
-  userId: String
   goalInfo: Goal
+  progress: Int
+  tasks: [Task]
+}
+
+type GoalUsers {
+  goalUserId: ID
+  user: GoalServiceUser
   teams: [GoalServiceTeam]
   progress: Int
   lastUpdate: String
-  tasks: [Task]
 }
 
 type Industry {
@@ -349,7 +353,7 @@ input UserInput {
 type Viewer {
   viewerId: String
   name: String
-  goalConnection(businessId: String, page: Int, size: Int, after: String, first: Int, before: String, last: Int): GoalConnection
+  goalConnection(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, priorityBusinessCritical: Boolean, goalType: String, after: String, first: Int, before: String, last: Int): GoalConnection
   goal(goalId: String): Goal
   goalTypes: [GoalType]
   goalType(goalTypeId: Int): GoalType
@@ -357,7 +361,7 @@ type Viewer {
   taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
-  goalUsers(goalId: String): [GoalUser]
+  goalUsers(goalId: String): [GoalUsers]
   goalUser(goalId: String, userId: String): GoalUser
   myGoals(businessId: String, userId: String, page: Int, size: Int): [Goal]
   cpdAvailableYears(goalId: String, userId: String): [CpdAvailableYears]
@@ -374,4 +378,5 @@ type Viewer {
   membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
   teamsByBusinessId(businessId: String): TeamTree
   teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): TeamTree
+  teamsInReducedTreeForm(teamIds: [String], businessId: String): TeamTree
 }

@@ -16,7 +16,8 @@ import {
   GraphQLString,
   GraphQLObjectType,
   GraphQLList,
-  GraphQLID
+  GraphQLID,
+  GraphQLBoolean
 } from 'graphql';
 
 import {
@@ -81,9 +82,14 @@ function getViewerFields() {
 			businessId: {type: GraphQLString},
 			page: {type: GraphQLInt},
 			size: {type: GraphQLInt},
+			sortField:  {type: GraphQLString},
+			sortDirection: {type: GraphQLString},
+			priorityBusinessCritical: {type: GraphQLBoolean},
+			goalType: {type: GraphQLString},
 			...connectionArgs
 		},
-		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(httpParser(req)).getGoals(args.businessId, args.page, args.size), args)
+		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(httpParser(req)).getGoals(
+			args.businessId, args.page, args.size, args.sortField,args.sortDirection, args.priorityBusinessCritical, args.goalType), args)
 	},
 	goal: {
 		type: goalType,
