@@ -112,6 +112,7 @@ input DeleteGoalInput {
 }
 
 type DeleteGoalPayload {
+  deleted: Boolean
   viewer: Viewer
   clientMutationId: String
 }
@@ -140,6 +141,7 @@ type GoalConnection {
 
   # A list of edges.
   edges: [GoalEdge]
+  count: Int
 }
 
 # An edge in a connection.
@@ -242,6 +244,14 @@ type LegacyContent {
   contentRating: String
 }
 
+type LegacyTeamTree {
+  teamTreeId: ID
+  title: String
+  parentNodeId: String
+  childrenNodes: [LegacyTeamTree]
+  userCount: Int
+}
+
 type LegacyUser {
   userId: String
   firstName: String
@@ -301,6 +311,7 @@ type Task {
   content: GoalServiceContent
   collection: GoalServiceCollection
   isCompleted: Boolean
+  isFailed: Boolean
 }
 
 input TaskInput {
@@ -327,14 +338,6 @@ input TeamInput {
   name: String
 }
 
-type TeamTree {
-  teamTreeId: ID
-  title: String
-  parentNodeId: String
-  childrenNodes: [TeamTree]
-  userCount: Int
-}
-
 input UpdateActivityContentInput {
   activityContent: ActivityContentInput
   clientMutationId: String
@@ -353,7 +356,7 @@ input UserInput {
 type Viewer {
   viewerId: String
   name: String
-  goalConnection(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, priorityBusinessCritical: Boolean, goalType: String, after: String, first: Int, before: String, last: Int): GoalConnection
+  goalConnection(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, priorityBusinessCritical: Boolean, goalType: Int, after: String, first: Int, before: String, last: Int): GoalConnection
   goal(goalId: String): Goal
   goalTypes: [GoalType]
   goalType(goalTypeId: Int): GoalType
@@ -361,13 +364,14 @@ type Viewer {
   taskTypes: [TaskType]
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
-  goalUsers(goalId: String): [GoalUsers]
+  goalUsers(goalId: String, page: Int, size: Int, sortField: String, sortDirection: String): [GoalUsers]
   goalUser(goalId: String, userId: String): GoalUser
   myGoals(businessId: String, userId: String, page: Int, size: Int): [Goal]
   cpdAvailableYears(goalId: String, userId: String): [CpdAvailableYears]
   cpdGoalSummary(goalId: String): CpdGoalSummary
-  cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int): [CpdGoalUsers]
+  cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: Int, sortDirection: Int): [CpdGoalUsers]
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
+  goalPercentages(teamIds: [String], goalId: String, businessId: String): LegacyTeamTree
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
@@ -376,7 +380,7 @@ type Viewer {
   businesses: [Business]
   industriesByBusinessId(businessId: String): [Industry]
   membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
-  teamsByBusinessId(businessId: String): TeamTree
-  teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): TeamTree
-  teamsInReducedTreeForm(teamIds: [String], businessId: String): TeamTree
+  teamsByBusinessId(businessId: String): LegacyTeamTree
+  teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): LegacyTeamTree
+  teamsInReducedTreeForm(teamIds: [String], businessId: String): LegacyTeamTree
 }

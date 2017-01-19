@@ -16,7 +16,7 @@ import {
 import teamTreeType from './teamTreeType.js'
 
 export default new GraphQLObjectType({
-	name: 'TeamTree',
+	name: 'LegacyTeamTree',
 	fields: function() { return {
 		teamTreeId: {
 			type: GraphQLID, 

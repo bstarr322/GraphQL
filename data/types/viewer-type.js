@@ -126,8 +126,14 @@ function getViewerFields() {
 	},
 	goalUsers: {
 		type: new GraphQLList(goalUsersType),
-		args: {goalId: {type:GraphQLString}},
-		resolve: (_,args, req) => new goalService(httpParser(req)).getGoalUsers(args.goalId)
+		args: {
+			goalId: {type:GraphQLString},
+			page: {type:GraphQLInt},
+			size: {type:GraphQLInt},
+			sortField: {type:GraphQLString},
+			sortDirection: {type:GraphQLString}
+		},
+		resolve: (_,args, req) => new goalService(httpParser(req)).getGoalUsers(args.goalId, args.page, args.size, args.sortField, args.sortDirection)
 	},
 	goalUser: {
 		type: goalUserType,
@@ -166,9 +172,11 @@ function getViewerFields() {
 			goalId: {type:GraphQLString},
 			page: {type:GraphQLInt},
 			size: {type:GraphQLInt},
-			month: {type:GraphQLInt}
+			month: {type:GraphQLInt},
+			sortField: {type:GraphQLInt},
+			sortDirection: {type:GraphQLInt}
 		},
-		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalUsers(args.goalId, args.page, args.size, args.month)
+		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalUsers(args.goalId, args.page, args.size, args.month, args.sortField, args.sortDirection)
 	},
 	cpdGoalUser: {
 		type: cpdGoalUserType,
@@ -179,7 +187,11 @@ function getViewerFields() {
 		},
 		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalUser(args.goalId,args.userId,args.year)
 	},
-
+	goalPercentages: {
+		type: teamTreeType,
+		args: {teamIds: {type: new GraphQLList(GraphQLString)}, goalId: {type: GraphQLString}, businessId: {type: GraphQLString}},
+		resolve:  (_,args, req) => new goalService(httpParser(req)).getGoalPercentages(args.teamIds, args.goalId, args.businessId)
+	},
 
 	// user service
 	userByBusinessAndTeam: {
@@ -248,6 +260,10 @@ function getViewerFields() {
 		args: {teamId: {type: GraphQLString}, businessId: {type: GraphQLString}},
 		resolve:  (_,args, req) => new teamService(httpParser(req)).getTeamInformationByTeamIdAndBusinessId(args.teamId, args.businessId)
 	},
-
+	teamsInReducedTreeForm: {
+		type: teamTreeType,
+		args: {teamIds: {type: new GraphQLList(GraphQLString)}, businessId: {type: GraphQLString}},
+		resolve:  (_,args, req) => new businessesService(httpParser(req)).getTeamsInReducedTreeForm(args.teamIds, args.businessId)
+	}
   }
 }

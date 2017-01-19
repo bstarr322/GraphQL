@@ -45,4 +45,12 @@ export default class extends BaseService {
     return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
   }
 
+  getTeamsInReducedTreeForm(teamIds, businessId){
+    var route = this.businesses + businessId + '/teams/reducedtree';
+    var requestBody = teamIds;
+    var transformFunc = results => results
+
+    return super.httpToLegacyApi(HttpMethodEnum.POST.name, route, transformFunc, requestBody);
+  }
+
 };

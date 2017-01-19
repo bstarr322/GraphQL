@@ -1,5 +1,6 @@
 import BaseService from './baseService.js'
 import teamService from './teamService.js'
+import businessService from './businessService.js'
 import referenceService from './referenceService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
 
@@ -61,8 +62,15 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
 	}
 
-	getGoalUsers(goalId) {
-		var route = this.goal + goalId +  this.users;
+	getGoalUsers(goalId, page, size, sortField, sortDirection) {
+		var route = route = this.goal + goalId +  this.users; + '?page=' + page + '&size=' + size;
+
+		// username || anniversary || timeRemaining || pointsCompleted
+		route = route + ((sortField) ? '&sortField=' + sortField : "");
+		// ascending || descending
+		route = route + ((sortDirection) ? '&sortDirection=' + sortDirection : "");
+
+
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
@@ -94,13 +102,14 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route, transformFunc);
 	}
 
-	getCpdGoalUsers(goalId,page,size,month) {
-		var route;
-		if (page == null || size == null || month == null) {
-			route = this.goal + this.cpd + goalId + this.users;
-		} else {
-			route = this.goal + this.cpd + goalId + this.users + '?page=' + page + '&size=' + size + '&month=' + month;
-		}	
+	getCpdGoalUsers(goalId,page,size,month, sortField, sortDirection) {
+		var route = route = this.goal + this.cpd + goalId + this.users + '?page=' + page + '&size=' + size + '&month=' + month;
+
+		// username || anniversary || timeRemaining || pointsCompleted
+		route = route + ((sortField) ? '&sortField=' + sortField : "");
+		// ascending || descending
+		route = route + ((sortDirection) ? '&sortDirection=' + sortDirection : "");
+
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
@@ -177,8 +186,12 @@ export default class extends BaseService {
 	  	return super.httpToGoalsApi(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
 	}
 	
-	deleteGoal(input) {
-	  	var route = this.goal + input.goalId
-	  	return super.httpToGoalsApi(HttpMethodEnum.DELETE.name,route);
+	deleteGoal(goalId) {
+	  	var route = this.goal + goalId
+	  	var transformFunc = result => {
+	  		var deleted = (result == 1) ? true : false;
+	  		return { deleted : deleted };
+	  	}
+	  	return super.httpToGoalsApi(HttpMethodEnum.DELETE.name, route, transformFunc);
 	}
 };

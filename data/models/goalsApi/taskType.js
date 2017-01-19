@@ -30,6 +30,7 @@ export default new GraphQLObjectType ({
 		data: {type: GraphQLString }, 
 		content: { type: contentType },
 		collection: { type: collectionType },
-		isCompleted: { type: GraphQLBoolean }
+		isCompleted: { type: GraphQLBoolean },
+		isFailed: { type: GraphQLBoolean }
 	}},
 });

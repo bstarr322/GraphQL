@@ -112,11 +112,18 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
   name: 'DeleteGoal',
   inputFields: {goalId: {type: GraphQLString}},
   outputFields: { 
+    deleted: {
+        type: GraphQLBoolean,
+        resolve: payload => {
+          console.log(payload);
+          return payload.deleted
+        }
+    },
     viewer: {
       type: viewerType
     }
   },
   mutateAndGetPayload: function(input,req){
-    return new goalService(httpParser(req)).deleteGoal(input);
-  
-}});
+    return new goalService(httpParser(req)).deleteGoal(input.goalId);
+  }
+});

@@ -5,8 +5,20 @@
  * https://facebook.github.io/relay/docs/graphql-connections.html
  * https://facebook.github.io/relay/graphql/connections.htm
  */
- 
+import {
+	GraphQLInt
+} from 'graphql';
+
 import {connectionDefinitions} from 'graphql-relay';
 import goalType from '../models/goalsApi/goalType.js';
 
-export const {connectionType: goalConnection, edgeType: goalEdge} = connectionDefinitions({ name: 'Goal', nodeType: goalType });
+export const {connectionType: goalConnection, edgeType: goalEdge} = connectionDefinitions({ 
+	name: 'Goal', 
+	nodeType: goalType,
+	connectionFields: {
+		count: { 
+			type: GraphQLInt,
+			resolve: goals => goals.edges.length
+		} 
+	}
+});
