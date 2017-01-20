@@ -63,7 +63,7 @@ export default class extends BaseService {
 	}
 
 	getGoalUsers(goalId, page, size, sortField, sortDirection) {
-		var route = route = this.goal + goalId +  this.users; + '?page=' + page + '&size=' + size;
+		var route = route = this.goal + goalId + this.users + '?page=' + page + '&size=' + size;
 
 		// username || anniversary || timeRemaining || pointsCompleted
 		route = route + ((sortField) ? '&sortField=' + sortField : "");
