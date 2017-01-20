@@ -3,6 +3,7 @@ import teamService from './teamService.js'
 import businessService from './businessService.js'
 import referenceService from './referenceService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
+import mapKeysDeep from "deep-rename-keys";
 
 /**
  * @description This module contains service calls 
@@ -32,7 +33,6 @@ export default class extends BaseService {
 		// goalType specific id 
 		route = route + ((goalType) ? '&goalType=' + goalType : "");
 
-		console.log(route);
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
@@ -89,7 +89,6 @@ export default class extends BaseService {
 		var route = this.goals + this.cpd + goalId;
 		var transformFunc = (result) => {
 			return new referenceService(super.authHeader).getMembership(result.membershipId).then(membership => {
-				console.log(JSON.stringify(membership));
 				result.membership = membership;
 				delete result.membershipId; 
 				return result;
@@ -116,6 +115,20 @@ export default class extends BaseService {
 	getCpdGoalUser(goalId,userId,year) {
 		var route = this.goal + this.cpd + goalId +  this.user + userId + '/' + year;
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	}
+
+	getGoalPercentages(teamIds, goalId, businessId){
+		var promiseTeamsInReducedTreeForm = new businessService(super.authHeader).getTeamsInReducedTreeForm({teamIds: teamIds}, businessId);
+		return promiseTeamsInReducedTreeForm.then(teamTree => {
+			var requestBody = mapKeysDeep(teamTree, (key)=>{
+				if (key === "Id") return "id";
+				if (key === "ChildrenNodes") return "children";
+				return key;
+			});
+			var route = "/goalPercentages/" + goalId;
+			var transformFunc = result => result
+			return super.httpToGoalsApi(HttpMethodEnum.POST.name, route, transformFunc, requestBody);
+		});
 	}
 
 	createGoal(input) {

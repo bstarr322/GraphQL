@@ -184,6 +184,14 @@ type GoalServiceTeam {
   name: String
 }
 
+type GoalServiceTeamTree {
+  teamId: ID
+  name: String
+  type: String
+  percentage: Int
+  children: [GoalServiceTeamTree]
+}
+
 type GoalServiceUser {
   userId: ID
   name: String
@@ -356,6 +364,16 @@ input UserInput {
 type Viewer {
   viewerId: String
   name: String
+  userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
+  contentsByBusinessId(businessId: String): [LegacyContent]
+  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
+  contentSummaryByBusinessAndContentId(businessId: String, contentIds: [String]): [LegacyContent]
+  collectionsByBusinessId(businessId: String): [LegacyCollectionTree]
+  businesses: [Business]
+  industriesByBusinessId(businessId: String): [Industry]
+  membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
+  teamsByBusinessId(businessId: String): LegacyTeamTree
+  teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): LegacyTeamTree
   goalConnection(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, priorityBusinessCritical: Boolean, goalType: Int, after: String, first: Int, before: String, last: Int): GoalConnection
   goal(goalId: String): Goal
   goalTypes: [GoalType]
@@ -371,16 +389,5 @@ type Viewer {
   cpdGoalSummary(goalId: String): CpdGoalSummary
   cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: Int, sortDirection: Int): [CpdGoalUsers]
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
-  goalPercentages(teamIds: [String], goalId: String, businessId: String): LegacyTeamTree
-  userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
-  contentsByBusinessId(businessId: String): [LegacyContent]
-  contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
-  contentSummaryByBusinessAndContentId(businessId: String, contentIds: [String]): [LegacyContent]
-  collectionsByBusinessId(businessId: String): [LegacyCollectionTree]
-  businesses: [Business]
-  industriesByBusinessId(businessId: String): [Industry]
-  membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
-  teamsByBusinessId(businessId: String): LegacyTeamTree
-  teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): LegacyTeamTree
-  teamsInReducedTreeForm(teamIds: [String], businessId: String): LegacyTeamTree
+  goalPercentages(teamIds: [String], goalId: String, businessId: String): GoalServiceTeamTree
 }
