@@ -108,9 +108,14 @@ export default {
 			businessId: {type:GraphQLString},
 			userId: {type:GraphQLString},
 			page: {type:GraphQLInt},
-			size: {type:GraphQLInt}
+			size: {type:GraphQLInt},
+			sortField:  {type: GraphQLString},
+			sortDirection: {type: GraphQLString},
+			priorityBusinessCritical: {type: GraphQLBoolean},
+			goalType: {type: GraphQLInt}
 		},
-		resolve: (_,args, req) => new goalService(httpParser(req)).getMyGoals(args.businessId, args.userId, args.page, args.size)
+		resolve: (_,args, req) => new goalService(httpParser(req)).getMyGoals(
+			args.businessId, args.userId, args.page, args.size, args.sortField, args.sortDirection, args.priorityBusinessCritical, args.goalType)
 	},
 	cpdAvailableYears: {
 		type: new GraphQLList(cpdAvailableYearsType),

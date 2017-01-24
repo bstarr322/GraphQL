@@ -36,13 +36,18 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	getMyGoals(businessId, userId, page, size) {
-		var route;
-		if (page == null || size == null) {
-			route = this.goals + businessId + this.user + userId;
-		} else {
-			route = this.goals + businessId +  this.user + userId + '?page=' + page + '&size=' + size;
-		}
+	getMyGoals(businessId, userId, page, size, sortField, sortDirection, priorityBusinessCritical, goalType) {
+		var route = route = this.goals + businessId + this.user + userId + '?page=' + page + '&size=' + size;
+
+		// name || progress || goalType || deadline
+		route = route + ((sortField) ? '&sortField=' + sortField : "");
+		// ascending || descending
+		route = route + ((sortDirection) ? '&sortDirection=' + sortDirection : "");
+		// boolean
+		route = route + ((priorityBusinessCritical) ? '&priorityBusinessCritical=' + priorityBusinessCritical : "");
+		// goalType specific id 
+		route = route + ((goalType) ? '&goalType=' + goalType : "");
+
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
