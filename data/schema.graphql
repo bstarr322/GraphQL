@@ -28,7 +28,7 @@ input CollectionInput {
 }
 
 input CompleteActivitiesInput {
-  activity: [CompleteActivityInput]
+  body: [CompleteActivityInput]
   clientMutationId: String
 }
 
@@ -95,7 +95,7 @@ type CpdSummary {
 }
 
 input CreateGoalInput {
-  goal: GoalInput
+  body: GoalInput
   clientMutationId: String
 }
 
@@ -106,8 +106,12 @@ type CreateGoalPayload {
   clientMutationId: String
 }
 
-input DeleteGoalInput {
+input deleteGoalInput {
   goalId: String
+}
+
+input DeleteGoalInput {
+  body: deleteGoalInput
   clientMutationId: String
 }
 
@@ -303,7 +307,7 @@ type PageInfo {
 }
 
 type Query {
-  viewer(viewerId: Int): Viewer
+  viewer: Viewer
 }
 
 type Task {
@@ -347,7 +351,7 @@ input TeamInput {
 }
 
 input UpdateActivityContentInput {
-  activityContent: ActivityContentInput
+  body: ActivityContentInput
   clientMutationId: String
 }
 
@@ -362,8 +366,6 @@ input UserInput {
 
 # Logged In User, root for all queries available to viewer/user
 type Viewer {
-  viewerId: String
-  name: String
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
@@ -374,6 +376,7 @@ type Viewer {
   membershipsByBusinessAndIndustry(businessId: String, industryId: String): [Membership]
   teamsByBusinessId(businessId: String): LegacyTeamTree
   teamInformationByTeamIdAndBusinessId(teamId: String, businessId: String): LegacyTeamTree
+  userSummaryByBusiness(businessId: String, userId: String): LegacyUser
   goalConnection(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, priorityBusinessCritical: Boolean, goalType: Int, after: String, first: Int, before: String, last: Int): GoalConnection
   goal(goalId: String): Goal
   goalTypes: [GoalType]
@@ -384,7 +387,7 @@ type Viewer {
   taskTypeByTag(tag: String): TaskType
   goalUsers(goalId: String, page: Int, size: Int, sortField: String, sortDirection: String): [GoalUsers]
   goalUser(goalId: String, userId: String): GoalUser
-  myGoals(businessId: String, userId: String, page: Int, size: Int): [Goal]
+  myGoals(businessId: String, userId: String, page: Int, size: Int, sortField: String, sortDirection: String, priorityBusinessCritical: Boolean, goalType: Int): [Goal]
   cpdAvailableYears(goalId: String, userId: String): [CpdAvailableYears]
   cpdGoalSummary(goalId: String): CpdGoalSummary
   cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: Int, sortDirection: Int): [CpdGoalUsers]

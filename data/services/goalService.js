@@ -138,30 +138,30 @@ export default class extends BaseService {
 
 	createGoal(input) {
 		var requestBody = {
-		    name: input.goal.name, 
-		    businessId: input.goal.businessId,
-		    goalType: input.goal.goalType,
-			teams: input.goal.teams,
-			startDate: input.goal.startDate,
-			endDate: input.goal.endDate
+		    name: input.body.name, 
+		    businessId: input.body.businessId,
+		    goalType: input.body.goalType,
+			teams: input.body.teams,
+			startDate: input.body.startDate,
+			endDate: input.body.endDate
 	  	}
 	  	var nonCpdOrgAdminReqBody = {
-			description: input.goal.description,
-		    isBusinessCritical: input.goal.isBusinessCritical,
-		    isSequential: input.goal.isSequential,
-			tasks: input.goal.tasks
+			description: input.body.description,
+		    isBusinessCritical: input.body.isBusinessCritical,
+		    isSequential: input.body.isSequential,
+			tasks: input.body.tasks
 	  	}
 	  	var cpdOrgAdminReqBody = {
-			industryId: input.goal.industryId,
-			membershipId: input.goal.membershipId
+			industryId: input.body.industryId,
+			membershipId: input.body.membershipId
 	  	}
 	  	var cpdReqBody = {
-			industryId: input.goal.industryId,
-			membershipId: input.goal.membershipId,
-			pointsToComplete: input.goal.pointsToComplete
+			industryId: input.body.industryId,
+			membershipId: input.body.membershipId,
+			pointsToComplete: input.body.pointsToComplete
 	  	}
 	  	var routeGoalType;
-  		switch(input.goal.goalType.id) {
+  		switch(input.body.goalType.id) {
   			case 1: 
   				routeGoalType = "Induction"; 
 				Object.assign(requestBody,nonCpdOrgAdminReqBody);
@@ -205,6 +205,7 @@ export default class extends BaseService {
 	}
 	
 	deleteGoal(goalId) {
+		console.log(goalId);
 	  	var route = this.goal + goalId
 	  	var transformFunc = result => {
 	  		var deleted = (result == 1) ? true : false;

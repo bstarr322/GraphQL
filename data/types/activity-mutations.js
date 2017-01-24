@@ -24,7 +24,7 @@ import {
 
 import completeActivityInputType from '../models/inputTypes/completeActivityInputType.js';
 import activityContentInputType from '../models/inputTypes/activityContentInputType.js';
-import { viewerType } from '../types/viewer-type.js';
+import viewerType from '../types/viewer-type.js';
 import activityService from '../services/activityService';
 
 import httpParser from '../utilities/httpParser.js'
@@ -32,7 +32,7 @@ import httpParser from '../utilities/httpParser.js'
 export const completeActivitiesMutation = mutationWithClientMutationId({
   name: 'CompleteActivities',
   inputFields: { 
-    activity: { type: new GraphQLList(completeActivityInputType) }
+    body: { type: new GraphQLList(completeActivityInputType) }
   },
   outputFields: { 
     clientMutationId: { type: GraphQLString }
@@ -45,7 +45,7 @@ export const completeActivitiesMutation = mutationWithClientMutationId({
 export const updateActivityContentMutation = mutationWithClientMutationId({
   name: 'UpdateActivityContent',
   inputFields: { 
-    activityContent: { type: activityContentInputType }
+    body: { type: activityContentInputType }
   },
   outputFields: { 
     clientMutationId: { type: GraphQLString }

@@ -16,18 +16,11 @@ import { GraphQLObjectType,GraphQLString } from 'graphql';
 import legacyApiFields from './viewerFields/legacyApiFields';
 import goalServiceApiFields from './viewerFields/goalServiceApiFields';
 
-export const viewerType = new GraphQLObjectType({
+export default new GraphQLObjectType({
 	name: 'Viewer',
 	description: 'Logged In User, root for all queries available to viewer/user',
-	fields: () => getViewerFields()
-});
-
-function getViewerFields() {
-	return Object.assign({}, {
-			viewerId: { type: GraphQLString, resolve: viewer => viewer.id },
-			name: { type: GraphQLString }
-		},		
+	fields: () => Object.assign({},
 		legacyApiFields,
 		goalServiceApiFields
 	)
-}
+});

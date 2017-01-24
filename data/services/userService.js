@@ -32,8 +32,7 @@ export default class extends BaseService {
   }
 
   /**
-   * Gets all registered userIds from a team in a business.
-   * @return {string[]} A list of user ids.
+   * Gets details of the user by businessId and userId.
    */
   getUserSummaryByBusiness(userId,businessId) {
     var route = this.users + userId + this.business + businessId;

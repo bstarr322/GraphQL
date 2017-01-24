@@ -22,7 +22,8 @@ import {
 } from './connections';
 
 import goalInputType from '../models/inputTypes/goalInputType.js';
-import { viewerType } from '../types/viewer-type.js';
+import deleteGoalInputType from '../models/inputTypes/deleteGoalInputType.js';
+import viewerType from '../types/viewer-type.js';
 
 import goalService from '../services/goalService.js';
 import contentService from '../services/contentService.js';
@@ -34,7 +35,7 @@ import httpParser from '../utilities/httpParser.js'
 export const createGoalMutation = mutationWithClientMutationId({
   name: 'CreateGoal',
   inputFields: { 
-    goal: { type: goalInputType }
+    body: { type: goalInputType }
   },
   outputFields: { 
     goalId: {
@@ -61,11 +62,11 @@ export const createGoalMutation = mutationWithClientMutationId({
     return Promise.all(promisesForCreateGoal(input,req)).then(data => {
       var mapData = data;
       //response is aligned with the request in data object
-      if ('tasks' in input.goal) {
+      if ('tasks' in input.body) {
         //assign tasks to input
-        input.goal.tasks.forEach((task,idx) => {
+        input.body.tasks.forEach((task,idx) => {
           if('collection' in task){
-            input.goal.tasks[idx].collection.contents = mapData[0];
+            input.body.tasks[idx].collection.contents = mapData[0];
             //remove first item from array
             mapData.shift();   
           }
@@ -73,8 +74,8 @@ export const createGoalMutation = mutationWithClientMutationId({
       }
 
       //assign teams to input
-      input.goal.teams.forEach((team,idx) => {
-        input.goal.teams[idx].users = mapData[0];
+      input.body.teams.forEach((team,idx) => {
+        input.body.teams[idx].users = mapData[0];
         //remove first item from array
         mapData.shift();   
       });
@@ -91,17 +92,17 @@ export const createGoalMutation = mutationWithClientMutationId({
 //promise for collection contentsIds and team's userIds 
 function promisesForCreateGoal(input,req){
   var promiseArr = [];
-  if ('tasks' in input.goal) {
-    input.goal.tasks.forEach(function(task) {
+  if ('tasks' in input.body) {
+    input.body.tasks.forEach(function(task) {
       if('collection' in task){
-        var promiseTask = new contentService(httpParser(req)).getContentByCollectionIdAndBusinessId(task.collection.collectionId, input.goal.businessId);
+        var promiseTask = new contentService(httpParser(req)).getContentByCollectionIdAndBusinessId(task.collection.collectionId, input.body.businessId);
         promiseArr.push(promiseTask); 
       }
     });
   }
 
-  input.goal.teams.forEach((team) => {
-    var promiseTeam = new userService(httpParser(req)).getUserByBusinessAndTeam(team.id, input.goal.businessId);
+  input.body.teams.forEach((team) => {
+    var promiseTeam = new userService(httpParser(req)).getUserByBusinessAndTeam(team.id, input.body.businessId);
     promiseArr.push(promiseTeam);
   });
 
@@ -110,7 +111,7 @@ function promisesForCreateGoal(input,req){
 
 export const deleteGoalMutation = mutationWithClientMutationId ({
   name: 'DeleteGoal',
-  inputFields: {goalId: {type: GraphQLString}},
+  inputFields: {body: {type: deleteGoalInputType}},
   outputFields: { 
     deleted: {
         type: GraphQLBoolean,
@@ -124,6 +125,7 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
     }
   },
   mutateAndGetPayload: function(input,req){
-    return new goalService(httpParser(req)).deleteGoal(input.goalId);
+    console.log(JSON.stringify(input));
+    return new goalService(httpParser(req)).deleteGoal(input.body.goalId);
   }
 });
