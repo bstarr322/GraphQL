@@ -343,39 +343,6 @@
               "deprecationReason": null
             },
             {
-              "name": "userSummaryByBusiness",
-              "description": null,
-              "args": [
-                {
-                  "name": "businessId",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "userId",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "LegacyUser",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "goalConnection",
               "description": null,
               "args": [
@@ -430,7 +397,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "priorityBusinessCritical",
+                  "name": "prioritizeBusinessCritical",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",
@@ -810,7 +777,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "priorityBusinessCritical",
+                  "name": "prioritizeBusinessCritical",
                   "description": null,
                   "type": {
                     "kind": "SCALAR",

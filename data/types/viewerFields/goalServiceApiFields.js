@@ -43,12 +43,12 @@ export default {
 			size: {type: GraphQLInt},
 			sortField:  {type: GraphQLString},
 			sortDirection: {type: GraphQLString},
-			priorityBusinessCritical: {type: GraphQLBoolean},
+			prioritizeBusinessCritical: {type: GraphQLBoolean},
 			goalType: {type: GraphQLInt},
 			...connectionArgs
 		},
 		resolve: (_, args, req) => connectionFromPromisedArray(new goalService(httpParser(req)).getGoals(
-			args.businessId, args.page, args.size, args.sortField,args.sortDirection, args.priorityBusinessCritical, args.goalType), args)
+			args.businessId, args.page, args.size, args.sortField,args.sortDirection, args.prioritizeBusinessCritical, args.goalType), args)
 	},
 	goal: {
 		type: goalType,
@@ -111,11 +111,11 @@ export default {
 			size: {type:GraphQLInt},
 			sortField:  {type: GraphQLString},
 			sortDirection: {type: GraphQLString},
-			priorityBusinessCritical: {type: GraphQLBoolean},
+			prioritizeBusinessCritical: {type: GraphQLBoolean},
 			goalType: {type: GraphQLInt}
 		},
 		resolve: (_,args, req) => new goalService(httpParser(req)).getMyGoals(
-			args.businessId, args.userId, args.page, args.size, args.sortField, args.sortDirection, args.priorityBusinessCritical, args.goalType)
+			args.businessId, args.userId, args.page, args.size, args.sortField, args.sortDirection, args.prioritizeBusinessCritical, args.goalType)
 	},
 	cpdAvailableYears: {
 		type: new GraphQLList(cpdAvailableYearsType),
