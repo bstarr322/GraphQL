@@ -6,4 +6,4 @@ test -f $env_file && source $env_file
 
 env
 
-cd ${DIST_FOLDER}; npm start
+cd ${DIST_FOLDER}; npm start > logs/application.log 2>&1
