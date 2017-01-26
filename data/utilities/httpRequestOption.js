@@ -6,29 +6,39 @@
 
 import config from '../../config.js';
 import {CpdoneApiEnum} from '../enums/enums.js';
+import ObjectUtility from './objectUtility.js'
 import extend from 'extend';
+import { HttpMethodEnum } from '../enums/enums.js'
 
 /**
  * Create httpRequestOption based on cpdoneapiEnum configuration
  * @param  {object} serviceType - An enum of type cpdoneApiEnum
  * @param  {string} method 		- Http method action
  * @param  {string} route       - Url route
- * @param  {authHeader} header 	- The optional request headers object.
+ * @param  {authHeader} headers	- The optional request headers object.
  * @return {object}  			- An instance of httpRequestOptions based on serviceType enum
  */
-export default function(serviceType, method, route, header) {
+export default function(serviceType, method, route, headers) {
+
+	// refactor
+	var defaultHeaders = HttpMethodEnum.POST.name == method 
+	 	? {'Content-Type':'application/json'}
+	 	: null;
+	if (headers!= null) headers = headers.toArrayObject(config.HEADER_AUTH_KEY_NAME, config.HEADER_BUSINESS_KEY_NAME);
+	headers = extend(headers, defaultHeaders)
+
 	switch (serviceType) {
 		case CpdoneApiEnum.GOAL: 
-			return new httpRequestOptions(method, config.GOALS_HOST, config.GOALS_PORT, route, header);
+			return new httpRequestOptions(method, config.GOALS_HOST, config.GOALS_PORT, route, headers);
 			break;
 		case CpdoneApiEnum.LEGACY:
-			return new httpRequestOptions(method, config.LEGACY_HOST, config.LEGACY_PORT, route, header);
+			return new httpRequestOptions(method, config.LEGACY_HOST, config.LEGACY_PORT, route, headers);
 			break;
 		case CpdoneApiEnum.VIEWER:
-			return new httpRequestOptions(method, config.JSON_HOST, config.JSON_PORT, route, header);
+			return new httpRequestOptions(method, config.JSON_HOST, config.JSON_PORT, route, headers);
 			break;
 		default:
-			return new httpRequestOptions(method, config.LEGACY_HOST, config.LEGACY_PORT, route, header);
+			return new httpRequestOptions(method, config.LEGACY_HOST, config.LEGACY_PORT, route, headers);
 	}
 }
 
@@ -41,14 +51,9 @@ export default function(serviceType, method, route, header) {
  * @param {authHeader} authHeader - The optional request headers object.
  */
 function httpRequestOptions(method, host, port, path, authHeader) {
-	var headerArray;
-	if (authHeader != null) {
-		headerArray = authHeader.toStringArray();
-	}
-
 	this.method = method;
 	this.host = host;
 	this.port = port;
 	this.path = path;
-	this.headers = extend(headerArray, {'Content-Type':'application/json'});
+	this.headers = ObjectUtility.convert(authHeader);
 }

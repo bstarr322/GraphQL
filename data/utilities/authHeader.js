@@ -6,15 +6,17 @@
  * @param {string} businessId  - the active business id header field
  */
 export default class {
+	
 	constructor(token, businessId) {
 		this.token = token;
 		this.businessId = businessId;
 	}
 
-	toStringArray() {
-		return {
-			token : this.token,
-			businessId : this.businessId
-		}
+	toArrayObject(tokenKeyName, businessKeyName) {
+		var arr = new Array();
+		arr[tokenKeyName] = this.token;
+		arr[businessKeyName] = this.businessId;
+		return arr;
 	}
+
 }

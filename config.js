@@ -10,7 +10,12 @@ config.LEGACY_HOST = process.env.LEGACY_HOST || 'localhost';
 config.GOALS_PORT = process.env.GOALS_PORT || '9000';
 config.LEGACY_PORT = process.env.LEGACY_PORT || '12222';
 
-config.IS_CORS_ENABLED = (process.env.IS_CORS_ENABLED === 'true') || false;
+config.IS_CORS_ENABLED =  process.env.IS_CORS_ENABLED || false;
 config.CORS_CLIENT = process.env.CORS_CLIENT || '';
+
+// config.IS_AUTH_ENABLED = process.env.IS_AUTH_ENABLED || false;
+config.IS_AUTH_ENABLED = true;
+config.HEADER_AUTH_KEY_NAME = 'x-auth-token';
+config.HEADER_BUSINESS_KEY_NAME = 'x-auth-business';
 
 module.exports = config;
