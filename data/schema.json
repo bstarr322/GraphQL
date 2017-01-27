@@ -727,16 +727,6 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "userId",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "page",
                   "description": null,
                   "type": {
