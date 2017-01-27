@@ -15,6 +15,7 @@ export default class extends BaseService {
 	  constructor(authHeader) {
 	    super(authHeader);
 		this.goals = '/goals/';
+		this.mygoals = '/mygoals';
 		this.goal = '/goal/';
 		this.cpd = 'cpd/';
 		this.user = '/user/';
@@ -36,8 +37,8 @@ export default class extends BaseService {
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
 
-	getMyGoals(businessId, userId, page, size, sortField, sortDirection, prioritizeBusinessCritical, goalType) {
-		var route = this.goals + businessId + this.user + userId + '?page=' + page + '&size=' + size;
+	getMyGoals(businessId, page, size, sortField, sortDirection, prioritizeBusinessCritical, goalType) {
+		var route = this.mygoals + '?page=' + page + '&size=' + size;
 
 		// name || progress || goalType || deadline
 		route = route + ((sortField) ? '&sortField=' + sortField : "");
