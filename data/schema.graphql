@@ -360,7 +360,7 @@ type UpdateActivityContentPayload {
 }
 
 input UserInput {
-  userId: String
+  id: String
   fullName: String
 }
 

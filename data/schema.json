@@ -3856,7 +3856,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "userId",
+              "name": "id",
               "description": null,
               "type": {
                 "kind": "SCALAR",
