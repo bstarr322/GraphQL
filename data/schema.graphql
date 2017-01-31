@@ -385,7 +385,8 @@ type Viewer {
   taskType(taskTypeId: Int): TaskType
   taskTypeByTag(tag: String): TaskType
   goalUsers(goalId: String, page: Int, size: Int, sortField: String, sortDirection: String): [GoalUsers]
-  goalUser(goalId: String, userId: String): GoalUser
+  goalUser(goalId: String, userId: String, correlationId: String): GoalUser
+  myGoal(goalId: String, correlationId: String): GoalUser
   myGoals(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, prioritizeBusinessCritical: Boolean, goalType: Int): [Goal]
   cpdAvailableYears(goalId: String, userId: String): [CpdAvailableYears]
   cpdGoalSummary(goalId: String): CpdGoalSummary
