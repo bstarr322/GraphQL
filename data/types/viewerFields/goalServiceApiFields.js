@@ -98,9 +98,18 @@ export default {
 		type: goalUserType,
 		args: {
 			goalId: {type:GraphQLString},
-			userId: {type:GraphQLString}
+			userId: {type:GraphQLString},
+			correlationId: {type:GraphQLString}
 		},
 		resolve: (_,args, req) => new goalService(httpParser(req)).getGoalUser(args.goalId, args.userId)
+	},
+	myGoal: {
+		type: goalUserType,
+		args: {
+			goalId: {type:GraphQLString},
+			correlationId: {type:GraphQLString}
+		},
+		resolve: (_,args, req) => new goalService(httpParser(req)).getMyGoal(args.goalId)
 	},
 	myGoals: {
 		type: new GraphQLList(goalType),

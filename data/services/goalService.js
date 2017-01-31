@@ -16,6 +16,7 @@ export default class extends BaseService {
 	    super(authHeader);
 		this.goals = '/goals/';
 		this.mygoals = '/mygoals';
+		this.mygoal = '/mygoal/';
 		this.goal = '/goal/';
 		this.cpd = 'cpd/';
 		this.user = '/user/';
@@ -51,7 +52,10 @@ export default class extends BaseService {
 
 		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
 	}
-
+	getMyGoal(goalId) {
+		var route = this.mygoal + goalId;
+		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+	}
 	getGoal(goalId) {
 		var route = this.goal + goalId;
 		var transformFunc = result => {
