@@ -10,7 +10,7 @@ import {
 export default new GraphQLInputObjectType ({
 	name: 'UserInput',
 	fields: function () { return {
-	    userId: { type: GraphQLString },
+	    id:{ type: GraphQLString },
 	    fullName: { type: GraphQLString }
 	}},
 });

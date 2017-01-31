@@ -38,7 +38,7 @@ export const completeActivitiesMutation = mutationWithClientMutationId({
     clientMutationId: { type: GraphQLString }
   },
   mutateAndGetPayload: function(input,req){
-    return new activityService(httpParser(req)).completeActivities(input);
+    return new activityService(httpParser(req)).completeActivities(input.body);
   }
 });
 
