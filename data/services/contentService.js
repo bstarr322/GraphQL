@@ -10,8 +10,16 @@ export default class extends BaseService {
 
   constructor(authHeader) {
     super(authHeader);
+    this.req = authHeader;
     this.contents = '/api/v1/contents/';
     this.business = '/businesses/';
+  }
+
+  //refactor mediator
+  contentServiceWithBusinessId(method,route,businessId,transformFunc,requestBody) {
+    var headers = this.req;
+    if(businessId) headers.businessId = businessId 
+    return super.httpToLegacyApi(method,route,headers,transformFunc,requestBody);
   }
 
   /**
@@ -19,7 +27,7 @@ export default class extends BaseService {
    */
   getContentsByBusiness(businessId) {
     var route = this.contents + 'businesses/' + businessId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.contentServiceWithBusinessId(HttpMethodEnum.GET.name,route,businessId);
   }
 
   /**
@@ -36,7 +44,7 @@ export default class extends BaseService {
       return list;
     }; 
 
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name,route,transformFunc);
+    return this.contentServiceWithBusinessId(HttpMethodEnum.GET.name,route,businessId,transformFunc);
   }
 
   /**
@@ -44,6 +52,6 @@ export default class extends BaseService {
    */
   getContentSummaryByBusinessAndContentId(contentId, businessId) {
     var route = this.contents + contentId + this.business + businessId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.contentServiceWithBusinessId(HttpMethodEnum.GET.name,route,businessId);
   }
 }

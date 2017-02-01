@@ -10,15 +10,24 @@ export default class extends BaseService {
 
   constructor(authHeader) {
     super(authHeader);
+    this.req = authHeader;
     this.reference = '/api/v1/reference/';
   }
+
+  //refactor mediator
+  referenceServiceWithBusinessId(method,route,businessId,transformFunc,requestBody) {
+    var headers = this.req;
+    if(businessId) headers.businessId = businessId 
+    return super.httpToLegacyApi(method,route,headers,transformFunc,requestBody);
+  }
+
 
   /**
    * Get membership details for ui
    */
   getMembership(membershipId) {
     var route = this.reference + 'memberships/' + membershipId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.referenceServiceWithBusinessId(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -26,7 +35,7 @@ export default class extends BaseService {
    */
   getBusiness(businessId) {
     var route = this.reference + 'businesses/' + businessId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.referenceServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
 
 };

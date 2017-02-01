@@ -36,8 +36,8 @@ export default class {
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
-	httpToLegacyApi(httpMethod, route, transformFunc, requestBody) {
-	    var options = createHttpRequestOption(CpdoneApiEnum.LEGACY, httpMethod, route, this.authHeader);
+	httpToLegacyApi(httpMethod, route, headers, transformFunc, requestBody) {
+	    var options = createHttpRequestOption(CpdoneApiEnum.LEGACY, httpMethod, route, headers);
 	  	return this._callHttp(options, transformFunc, requestBody, true);
 	}
 
@@ -48,8 +48,8 @@ export default class {
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
-	httpToGoalsApi(httpMethod, route, transformFunc, requestBody) {
-	    var options = createHttpRequestOption(CpdoneApiEnum.GOAL, httpMethod, route, this.authHeader);
+	httpToGoalsApi(httpMethod, route, params, headers, transformFunc, requestBody) {
+	    var options = createHttpRequestOption(CpdoneApiEnum.GOAL, httpMethod, route, headers, params);
 	  	return this._callHttp(options, transformFunc, requestBody, true);
 	}
 
@@ -63,12 +63,13 @@ export default class {
 	 */
 	 _callHttp(options, transformFunc, requestBody, logError = false) {
 	 	var that = this;
-	 	return new Promise(function(resolve, reject) {
-			var request = http.request(options, 
-				that._createCallback(resolve, transformFunc, logError));
+		return new Promise((resolve, reject) => {	 		
+			var request = http.request(options, that._createCallback(resolve, reject, transformFunc, logError));
 			if (requestBody) request.write(JSON.stringify(requestBody));
 			request.end();
-	 	});
+	 	}).catch(error => {
+	        return error;
+     	})
 	}
 
 	/**
@@ -77,11 +78,9 @@ export default class {
 	 * @param  {[type]} transformFunc - An optional function that transforms the http response body.
 	 * @param  {[type]} logError      - An optional boolean which sets whether the promise will create an error record on output response.
 	 */
-	_createCallback(resolve, transformFunc, logError) {
+	_createCallback(resolve, reject, transformFunc, logError) {
 		var that = this;
 		return function(response) {
-			that._handleHttpErrorResponse(resolve, response, logError);
-
 			var data = '';
 			response
 				.on('data', function (chunk) {
@@ -89,8 +88,13 @@ export default class {
 					data += str.replace("\\", "\\\\");
 				})
 				.on('end', function () {
-					var jsonData = that._formatData(response, data, transformFunc);
-					resolve(jsonData);
+					if (response.statusCode >= 400) {
+						var error = that._createErrorMessage(response.statusCode,data);
+						reject(Promise.reject(error));
+					} else {
+						var jsonData = that._formatData(response, data, transformFunc);
+						resolve(Promise.resolve(jsonData));
+					}
 				});
 		}
 	}
@@ -114,26 +118,12 @@ export default class {
 	}
 
 	/**
-	 * Create a boom error using the response status code
-	 * 	if response has error
-	 * @param  {object} resolve   - A promise resolve delegate
-	 * @param  {object} response  - A http response object
-	 * @param  {boolean} logError - An optional boolean which sets whether the promise will create an error record on output response.
-	 */
-	_handleHttpErrorResponse(resolve, response, logError) {
-		if (response.statusCode >= 400 && logError) {
-			var error = this._createErrorMessage(response.statusCode); 
-			resolve(Promise.reject(error));
-		} 
-	}
-
-	/**
 	 * Creates an error message using Boom library 
 	 * @param  {[type]} statusCode The http status code
 	 * @return {[type]}            A string of boom object
 	 */
-	_createErrorMessage(statusCode) {
-		return JSON.stringify(Boom.create(statusCode));
+	_createErrorMessage(statusCode, message) {
+		return JSON.stringify(Boom.create(statusCode,message,message));
 	}
 
 }

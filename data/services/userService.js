@@ -10,8 +10,16 @@ export default class extends BaseService {
 
   constructor(authHeader) {
     super(authHeader);
+    this.req = authHeader;
     this.users = '/api/v1/users/'
     this.business = '/businesses/';
+  }
+
+  //refactor mediator
+  userServiceWithBusinessId(method,route,businessId,transformFunc,requestBody) {
+    var headers = this.req;
+    if(businessId) headers.businessId = businessId 
+    return super.httpToLegacyApi(method,route,headers,transformFunc,requestBody);
   }
 
   /**
@@ -28,7 +36,7 @@ export default class extends BaseService {
       });
       return users;
     }
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route,transfromFunc);
+    return this.userServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId, transfromFunc);
   }
 
   /**
@@ -36,7 +44,7 @@ export default class extends BaseService {
    */
   getUserSummaryByBusiness(userId,businessId) {
     var route = this.users + userId + this.business + businessId;
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.userServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
 
 }

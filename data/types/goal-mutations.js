@@ -80,12 +80,9 @@ export const createGoalMutation = mutationWithClientMutationId({
         mapData.shift();   
       });
 
-      return new goalService(httpParser(req)).createGoal(input);
-
-    }).catch(error => {
-      console.log("promisesForCreateGoal error -> " + error.message);
-      return error;
-    });
+      return new goalService(httpParser(req)).createGoal(input)
+      
+    })
   }
 });
 
@@ -125,7 +122,6 @@ export const deleteGoalMutation = mutationWithClientMutationId ({
     }
   },
   mutateAndGetPayload: function(input,req){
-    console.log(JSON.stringify(input));
     return new goalService(httpParser(req)).deleteGoal(input.body.goalId);
   }
 });

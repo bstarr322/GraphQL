@@ -24,6 +24,7 @@ import cpdGoalSummaryType from '../../models/goalsApi/cpdGoalSummaryType.js';
 import cpdGoalUsersType from '../../models/goalsApi/cpdGoalUsersType.js'; 
 import cpdGoalUserType from '../../models/goalsApi/cpdGoalUserType.js'; 
 
+// services
 import goalService from '../../services/goalService.js';
 import taskTypeService from '../../services/taskTypeService.js';
 import goalTypeService from '../../services/goalTypeService.js';
@@ -34,7 +35,6 @@ import httpParser from '../../utilities/httpParser.js'
 import { goalConnection } from '../connections.js';
 
 export default {
-	// goals services
 	goalConnection: {
 		type: goalConnection,
 		args: {

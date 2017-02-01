@@ -10,7 +10,15 @@ export default class extends BaseService {
 
   constructor(authHeader) {
     super(authHeader);
+    this.req = authHeader;
     this.businesses = '/api/v1/businesses/';
+  }
+
+  //refactor mediator
+  businessServiceWithBusinessId(method,route,businessId,transformFunc,requestBody) {
+    var headers = this.req;
+    if(businessId) headers.businessId = businessId 
+    return super.httpToLegacyApi(method,route,headers,transformFunc,requestBody);
   }
 
   /**
@@ -18,7 +26,7 @@ export default class extends BaseService {
    */
   getGoalAssignableBusinesses() {
     var route = this.businesses + 'goalassignable';
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route);
   }
 
   /**
@@ -26,7 +34,7 @@ export default class extends BaseService {
    */
   getIndustriesByBusiness(businessId) {
     var route = this.businesses + businessId + '/industries';
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
 
   /**
@@ -34,7 +42,7 @@ export default class extends BaseService {
    */
   getMembershipsByBusinessAndIndustry(businessId, industryId) {
     var route = this.businesses + businessId + '/industries/' + industryId + '/memberships';
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
 
   /**
@@ -42,15 +50,13 @@ export default class extends BaseService {
    */
   getTeamsInTreeFormByBusiness(businessId, reqs) {
     var route = this.businesses + businessId + '/teams/tree';
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
 
   getTeamsInReducedTreeForm(teamIds, businessId){
     var route = this.businesses + businessId + '/teams/reducedtree';
     var requestBody = teamIds;
     var transformFunc = results => results
-
-    return super.httpToLegacyApi(HttpMethodEnum.POST.name, route, transformFunc, requestBody);
+    return this.businessServiceWithBusinessId(HttpMethodEnum.POST.name, route, businessId, transformFunc, requestBody);
   }
-
 };

@@ -10,12 +10,20 @@ export default class extends BaseService {
 
   constructor(authHeader) {
     super(authHeader);
+    this.req = authHeader;
     this.teams = '/api/v1/teams/';
     this.businesses = '/businesses/';
   }
 
+  //refactor mediator
+  teamServiceWithBusinessId(method,route,businessId,transformFunc,requestBody) {
+    var headers = this.req;
+    if(businessId) headers.businessId = businessId 
+    return super.httpToLegacyApi(method,route,headers,transformFunc,requestBody);
+  }
+
   getTeamInformationByTeamIdAndBusinessId(teamId, businessId) {
     var route = this.teams + teamId + this.businesses + businessId
-    return super.httpToLegacyApi(HttpMethodEnum.GET.name, route);
+    return this.teamServiceWithBusinessId(HttpMethodEnum.GET.name,route,businessId);
   }
 };
