@@ -26,7 +26,7 @@ export default class extends BaseService {
 	*/
 	getCollectionsInTreeFormByBusiness(businessId) {
 		var route = this.collections + 'tree/businesses/' + businessId;
-		return this.collectionServiceWithBusinessId(HttpMethodEnum.GET.name, route, businesId);
+		return this.collectionServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
 	}
 
 }
