@@ -16,10 +16,26 @@ input ActivityContentInput {
   membershipPoints: [MembershipInput]
 }
 
+input BillingInformation {
+  cardNumber: String
+  expiry: Int
+  cvv: Int
+  address: String
+}
+
 type Business {
   businessId: ID
   name: String
   image: String
+}
+
+input BusinessDetails {
+  Industry: String
+  Function: String
+  Level: String
+  Company: String
+  Country: String
+  Interests: [String]
 }
 
 input CollectionInput {
@@ -102,6 +118,17 @@ input CreateGoalInput {
 type CreateGoalPayload {
   goalId: String
   viewer: Viewer
+  errorMessage: String
+  clientMutationId: String
+}
+
+input CreateUserInput {
+  body: SignUpInput
+  clientMutationId: String
+}
+
+type CreateUserPayload {
+  userId: String
   errorMessage: String
   clientMutationId: String
 }
@@ -289,6 +316,7 @@ type Mutation {
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
   completeActivities(input: CompleteActivitiesInput!): CompleteActivitiesPayload
   updateActivityContent(input: UpdateActivityContentInput!): UpdateActivityContentPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
 }
 
 # Information about pagination in a connection.
@@ -306,8 +334,33 @@ type PageInfo {
   endCursor: String
 }
 
+input Passwords {
+  password: String
+  confirmedPassword: String
+}
+
+input PersonalDetails {
+  firstName: String
+  lastName: String
+  phoneNumber: String
+  email: String
+  isPublisher: Boolean
+  subscription: Subscription
+}
+
 type Query {
   viewer: Viewer
+}
+
+input SignUpInput {
+  personalDetails: PersonalDetails
+  businessDetails: BusinessDetails
+  billingInformation: BillingInformation
+  passwords: Passwords
+}
+
+input Subscription {
+  plan: String
 }
 
 type Task {
