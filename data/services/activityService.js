@@ -11,16 +11,24 @@ export default class extends BaseService {
 
 	constructor(authHeader) {
 		super(authHeader);
+		this.req = authHeader;
 
 	}
 
-	completeActivities(activites) {
+	//refactor mediator
+	activityServiceWithBusinessId(method,route,businessId,transformFunc,requestBody) {
+		var headers = this.req;
+		if(businessId) headers.businessId = businessId 
+		return super.httpToGoalsApi(method,route,null,headers,transformFunc,requestBody);
+	}
+
+	completeActivities(activites,businessId) {
 		var route = '/activity/complete';
 		var requestBody = activites;
 		var transformFunc = result => {
 			return result;
 		}
-		return super.httpToGoalsApi(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
+		return this.activityServiceWithBusinessId(HttpMethodEnum.POST.name,route,businessId,transformFunc,requestBody);
 	}
 
 	updateActivityContent(activityContent) {
@@ -29,7 +37,7 @@ export default class extends BaseService {
 		var transformFunc = result => {
 			return result;
 		}
-		return super.httpToGoalsApi(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
+		return this.activityServiceWithBusinessId(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
 	}
 
 }

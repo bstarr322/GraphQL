@@ -32,13 +32,14 @@ import httpParser from '../utilities/httpParser.js'
 export const completeActivitiesMutation = mutationWithClientMutationId({
   name: 'CompleteActivities',
   inputFields: { 
-    body: { type: new GraphQLList(completeActivityInputType) }
+    body: { type: new GraphQLList(completeActivityInputType) },
+    businessId: { type: GraphQLString }
   },
   outputFields: { 
     clientMutationId: { type: GraphQLString }
   },
   mutateAndGetPayload: function(input,req){
-    return new activityService(httpParser(req)).completeActivities(input.body);
+    return new activityService(httpParser(req)).completeActivities(input.body, input.businessId);
   }
 });
 
