@@ -45,6 +45,7 @@ input CollectionInput {
 
 input CompleteActivitiesInput {
   body: [CompleteActivityInput]
+  businessId: String
   clientMutationId: String
 }
 
