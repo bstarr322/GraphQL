@@ -89,9 +89,16 @@ export default class extends BaseService {
 
 	getMyGoal(goalId) {
 		var route = this.mygoal + goalId;
-		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,null,goalId);
+		var transformFunc = result => {
+			return new referenceService(this.req).getBusiness(result.goalInfo.businessId).then(business => {
+				result.goalInfo.business = business;
+				delete result.goalInfo.businessId;
+				return result;
+			})
+		};
+		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name, route,null,goalId, transformFunc);
 	}
-	
+
 	getGoalUsers(goalId, page, size, sortField, sortDirection) {
 		var route = route = this.goal + goalId + this.users;
 		var params = { page:page, size:size, sortField:sortField, sortDirection:sortDirection };
