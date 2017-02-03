@@ -24,8 +24,16 @@ export default class extends BaseService {
   /**
    * Get businesses visible to the user ( based on user id encrypted in header).
    */
-  getGoalAssignableBusinesses() {
-    var route = this.businesses + 'goalassignable';
+  getManagedGoalBusinesses() {
+    var route = this.businesses + 'getManagedGoalBusinesses';
+    return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route);
+  }
+
+  /**
+   * Get businesses visible to the user ( based on user id encrypted in header).
+   */
+  getMyGoalBusinesses() {
+    var route = this.businesses + 'getMyGoalBusinesses';
     return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route);
   }
 

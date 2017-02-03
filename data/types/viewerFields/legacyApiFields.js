@@ -73,9 +73,13 @@ export default {
 	},
 
 	// business service
-	businesses: {
+	managedGoalBusinesses: {
 		type: new GraphQLList(businessType),
-		resolve: (_,args, req) => new businessService(httpParser(req)).getGoalAssignableBusinesses()
+		resolve: (_,args, req) => new businessService(httpParser(req)).getManagedGoalBusinesses()
+	},
+	myGoalBusinesses: {
+		type: new GraphQLList(businessType),
+		resolve: (_,args, req) => new businessService(httpParser(req)).getMyGoalBusinesses()
 	},
 	industriesByBusinessId: {
 		type: new GraphQLList(industryType),

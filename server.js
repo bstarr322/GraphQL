@@ -1,13 +1,8 @@
 /**
- * express server configurations
- * 
+ * Express test server configurations
  */
-
+import { DocumentNode } from 'graphql';
 import graphqlHTTP from 'express-graphql';
-import {graphql} from 'graphql';
-import {introspectionQuery, printSchema} from 'graphql/utilities';
-import fs from 'fs';
-import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import schema from './data/schema.js';
@@ -33,12 +28,16 @@ graphQLApp.options('/graphql',
 
 // Connection configuration of graphql schema to express 
 graphQLApp.use('/graphql', graphqlHTTP(request => {
+  const startTime = Date.now();
   return {
     schema: schema,
+    extensions() {
+      return { runTime: Date.now() - startTime };
+    },
     graphiql: true,
     pretty: true,
     formatError: error => formatError(error)
-  }
+  };
 }));
 
 graphQLApp.listen(config.EXPRESS_PORT);
