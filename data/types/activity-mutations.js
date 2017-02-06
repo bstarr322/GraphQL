@@ -42,16 +42,3 @@ export const completeActivitiesMutation = mutationWithClientMutationId({
     return new activityService(httpParser(req)).completeActivities(input.body, input.businessId);
   }
 });
-
-export const updateActivityContentMutation = mutationWithClientMutationId({
-  name: 'UpdateActivityContent',
-  inputFields: { 
-    body: { type: activityContentInputType }
-  },
-  outputFields: { 
-    clientMutationId: { type: GraphQLString }
-  },
-  mutateAndGetPayload: function(input,req){
-    return new activityService(httpParser(req)).updateActivityContent(input);
-  }
-});

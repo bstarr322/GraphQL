@@ -22,12 +22,14 @@ import {
   updateActivityContentMutation 
 } from './activity-mutations';
 
+import { uploadFileMutation } from './file-mutations';
+
 export var mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
   	createGoal: createGoalMutation,
   	deleteGoal: deleteGoalMutation,
   	completeActivities: completeActivitiesMutation,
-  	updateActivityContent: updateActivityContentMutation
+    uploadFile: uploadFileMutation
   }),
 });

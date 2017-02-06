@@ -30,15 +30,5 @@ export default class extends BaseService {
 		}
 		return this.activityServiceWithBusinessId(HttpMethodEnum.POST.name,route,businessId,transformFunc,requestBody);
 	}
-
-	updateActivityContent(activityContent) {
-		var route = '/activity/content';
-		var requestBody = activityContent;
-		var transformFunc = result => {
-			return result;
-		}
-		return this.activityServiceWithBusinessId(HttpMethodEnum.POST.name,route,transformFunc,requestBody);
-	}
-
 }
 
