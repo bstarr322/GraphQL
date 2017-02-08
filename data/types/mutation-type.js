@@ -21,8 +21,11 @@ import {
   completeActivitiesMutation,
   updateActivityContentMutation 
 } from './activity-mutations';
-
+import fileType from '../models/filesApi/fileType.js'
 import { uploadFileMutation } from './file-mutations';
+import fileService from '../services/fileService.js'
+
+import httpParser from '../utilities/httpParser'
 
 export var mutationType = new GraphQLObjectType({
   name: 'Mutation',
@@ -30,6 +33,11 @@ export var mutationType = new GraphQLObjectType({
   	createGoal: createGoalMutation,
   	deleteGoal: deleteGoalMutation,
   	completeActivities: completeActivitiesMutation,
-    uploadFile: uploadFileMutation
-  }),
+    uploadFile: {
+      type: fileType,
+      resolve(rootValue,req) {
+          return new fileService(httpParser(req)).uploadFile(rootValue.request.file);
+      }
+    }
+  })
 });

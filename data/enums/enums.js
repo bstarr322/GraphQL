@@ -5,7 +5,7 @@
 import {Enum} from 'enumify';
 
 export class CpdoneApiEnum extends Enum {};
-CpdoneApiEnum.initEnum(["GOAL", "LEGACY", "VIEWER"]);
+CpdoneApiEnum.initEnum(["GOAL", "LEGACY", "FILES","VIEWER"]);
 
 export class HttpMethodEnum extends Enum {};
 HttpMethodEnum.initEnum(["GET", "POST", "PATCH", "DELETE"]);

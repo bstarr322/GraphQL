@@ -23,7 +23,6 @@ import {
 } from './connections';
 
 import completeActivityInputType from '../models/inputTypes/completeActivityInputType.js';
-import activityContentInputType from '../models/inputTypes/activityContentInputType.js';
 import viewerType from '../types/viewer-type.js';
 import activityService from '../services/activityService';
 

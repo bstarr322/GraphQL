@@ -19,7 +19,7 @@ export default class extends BaseService {
 		this.mygoals = '/mygoals';
 		this.mygoal = '/mygoal/';
 		this.goal = '/goal/';
-		this.goalsCpd = '/goals/cpd/';
+		this.goalsCpd = '/goal/cpd/';
 		this.user = '/user/';
 		this.users = '/users';
 		this.business = '/business';
@@ -100,7 +100,7 @@ export default class extends BaseService {
 	}
 
 	getGoalUsers(goalId, page, size, sortField, sortDirection) {
-		var route = route = this.goal + goalId + this.users;
+		var route = this.goal + goalId + this.users;
 		var params = { page:page, size:size, sortField:sortField, sortDirection:sortDirection };
 		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,params,goalId);
 	}
@@ -129,13 +129,13 @@ export default class extends BaseService {
 	}
 
 	getCpdGoalUsers(goalId,page,size,month, sortField, sortDirection) {
-		var route = route = this.goal + this.cpd + goalId + this.users;
-		var params = { goalId: goalId, page:page, size:size, sortField:sortField, sortDirection:sortDirection };
+		var route  = this.goalsCpd + goalId + this.users;
+		var params = { page:page, size:size,month:month,sortField:sortField, sortDirection:sortDirection };
 		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,params,goalId);
 	}
 
 	getCpdGoalUser(goalId,userId,year) {
-		var route = this.goal + this.cpd + goalId +  this.user + userId + '/' + year;
+		var route =  this.goalsCpd  + goalId +  this.user + userId + '/' + year;
 		var params = {goalId:goalId};
 		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,params,goalId);
 	}
@@ -146,7 +146,7 @@ export default class extends BaseService {
 	  	var nonCpdOrgAdminReqBody = { description: body.description, isBusinessCritical: body.isBusinessCritical, isSequential: body.isSequential, tasks: body.tasks } 
 	  	var cpdOrgAdminReqBody = { industryId: body.industryId, membershipId: body.membershipId }
 	  	var cpdReqBody = { industryId: body.industryId, membershipId: body.membershipId, pointsToComplete: body.pointsToComplete }
-	  	var routeGoalType;
+	  	var routeGoalType; 
   		switch(input.body.goalType.id) {
   			case 1: routeGoalType = "Induction"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
   			case 2: routeGoalType = "CpdOrgAdmin"; Object.assign(requestBody, cpdOrgAdminReqBody); break;
