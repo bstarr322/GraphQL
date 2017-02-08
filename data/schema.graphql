@@ -367,6 +367,7 @@ input UserInput {
 
 # Logged In User, root for all queries available to viewer/user
 type Viewer {
+  reloadMe: String
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
