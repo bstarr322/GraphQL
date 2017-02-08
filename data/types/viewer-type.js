@@ -19,7 +19,12 @@ import goalServiceApiFields from './viewerFields/goalServiceApiFields';
 export default new GraphQLObjectType({
 	name: 'Viewer',
 	description: 'Logged In User, root for all queries available to viewer/user',
-	fields: () => Object.assign({},
+	fields: () => Object.assign({},{
+		reloadMe: {
+			type:GraphQLString,
+			resolve: () => "reload!"
+		},
+	},
 		legacyApiFields,
 		goalServiceApiFields
 	)
