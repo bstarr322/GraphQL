@@ -9,13 +9,6 @@ type Activity {
   points: Int
 }
 
-input ActivityContentInput {
-  userId: String
-  contentId: String
-  isComplete: Boolean
-  membershipPoints: [MembershipInput]
-}
-
 type Business {
   businessId: ID
   name: String
@@ -125,6 +118,16 @@ type DeleteGoalPayload {
   deleted: Boolean
   viewer: Viewer
   clientMutationId: String
+}
+
+type File {
+  originalname: String
+  mimetype: String
+  encoding: String
+  destination: String
+  filename: String
+  path: String
+  size: Int
 }
 
 type Goal {
@@ -285,16 +288,11 @@ type Membership {
   cpdPoints: Int
 }
 
-input MembershipInput {
-  membershipId: String
-  points: Int
-}
-
 type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
   completeActivities(input: CompleteActivitiesInput!): CompleteActivitiesPayload
-  updateActivityContent(input: UpdateActivityContentInput!): UpdateActivityContentPayload
+  uploadFile: File
 }
 
 # Information about pagination in a connection.
@@ -356,13 +354,12 @@ input TeamInput {
   name: String
 }
 
-input UpdateActivityContentInput {
-  body: ActivityContentInput
-  clientMutationId: String
-}
-
-type UpdateActivityContentPayload {
-  clientMutationId: String
+type UploadedFile {
+  lastModified: String
+  name: String
+  size: Int
+  type: String
+  webkitRelativePath: String
 }
 
 input UserInput {
@@ -372,7 +369,6 @@ input UserInput {
 
 # Logged In User, root for all queries available to viewer/user
 type Viewer {
-  reloadMe: String
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
@@ -401,4 +397,5 @@ type Viewer {
   cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: String, sortDirection: String): CpdTeamActivity
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
   goalPercentages(teamIds: [String], goalId: String, businessId: String): GoalServiceTeamTree
+  downloadFile(fileId: String, businessId: String): UploadedFile
 }

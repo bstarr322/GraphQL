@@ -62,7 +62,7 @@ export default {
 	goalType: {
 		type: goalTypeType,
 		args: {goalTypeId: {type: GraphQLInt}},
-		resolve: (_,args, req) => new goalTypeService(httpParser(req)).goalType(goalTypeId)
+		resolve: (_,args, req) => new goalTypeService(httpParser(req)).getGoalType(args.goalTypeId)
 	},
 	goalTypeByTag: {
 		type: goalTypeType,

@@ -1,13 +1,15 @@
 /**
  * Express test server configurations
  */
-import { DocumentNode } from 'graphql';
 import graphqlHTTP from 'express-graphql';
 import express from 'express';
 import cors from 'cors';
 import schema from './data/schema.js';
 import config from './config.js';
-import {formatError} from './data/utilities/errorFormatter.js'
+import {formatError} from './data/utilities/errorFormatter.js';
+import multer from 'multer';
+import logger from './log-config';
+
 
 const graphQLApp = express();
 
@@ -26,17 +28,30 @@ var corsOptions = {
 graphQLApp.options('/graphql', 
 	config.IS_CORS_ENABLED ? cors(corsOptions) : cors());
 
+// Multer provides multipart form data parsing.
+const storage = multer.memoryStorage();
+graphQLApp.use('/graphql', multer({ storage: storage }).single('file'));
+
 // Connection configuration of graphql schema to express 
 graphQLApp.use('/graphql', graphqlHTTP(request => {
   const startTime = Date.now();
   return {
     schema: schema,
-    extensions() {
-      return { runTime: Date.now() - startTime };
-    },
     graphiql: true,
     pretty: true,
-    formatError: error => formatError(error)
+    rootValue: {request: request},
+    formatError: error => formatError(error),
+    extensions({document, variables, operationName, result}) {
+      var queries;
+      var duration = Date.now()-startTime;
+
+      if("viewer" in result.data) {
+        queries = Object.keys(result.data.viewer).toString()
+        logger.info("GraphQL Query Request - " + queries + " took [" + duration + "]ms");
+      }
+      
+      return {duration: duration};
+    }
   };
 }));
 

@@ -23,7 +23,6 @@ import {
 } from './connections';
 
 import completeActivityInputType from '../models/inputTypes/completeActivityInputType.js';
-import activityContentInputType from '../models/inputTypes/activityContentInputType.js';
 import viewerType from '../types/viewer-type.js';
 import activityService from '../services/activityService';
 
@@ -40,18 +39,5 @@ export const completeActivitiesMutation = mutationWithClientMutationId({
   },
   mutateAndGetPayload: function(input,req){
     return new activityService(httpParser(req)).completeActivities(input.body, input.businessId);
-  }
-});
-
-export const updateActivityContentMutation = mutationWithClientMutationId({
-  name: 'UpdateActivityContent',
-  inputFields: { 
-    body: { type: activityContentInputType }
-  },
-  outputFields: { 
-    clientMutationId: { type: GraphQLString }
-  },
-  mutateAndGetPayload: function(input,req){
-    return new activityService(httpParser(req)).updateActivityContent(input);
   }
 });

@@ -19,8 +19,8 @@ export default class {
 
 	/**
 	 * Calls an http request to 'http://jsonplaceholder.typicode.com'
- 	 * @param {string}   	httpMethod 		- The http method.
-	 * @param {string}   	route 			- The request url route.
+ 	 * @param {string}   	[httpMethod] 	- The http method.
+	 * @param {string}   	[route] 		- The request url route.
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
@@ -31,8 +31,9 @@ export default class {
 
 	/**
 	 * Calls an http request for cpdone web service api.
-	 * @param {string}   	httpMethod 		- The http method.
-	 * @param {string}   	route 			- The request url route.
+	 * @param {string}   	[httpMethod] 	- The http method.
+	 * @param {string}   	[route] 		- The request url route.
+	 * @param {string}   	[headers] 		- The request headers.
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
@@ -43,8 +44,10 @@ export default class {
 
 	/**
 	 * Calls an http request to cpdone goals service 
-	 * @param {string}   	httpMethod 		- The http method.
-	 * @param {string}   	route 			- The request url route.
+	 * @param {string}   	[httpMethod] 	- The http method.
+	 * @param {string}   	[route] 		- The request url route.
+	 * @param {string}   	[params] 		- The request params.
+	 * @param {string}   	[headers] 		- The request headers.
 	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
 	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
 	 */
@@ -54,8 +57,22 @@ export default class {
 	}
 
 	/**
+	 * Call file service for upload or download of attachments
+	 * @param {string}   	[httpMethod]	- The http method.
+	 * @param {string}   	[route] 		- The request url route.
+	 * @param {string}   	[params] 		- The request params.
+	 * @param {string}   	[headers] 		- The request headers.
+	 * @param {function} 	[transformFunc] - An optional function that transforms the http response body.
+	 * @param {object}   	[requestBody] 	- An optional object where url response is shaped into.
+	 */
+	httpToFilesApi(httpMethod, route, transformFunc, requestBody) {
+	    var options = createHttpRequestOption(CpdoneApiEnum.FILES, httpMethod, route, this.authHeader);
+	  	return this._callHttp(options, transformFunc, requestBody, true);
+	}
+
+	/**
 	 * Fetches a data from the request options parameter asynchronously.
-	 * @param  {object}   options 			- A httpRequestOptions object i.e. url, httpmethod, headers.
+	 * @param  {object}   [options] 		- A httpRequestOptions object i.e. url, httpmethod, headers.
 	 * @param  {function} [transformFunc] 	- An optional function that transforms the http response body.
 	 * @param  {object}   [requestBody] 	- An optional object where url response is shaped into.
 	 * @param  {bool}     [logError] 		- An optional boolean which sets whether the promise will create an error record on output response.
@@ -63,6 +80,7 @@ export default class {
 	 */
 	 _callHttp(options, transformFunc, requestBody, logError = false) {
 	 	var that = this;
+	 	//console.log(options);
 		return new Promise((resolve, reject) => {	 		
 			var request = http.request(options, that._createCallback(resolve, reject, transformFunc, logError));
 			if (requestBody) request.write(JSON.stringify(requestBody));
@@ -74,9 +92,10 @@ export default class {
 
 	/**
 	 * Creates a callback function that processes the http response.
-	 * @param  {[type]} resolve       - A promise resolve delagate.
-	 * @param  {[type]} transformFunc - An optional function that transforms the http response body.
-	 * @param  {[type]} logError      - An optional boolean which sets whether the promise will create an error record on output response.
+	 * @param  {[type]} [resolve]       - A promise resolve delagate.
+	 * @param  {[type]} [reject]        - A promise reject delagate.
+	 * @param  {[type]} [transformFunc] - An optional function that transforms the http response body.
+	 * @param  {[type]} [logError]      - An optional boolean which sets whether the promise will create an error record on output response.
 	 */
 	_createCallback(resolve, reject, transformFunc, logError) {
 		var that = this;
@@ -88,6 +107,7 @@ export default class {
 					data += str.replace("\\", "\\\\");
 				})
 				.on('end', function () {
+					//console.log("data -> " + data);
 					if (response.statusCode >= 400) {
 						var error = that._createErrorMessage(response.statusCode,data);
 						reject(Promise.reject(error));
@@ -101,9 +121,9 @@ export default class {
 
 	/**
 	 * Formats data by trying to convert it to a json object
-	 * @param  {object} response  - A http response object
-	 * @param  {boolean} data     - A formatted data
-	 * @param  {[type]} transformFunc - An optional function that transforms the http response body.
+	 * @param  {object}   [response]      - A http response object
+	 * @param  {boolean}  [data]     	  - A formatted data
+	 * @param  {function} [transformFunc] - An optional function that transforms the http response body.
 	 */
 	_formatData(response, data, transformFunc) {
 		// GraphQLList types throws errors when it returns no data 
@@ -119,8 +139,9 @@ export default class {
 
 	/**
 	 * Creates an error message using Boom library 
-	 * @param  {[type]} statusCode The http status code
-	 * @return {[type]}            A string of boom object
+	 * @param  {int} statusCode 	- The http status code
+	 * @param  {string} message  	- The http status code
+	 * @return {object}             - A string of boom object
 	 */
 	_createErrorMessage(statusCode, message) {
 		return JSON.stringify(Boom.create(statusCode,message,message));

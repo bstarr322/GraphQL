@@ -8,7 +8,7 @@
     "watch": "nodemon --exec npm start",
     "update-schema": "babel-node ./scripts/updateSchema.js",
     "unit-test": "",
-    "integ-test": "mocha --compilers js:babel-core/register ./test/graphql.test.js"
+    "integ-test": "mocha --compilers js:babel-core/register ./tests/integ-test.js"
   },
   "dependencies": {
     "babel-cli": "^6.14.0",
@@ -27,7 +27,9 @@
     "express-graphql": "0.5.4",
     "extend": "^3.0.0",
     "graphql": "0.7.0",
-    "graphql-relay": "^0.4.3"
+    "graphql-relay": "^0.4.3",
+    "multer": "^1.3.0",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
