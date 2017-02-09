@@ -95,6 +95,11 @@ type CpdSummary {
   numberOfUsers: Int
 }
 
+type CpdTeamActivity {
+  cpdUsers: [CpdGoalUsers]
+  membership: Membership
+}
+
 input CreateGoalInput {
   body: GoalInput
   clientMutationId: String
@@ -393,7 +398,7 @@ type Viewer {
   myGoals(businessId: String, page: Int, size: Int, sortField: String, sortDirection: String, prioritizeBusinessCritical: Boolean, goalType: Int): [Goal]
   cpdAvailableYears(goalId: String, userId: String): [CpdAvailableYears]
   cpdGoalSummary(goalId: String): CpdGoalSummary
-  cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: Int, sortDirection: Int): [CpdGoalUsers]
+  cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: String, sortDirection: String): CpdTeamActivity
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
   goalPercentages(teamIds: [String], goalId: String, businessId: String): GoalServiceTeamTree
 }
