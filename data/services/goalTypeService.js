@@ -8,23 +8,29 @@ import { HttpMethodEnum } from '../enums/enums.js'
  */
 export default class extends BaseService {
 
-	  constructor(authHeader) {
+	constructor(authHeader) {
 	    super(authHeader);
 		this.reference = '/reference/'
 	}
 
+	//refactor mediator
+	goalTypeServiceWithHeaders(method,route,businessId,transformFunc,requestBody) {
+		var headers = this.req;
+		return super.httpToGoalsApi(method,route,headers,transformFunc,requestBody);
+	}
+
 	getGoalTypes() {
 		var route = this.reference + 'goalTypes';
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		return this.goalTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoalType(goalTypeId) {
 		var route = this.reference + 'goalType/' + goalTypeId;
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		return this.goalTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
 	}
 
 	getGoalTypeByTag(tag) {
 	  	var route = this.reference + 'goalTypeByTag/' + tag;
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		return this.goalTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
 	}
 };

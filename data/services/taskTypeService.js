@@ -13,19 +13,25 @@ export default class extends BaseService {
 		this.reference = '/reference/'
 	}
 
+	//refactor mediator
+	taskTypeServiceWithHeaders(method,route,businessId,transformFunc,requestBody) {
+		var headers = this.req;
+		return super.httpToGoalsApi(method,route,headers,transformFunc,requestBody);
+	}
+
 	getTaskTypes() {
 		var route = this.reference + 'taskTypes';
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		return this.taskTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
 	}
 
 	getTaskType(taskTypeId) {
 		var route = this.reference + 'taskType/' + taskTypeId;
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		return this.taskTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
 	}
 
 	getTaskTypeByTag(tag) {
 		var route = this.reference + 'taskTypeByTag/' + tag;
-		return super.httpToGoalsApi(HttpMethodEnum.GET.name, route);
+		return this.taskTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
 	}
 
 };
