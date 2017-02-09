@@ -10,28 +10,29 @@ export default class extends BaseService {
 
 	constructor(authHeader) {
 	    super(authHeader);
+	    this.req = authHeader;
 		this.reference = '/reference/'
 	}
 
 	//refactor mediator
-	taskTypeServiceWithHeaders(method,route,businessId,transformFunc,requestBody) {
+	taskTypeServiceWithHeaders(method,route) {
 		var headers = this.req;
-		return super.httpToGoalsApi(method,route,headers,transformFunc,requestBody);
+		return super.httpToGoalsApi(method,route,null,headers);
 	}
 
 	getTaskTypes() {
 		var route = this.reference + 'taskTypes';
-		return this.taskTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
+		return this.taskTypeServiceWithHeaders(HttpMethodEnum.GET.name, route);
 	}
 
 	getTaskType(taskTypeId) {
 		var route = this.reference + 'taskType/' + taskTypeId;
-		return this.taskTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
+		return this.taskTypeServiceWithHeaders(HttpMethodEnum.GET.name, route);
 	}
 
 	getTaskTypeByTag(tag) {
 		var route = this.reference + 'taskTypeByTag/' + tag;
-		return this.taskTypeServiceWithBusinessId(HttpMethodEnum.GET.name, route);
+		return this.taskTypeServiceWithHeaders(HttpMethodEnum.GET.name, route);
 	}
 
 };
