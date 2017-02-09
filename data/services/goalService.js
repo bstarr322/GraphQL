@@ -131,7 +131,14 @@ export default class extends BaseService {
 	getCpdGoalUsers(goalId,page,size,month, sortField, sortDirection) {
 		var route  = this.goalsCpd + goalId + this.users;
 		var params = { page:page, size:size,month:month,sortField:sortField, sortDirection:sortDirection };
-		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,params,goalId);
+		var transformFunc = (result) => {
+			if(result.length > 0){
+				return new referenceService(this.req).getMembership(result[0].membershipId).then(membership => {
+					return {cpdUsers: result, membership:membership };
+				})
+			}
+		}
+		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,params,goalId,transformFunc);
 	}
 
 	getCpdGoalUser(goalId,userId,year) {
