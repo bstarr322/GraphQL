@@ -161,8 +161,7 @@ export default {
 	},
 	goalPercentages: {
 		type: goalsTeamTreeType,
-		args: {teamIds: {type: new GraphQLList(GraphQLString)}, goalId: {type: GraphQLString}, businessId: {type: GraphQLString}},
-		resolve:  (_,args, req) => new goalService(httpParser(req)).getGoalPercentages(args.teamIds, args.goalId, args.businessId)
+		args: {goalId: {type: GraphQLString}, businessId: {type: GraphQLString}},
+		resolve:  (_,args, req) => new goalService(httpParser(req)).getGoalPercentages(args.goalId, args.businessId)
 	},
-
 };

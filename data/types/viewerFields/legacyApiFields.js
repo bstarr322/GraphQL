@@ -16,6 +16,7 @@ import industryType from '../../models/legacyApi/industryType.js';
 import membershipType from '../../models/legacyApi/membershipType.js';
 import legacyTeamTreeType from '../../models/legacyApi/teamTreeType.js';
 import userType from '../../models/legacyApi/userType.js';
+import managerType from '../../models/legacyApi/managerType.js';
 
 // legacy services
 import businessService from '../../services/businessService.js';
@@ -37,6 +38,11 @@ export default {
 		type: new GraphQLList(userType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
 		resolve: (_,args, req) => new userService(httpParser(req)).getUserByBusinessAndTeam(args.businessId, args.teamId)
+	},
+	teamManagers: {
+		type: new GraphQLList(managerType),
+		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
+		resolve: (_,args, req) => new userService(httpParser(req)).getTeamManagers(args.teamId,args.businessId)
 	},
 
 	// content service

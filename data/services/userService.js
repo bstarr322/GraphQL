@@ -13,6 +13,7 @@ export default class extends BaseService {
     this.req = authHeader;
     this.users = '/api/v1/users/'
     this.business = '/businesses/';
+    this.manager = '/managers/teams/'
   }
 
   //refactor mediator
@@ -44,6 +45,11 @@ export default class extends BaseService {
    */
   getUserSummaryByBusiness(userId,businessId) {
     var route = this.users + userId + this.business + businessId;
+    return this.userServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
+  }
+
+  getTeamManagers(teamId,businessId){
+    var route = this.users + this.managers + teamId + this.businesses + businessId;
     return this.userServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
 

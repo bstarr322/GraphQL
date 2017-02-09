@@ -59,9 +59,9 @@ export default class extends BaseService {
 		return this.goalServiceWithBusinessId(HttpMethodEnum.GET.name,route,params,businessId);
 	}
 
-	getGoalPercentages(teamIds, goalId, businessId){
-		var promiseTeamsInReducedTreeForm = new businessService(this.req).getTeamsInReducedTreeForm({teamIds: teamIds}, businessId);
-		return promiseTeamsInReducedTreeForm.then(teamTree => {
+	getGoalPercentages(goalId, businessId){
+		var promiseTeamsInTreeFormByBusiness= new businessService(this.req).getTeamsInTreeFormByBusiness(businessId);
+		return promiseTeamsInTreeFormByBusiness.then(teamTree => {
 			var requestBody = mapKeysDeep(teamTree, (key)=>{
 				if (key === "Id") return "id";
 				if (key === "ChildrenNodes") return "children";

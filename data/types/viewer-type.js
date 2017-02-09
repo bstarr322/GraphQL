@@ -20,7 +20,12 @@ import fileApiFields from './viewerFields/fileApiFields';
 export default new GraphQLObjectType({
 	name: 'Viewer',
 	description: 'Logged In User, root for all queries available to viewer/user',
-	fields: () => Object.assign({},
+	fields: () => Object.assign({}, {
+			reloadMe: {
+				type: GraphQLString,
+				resolve: () => "reloadMe!"
+			}
+		},
 		legacyApiFields,
 		goalApiFields,
 		fileApiFields

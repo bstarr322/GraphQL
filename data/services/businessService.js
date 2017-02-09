@@ -56,7 +56,7 @@ export default class extends BaseService {
   /**
    * Gets all teams in a business in tree structure
    */
-  getTeamsInTreeFormByBusiness(businessId, reqs) {
+  getTeamsInTreeFormByBusiness(businessId) {
     var route = this.businesses + businessId + '/teams/tree';
     return this.businessServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
   }
