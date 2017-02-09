@@ -33,11 +33,6 @@ export var mutationType = new GraphQLObjectType({
   	createGoal: createGoalMutation,
   	deleteGoal: deleteGoalMutation,
   	completeActivities: completeActivitiesMutation,
-    uploadFile: {
-      type: fileType,
-      resolve(rootValue,req) {
-          return new fileService(httpParser(req)).uploadFile(rootValue.request.file);
-      }
-    }
+    uploadFile: uploadFileMutation
   })
 });

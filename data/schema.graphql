@@ -282,6 +282,13 @@ type LegacyUser {
   city: String
 }
 
+type Manager {
+  parentId: String
+  managerId: String
+  groupId: String
+  fullName: String
+}
+
 type Membership {
   membershipId: ID
   name: String
@@ -292,7 +299,7 @@ type Mutation {
   createGoal(input: CreateGoalInput!): CreateGoalPayload
   deleteGoal(input: DeleteGoalInput!): DeleteGoalPayload
   completeActivities(input: CompleteActivitiesInput!): CompleteActivitiesPayload
-  uploadFile: File
+  uploadFile(input: UploadFileInput!): UploadFilePayload
 }
 
 # Information about pagination in a connection.
@@ -362,6 +369,16 @@ type UploadedFile {
   webkitRelativePath: String
 }
 
+input UploadFileInput {
+  fileName: String
+  clientMutationId: String
+}
+
+type UploadFilePayload {
+  file: File
+  clientMutationId: String
+}
+
 input UserInput {
   id: String
   fullName: String
@@ -369,7 +386,9 @@ input UserInput {
 
 # Logged In User, root for all queries available to viewer/user
 type Viewer {
+  reloadMe: String
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
+  teamManagers(businessId: String, teamId: String): [Manager]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
   contentSummaryByBusinessAndContentId(businessId: String, contentIds: [String]): [LegacyContent]
@@ -396,6 +415,6 @@ type Viewer {
   cpdGoalSummary(goalId: String): CpdGoalSummary
   cpdGoalUsers(goalId: String, page: Int, size: Int, month: Int, sortField: String, sortDirection: String): CpdTeamActivity
   cpdGoalUser(goalId: String, userId: String, year: Int): CpdGoalUser
-  goalPercentages(teamIds: [String], goalId: String, businessId: String): GoalServiceTeamTree
+  goalPercentages(goalId: String, businessId: String): GoalServiceTeamTree
   downloadFile(fileId: String, businessId: String): UploadedFile
 }

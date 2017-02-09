@@ -18,13 +18,23 @@ import httpParser from '../utilities/httpParser.js'
 export const uploadFileMutation = mutationWithClientMutationId({
   name: 'UploadFile',
   inputFields: { 
-    businessId: { type: GraphQLString }
+    fileName: { type: GraphQLString }
   },
   outputFields: {
+    file: { 
+      type: fileType,
+      resolve: (payload, args, options) => {
+        console.log(payload);
+        console.log(args);
+        console.log(options);
+        const file = options.rootValue.request.file
+        console.log(file);
+      }
+    },
     clientMutationId: { type: GraphQLString }
   },
-  mutateAndGetPayload: (rootValue,request) => {
-    console.log(rootValue)
+  mutateAndGetPayload: (input) => {
+    console.log(input)
     return null; //new fileService(httpParser(req)).uploadFile(rootValue.body.file, rootValue.body.businessId);
   }
 });
