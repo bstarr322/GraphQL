@@ -23,7 +23,7 @@ import cpdAvailableYearsType from '../../models/goalsApi/cpdAvailableYearsType.j
 import cpdGoalSummaryType from '../../models/goalsApi/cpdGoalSummaryType.js';
 import cpdGoalUsersType from '../../models/goalsApi/cpdGoalUsersType.js'; 
 import cpdGoalUserType from '../../models/goalsApi/cpdGoalUserType.js'; 
-
+import cpdTeamActivityType from '../../models/goalsApi/cpdTeamActivityType.js';
 // services
 import goalService from '../../services/goalService.js';
 import taskTypeService from '../../services/taskTypeService.js';
@@ -139,14 +139,14 @@ export default {
 		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalSummary(args.goalId)
 	},
 	cpdGoalUsers: {
-		type: new GraphQLList(cpdGoalUsersType),
+		type: cpdTeamActivityType,
 		args: {
 			goalId: {type:GraphQLString},
 			page: {type:GraphQLInt},
 			size: {type:GraphQLInt},
 			month: {type:GraphQLInt},
-			sortField: {type:GraphQLInt},
-			sortDirection: {type:GraphQLInt}
+			sortField: {type:GraphQLString},
+			sortDirection: {type:GraphQLString}
 		},
 		resolve: (_,args,req) => new goalService(httpParser(req)).getCpdGoalUsers(args.goalId, args.page, args.size, args.month, args.sortField, args.sortDirection)
 	},
