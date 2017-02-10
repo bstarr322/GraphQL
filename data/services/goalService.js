@@ -112,7 +112,7 @@ export default class extends BaseService {
 
 	//Cpd Goal related 
 	getCpdAvailableYears(goalId,userId) {
-		var route = '/yearRange' + this.goal + goalId + this.user + userId;
+		var route = '/yearRange' + this.goal + goalId;
 		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,null,goalId);
 	}
 
