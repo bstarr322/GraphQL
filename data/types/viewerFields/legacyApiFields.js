@@ -16,7 +16,6 @@ import industryType from '../../models/legacyApi/industryType.js';
 import membershipType from '../../models/legacyApi/membershipType.js';
 import legacyTeamTreeType from '../../models/legacyApi/teamTreeType.js';
 import userType from '../../models/legacyApi/userType.js';
-import managerType from '../../models/legacyApi/managerType.js';
 
 // legacy services
 import businessService from '../../services/businessService.js';
