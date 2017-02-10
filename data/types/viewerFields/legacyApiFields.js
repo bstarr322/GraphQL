@@ -40,7 +40,7 @@ export default {
 		resolve: (_,args, req) => new userService(httpParser(req)).getUserByBusinessAndTeam(args.businessId, args.teamId)
 	},
 	teamManagers: {
-		type: new GraphQLList(managerType),
+		type: new GraphQLList(userType),
 		args: {businessId: {type: GraphQLString}, teamId: {type: GraphQLString}},
 		resolve: (_,args, req) => new userService(httpParser(req)).getTeamManagers(args.teamId,args.businessId)
 	},

@@ -283,13 +283,6 @@ type LegacyUser {
   city: String
 }
 
-type Manager {
-  parentId: String
-  managerId: String
-  groupId: String
-  fullName: String
-}
-
 type Membership {
   membershipId: ID
   name: String
@@ -389,7 +382,7 @@ input UserInput {
 type Viewer {
   reloadMe: String
   userByBusinessAndTeam(businessId: String, teamId: String): [LegacyUser]
-  teamManagers(businessId: String, teamId: String): [Manager]
+  teamManagers(businessId: String, teamId: String): [LegacyUser]
   contentsByBusinessId(businessId: String): [LegacyContent]
   contentIdsByBusinessIdAndCollectionId(businessId: String, collectionId: String): [ContentId]
   contentSummaryByBusinessAndContentId(businessId: String, contentIds: [String]): [LegacyContent]
