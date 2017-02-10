@@ -70,6 +70,7 @@ type CpdGoalUser {
   pointsToComplete: Int
   dateRange: CpdAvailableYears
   activities: [Activity]
+  user: GoalServiceUser
 }
 
 type CpdGoalUsers {
