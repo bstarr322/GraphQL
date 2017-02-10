@@ -14,6 +14,7 @@ import {
 
 import dateRangeType from './cpdAvailableYearsType.js';
 import activityType from './activityType.js';
+import userType from './userType.js';
 
 export default new GraphQLObjectType ({
 	name: 'CpdGoalUser',
@@ -29,7 +30,10 @@ export default new GraphQLObjectType ({
 		dateJoined: { type: GraphQLString },
 		pointsCompleted: { type: GraphQLInt },
 		pointsToComplete: { type: GraphQLInt },
-		dateRange: { type: dateRangeType },
-		activities: { type: new GraphQLList(activityType) }
+		dateRange: { type: dateRangeType
+		 },
+		activities: { type: new GraphQLList(activityType) },
+		user: {type: userType}
+
 	}},
 });
