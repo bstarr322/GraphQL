@@ -1,10 +1,6 @@
 import {
-  GraphQLInt,
   GraphQLString,
-  GraphQLObjectType,
   GraphQLList,
-  GraphQLID,
-  GraphQLBoolean
 } from 'graphql';
 
 // .net api models
@@ -21,12 +17,8 @@ import userType from '../../models/legacyApi/userType.js';
 import businessService from '../../services/businessService.js';
 import collectionService from '../../services/collectionService.js';
 import contentService from '../../services/contentService.js';
-import goalService from '../../services/goalService.js';
-import taskTypeService from '../../services/taskTypeService.js';
 import userService from '../../services/userService.js';
-import goalTypeService from '../../services/goalTypeService.js';
 import teamService from '../../services/teamService.js';
-import viewerService from '../../services/viewerService.js';
 
 // infrastructure
 import httpParser from '../../utilities/httpParser.js'
@@ -99,13 +91,13 @@ export default {
 	teamsByBusinessId: {
 		type: legacyTeamTreeType,
 		args: {businessId: {type: GraphQLString}},
-		resolve:  (_,args, req) => new businessService(httpParser(req)).getTeamsInTreeFormByBusiness(args.businessId)
+		resolve: (_,args, req) => new businessService(httpParser(req)).getTeamsInTreeFormByBusiness(args.businessId)
 	},
 
 	// team Service
 	teamInformationByTeamIdAndBusinessId: {
 		type: legacyTeamTreeType,
 		args: {teamId: {type: GraphQLString}, businessId: {type: GraphQLString}},
-		resolve:  (_,args, req) => new teamService(httpParser(req)).getTeamInformationByTeamIdAndBusinessId(args.teamId, args.businessId)
+		resolve: (_,args, req) => new teamService(httpParser(req)).getTeamInformationByTeamIdAndBusinessId(args.teamId, args.businessId)
 	},
 }

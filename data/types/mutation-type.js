@@ -13,26 +13,24 @@ import {
 
 import {
   createGoalMutation, 
-  updateGoalMutation, 
   deleteGoalMutation
 } from './goal-mutations';
 
 import { 
   completeActivitiesMutation,
-  updateActivityContentMutation 
 } from './activity-mutations';
+
 import fileType from '../models/filesApi/fileType.js'
 import { uploadFileMutation } from './file-mutations';
 import fileService from '../services/fileService.js'
-
 import httpParser from '../utilities/httpParser'
 
 export var mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
-  	createGoal: createGoalMutation,
-  	deleteGoal: deleteGoalMutation,
-  	completeActivities: completeActivitiesMutation,
+    createGoal: createGoalMutation,
+    deleteGoal: deleteGoalMutation,
+    completeActivities: completeActivitiesMutation,
     uploadFile: uploadFileMutation
   })
 });

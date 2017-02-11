@@ -3,27 +3,10 @@
  * 
  */
 
-import { 
-  GraphQLString,
-  GraphQLInt,
-  GraphQLOutputType,
-  GraphQLNonNull,
-  GraphQLBoolean,
-  GraphQLList,
-  GraphQLID
-} from 'graphql';
-import { 
-  mutationWithClientMutationId, 
-  fromGlobalId
-} from 'graphql-relay';
-
-import { 
-  goalConnection,
-  goalEdge 
-} from './connections';
+import { GraphQLString, GraphQLList } from 'graphql';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
 import completeActivityInputType from '../models/inputTypes/completeActivityInputType.js';
-import viewerType from '../types/viewer-type.js';
 import activityService from '../services/activityService';
 
 import httpParser from '../utilities/httpParser.js'
@@ -37,7 +20,7 @@ export const completeActivitiesMutation = mutationWithClientMutationId({
   outputFields: { 
     clientMutationId: { type: GraphQLString }
   },
-  mutateAndGetPayload: function(input,req){
+  mutateAndGetPayload: (input,req) => {
     return new activityService(httpParser(req)).completeActivities(input.body, input.businessId);
   }
 });

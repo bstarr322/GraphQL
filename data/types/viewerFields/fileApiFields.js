@@ -1,11 +1,4 @@
-import {
-  GraphQLInt,
-  GraphQLString,
-  GraphQLObjectType,
-  GraphQLList,
-  GraphQLID,
-  GraphQLBoolean
-} from 'graphql';
+import { GraphQLString } from 'graphql';
 
 // file service api models
 import uploadedFileType from '../../models/filesApi/uploadedFileType.js';
@@ -21,5 +14,5 @@ export default {
 		type: uploadedFileType,
 		args: {fileId: {type: GraphQLString}, businessId: {type: GraphQLString}},
 		resolve:  (_,args, req) => new fileService(httpParser(req)).downloadFile(args.fileId, args.businessId)
-	},
+	}
 }

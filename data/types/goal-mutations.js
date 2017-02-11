@@ -3,23 +3,8 @@
  * 
  */
 
-import { 
-  GraphQLString,
-  GraphQLInt,
-  GraphQLOutputType,
-  GraphQLNonNull,
-  GraphQLBoolean,
-  GraphQLID
-} from 'graphql';
-import { 
-  mutationWithClientMutationId, 
-  fromGlobalId
-} from 'graphql-relay';
-
-import { 
-  goalConnection,
-  goalEdge 
-} from './connections';
+import { GraphQLString, GraphQLBoolean } from 'graphql';
+import { mutationWithClientMutationId } from 'graphql-relay';
 
 import goalInputType from '../models/inputTypes/goalInputType.js';
 import deleteGoalInputType from '../models/inputTypes/deleteGoalInputType.js';
@@ -90,7 +75,7 @@ export const createGoalMutation = mutationWithClientMutationId({
 function promisesForCreateGoal(input,req){
   var promiseArr = [];
   if ('tasks' in input.body) {
-    input.body.tasks.forEach(function(task) {
+    input.body.tasks.forEach(task => {
       if('collection' in task){
         var promiseTask = new contentService(httpParser(req)).getContentByCollectionIdAndBusinessId(task.collection.collectionId, input.body.businessId);
         promiseArr.push(promiseTask); 
