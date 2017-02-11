@@ -4,9 +4,7 @@
 
 import {
 	GraphQLInputObjectType,
-	GraphQLString,
-	GraphQLList,
-	GraphQLBoolean
+	GraphQLString
 } from 'graphql';
 
 import userInputType from './userInputType';

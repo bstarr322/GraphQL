@@ -6,7 +6,6 @@
 import {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
 	GraphQLList,
 	GraphQLBoolean,
@@ -19,7 +18,7 @@ import taskType from './taskType';
 import businessType from '../legacyApi/businessType'
 
 export default new GraphQLObjectType({
-  	name: 'Goal',
+	name: 'Goal',
 	fields: function() { return {
 		goalId: { 
 			type: GraphQLID,

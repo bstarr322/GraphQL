@@ -9,7 +9,7 @@ import {
 
 export default new GraphQLInputObjectType ({
 	name: 'GoalTypeInput',
- 	fields: { 
- 		id: { type: GraphQLInt } 
- 	},
+	fields: { 
+		id: { type: GraphQLInt } 
+	},
 });

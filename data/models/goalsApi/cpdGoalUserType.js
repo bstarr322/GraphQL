@@ -6,7 +6,6 @@
 import {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
 	GraphQLInt,
 	GraphQLList
@@ -30,10 +29,8 @@ export default new GraphQLObjectType ({
 		dateJoined: { type: GraphQLString },
 		pointsCompleted: { type: GraphQLInt },
 		pointsToComplete: { type: GraphQLInt },
-		dateRange: { type: dateRangeType
-		 },
+		dateRange: { type: dateRangeType },
 		activities: { type: new GraphQLList(activityType) },
 		user: {type: userType}
-
 	}},
 });

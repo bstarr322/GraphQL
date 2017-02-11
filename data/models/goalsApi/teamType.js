@@ -6,10 +6,11 @@
 import {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
 	GraphQLList
 } from 'graphql';
+
+import userType from './userType';
 
 export default new GraphQLObjectType({
 	name: 'GoalServiceTeam',
@@ -18,6 +19,7 @@ export default new GraphQLObjectType({
 			type: GraphQLID, 
 			resolve: team => team.id
 		},
-		name: { type: GraphQLString }
+		name: { type: GraphQLString },
+		manager: { type: new GraphQLList(userType) }
 	}},
 });

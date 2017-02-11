@@ -11,5 +11,5 @@ export default new GraphQLInputObjectType ({
 	name:'deleteGoalInput',
 	fields: function() { return {
 		goalId: { type: GraphQLString },
-  	}},
+	}},
 });

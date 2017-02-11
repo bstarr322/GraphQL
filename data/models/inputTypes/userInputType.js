@@ -9,8 +9,8 @@ import {
 
 export default new GraphQLInputObjectType ({
 	name: 'UserInput',
-	fields: function () { return {
-	    id:{ type: GraphQLString },
-	    fullName: { type: GraphQLString }
+	fields: function() { return {
+		id:{ type: GraphQLString },
+		fullName: { type: GraphQLString }
 	}},
 });

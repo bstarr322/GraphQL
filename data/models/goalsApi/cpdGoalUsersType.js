@@ -6,10 +6,8 @@
 import {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
-	GraphQLInt,
-	GraphQLList
+	GraphQLInt
 } from 'graphql';
 
 import userType from "./userType.js";

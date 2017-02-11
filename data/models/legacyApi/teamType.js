@@ -3,13 +3,7 @@
  * from cpdone web service api.
  */
 
-import {
-	GraphQLObjectType,
-	GraphQLString,
-	GraphQLNonNull,
-	GraphQLID,
-	GraphQLList
-} from 'graphql';
+import { GraphQLObjectType, GraphQLID } from 'graphql';
 
 export default new GraphQLObjectType({
 	name: 'LegacyTeam',

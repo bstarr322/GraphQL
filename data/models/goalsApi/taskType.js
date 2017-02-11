@@ -1,4 +1,7 @@
+
 /**
+ * Model for getting task
+ * from goals service api.
  */
 
 import {

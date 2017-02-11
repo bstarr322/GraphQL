@@ -12,8 +12,8 @@ export default new GraphQLObjectType({
   name: 'GoalServiceUser',
   fields: function () { return {
     userId: { 
-    	type: GraphQLID,
-    	resolve: user => user.id
+      type: GraphQLID,
+      resolve: user => user.id
     },
     name: { type: GraphQLString }
   }},

@@ -6,7 +6,6 @@
 import {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
 	GraphQLInt
 } from 'graphql';
@@ -14,10 +13,10 @@ import {
 export default new GraphQLObjectType({
 	name: 'Membership',
 	fields: function() { return {
-	  	membershipId: { 
-	  		type: GraphQLID, 
-	  		resolve: membership => membership.Id 
-	  	},
+		membershipId: { 
+			type: GraphQLID, 
+			resolve: membership => membership.Id 
+		},
 		name: { 
 			type: GraphQLString, 
 			resolve: membership => membership.Name 

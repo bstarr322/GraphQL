@@ -5,8 +5,6 @@
 import {
 	GraphQLInputObjectType,
 	GraphQLString,
-	GraphQLList,
-	GraphQLBoolean
 } from 'graphql';
 
 export default new GraphQLInputObjectType ({

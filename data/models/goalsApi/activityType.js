@@ -6,7 +6,6 @@
 import {
 	GraphQLObjectType,
 	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
 	GraphQLInt
 } from 'graphql';
@@ -19,10 +18,10 @@ export default new GraphQLObjectType({
 		activityId: { type: GraphQLID },
 		taskType: { type: taskTypeType },
 		datePerformed: { type: GraphQLString },
-      	title: { type: GraphQLString },
-      	description: { type: GraphQLString },
-      	cpdCategory: { type: GraphQLString },
-      	contentId: { type: GraphQLString },
-      	points: { type: GraphQLInt },
+		title: { type: GraphQLString },
+		description: { type: GraphQLString },
+		cpdCategory: { type: GraphQLString },
+		contentId: { type: GraphQLString },
+		points: { type: GraphQLInt },
 	}},
 });

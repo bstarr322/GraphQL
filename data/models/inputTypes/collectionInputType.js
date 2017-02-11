@@ -5,8 +5,7 @@
 import {
 	GraphQLInputObjectType,
 	GraphQLString,
-	GraphQLList,
-	GraphQLBoolean
+	GraphQLList
 } from 'graphql';
 
 import contentInputType from './contentInputType';

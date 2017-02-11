@@ -35,5 +35,5 @@ export default new GraphQLObjectType({
       type: GraphQLString,
       resolve: user => user.City 
     }
-  }},
+  }}
 });

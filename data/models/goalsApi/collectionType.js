@@ -5,11 +5,8 @@
 
 import {
 	GraphQLObjectType,
-	GraphQLString,
-	GraphQLNonNull,
 	GraphQLID,
-	GraphQLList,
-	GraphQLInt
+	GraphQLList
 } from 'graphql';
 
 import contentType from './contentType'

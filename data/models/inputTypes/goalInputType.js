@@ -30,5 +30,5 @@ export default new GraphQLInputObjectType ({
 		industryId: { type: GraphQLString },
 		membershipId: { type: GraphQLString },
 		pointsToComplete: { type: GraphQLInt },
-  	}},
+	}},
 });
