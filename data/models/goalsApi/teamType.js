@@ -20,6 +20,6 @@ export default new GraphQLObjectType({
 			resolve: team => team.id
 		},
 		name: { type: GraphQLString },
-		manager: { type: new GraphQLList(userType) }
+		managers: { type: new GraphQLList(userType) }
 	}},
 });

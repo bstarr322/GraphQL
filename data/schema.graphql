@@ -121,16 +121,6 @@ type DeleteGoalPayload {
   clientMutationId: String
 }
 
-type File {
-  originalname: String
-  mimetype: String
-  encoding: String
-  destination: String
-  filename: String
-  path: String
-  size: Int
-}
-
 type Goal {
   goalId: ID
   extensionId: String
@@ -196,6 +186,7 @@ type GoalServiceContent {
 type GoalServiceTeam {
   teamId: ID
   name: String
+  managers: [GoalServiceUser]
 }
 
 type GoalServiceTeamTree {
@@ -369,7 +360,7 @@ input UploadFileInput {
 }
 
 type UploadFilePayload {
-  file: File
+  linkId: String
   clientMutationId: String
 }
 

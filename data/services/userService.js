@@ -1,5 +1,6 @@
 import BaseService from './baseService.js'
 import { HttpMethodEnum } from '../enums/enums.js'
+import mapKeysDeep from 'deep-rename-keys';
 
 /**
  * @description This module contains user related service
@@ -49,8 +50,16 @@ export default class extends BaseService {
   }
 
   getTeamManagers(teamId,businessId){
-    var route = this.users + this.managers + teamId + this.businesses + businessId;
-    return this.userServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId);
+    var route = this.users + this.manager + teamId + this.business + businessId;
+    var transformFunc = results => {
+      results = mapKeysDeep(results, (key)=>{
+        if (key === "Id") return "id";
+        if (key === "FullName") return "name";
+        return key;
+      });
+      return  { id: teamId, managers: results }
+    }
+    return this.userServiceWithBusinessId(HttpMethodEnum.GET.name, route, businessId, transformFunc);
   }
 
 }

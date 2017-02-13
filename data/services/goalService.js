@@ -2,8 +2,9 @@ import BaseService from './baseService.js';
 import businessService from './businessService.js';
 import referenceService from './referenceService.js';
 import { HttpMethodEnum } from '../enums/enums.js';
-import httpParser from '../utilities/httpParser';
 import mapKeysDeep from 'deep-rename-keys';
+
+import userService from './userService.js'
 
 /**
  * @description This module contains service calls 
@@ -13,8 +14,8 @@ import mapKeysDeep from 'deep-rename-keys';
 export default class extends BaseService {
 
 	constructor(authHeader) {
-	    super(authHeader);
-	    this.req = authHeader;
+		super(authHeader);
+		this.req = authHeader;
 		this.goals = '/goals';
 		this.mygoals = '/mygoals';
 		this.mygoal = '/mygoal/';
@@ -42,7 +43,6 @@ export default class extends BaseService {
 	goalServiceWithBusinessId(method,route,params,businessId,transformFunc,requestBody){
 		var headers = this.req;
 		headers.businessId = businessId;
-		console.log(headers);
 		return super.httpToGoalsApi(method,route,params,headers,transformFunc,requestBody);
 	}
 
@@ -102,7 +102,46 @@ export default class extends BaseService {
 	getGoalUsers(goalId, page, size, sortField, sortDirection) {
 		var route = this.goal + goalId + this.users;
 		var params = { page:page, size:size, sortField:sortField, sortDirection:sortDirection };
-		return this.goalServiceToQueryBusinessId(HttpMethodEnum.GET.name,route,params,goalId);
+		var businessId;
+		return this.getBusinessByGoalId(goalId)
+			.then(business => { 
+				businessId = business.id;
+				return this.goalServiceWithBusinessId(HttpMethodEnum.GET.name,route,params,business.id)
+			})
+			.then(goalUsers => {
+				return Promise.all(this.promiseTeamManagers(goalUsers,businessId)).then(managerTeams => {
+					//#4 map to managers to goalUsers using teamId
+			 		goalUsers.forEach(goalUser => {
+						goalUser.teams.forEach(team => {
+							managerTeams.forEach(managerTeam => {
+								if (team.id == managerTeam.id) {
+									team.managers = managerTeam.managers;
+								}
+							})
+						})
+					})
+					return goalUsers;
+			})	
+		})
+	}
+
+	promiseTeamManagers(goalUsers,businessId){
+		var promiseArr = [];
+		var teamIdsArr = [];
+		//#1 get teamIds from goalUsers
+ 		goalUsers.forEach(goalUser => {
+			goalUser.teams.forEach(team => {
+				teamIdsArr.push(team.id);
+			})
+		});
+		//#2 filter to same teamIds only
+		teamIdsArr = [ ...new Set(teamIdsArr) ];
+		//#3 query filtered teamIds only
+		teamIdsArr.forEach(teamId => {
+			var promise = new userService(this.req).getTeamManagers(teamId,businessId);
+			promiseArr.push(promise);
+		});
+		return promiseArr;
 	}
 
 	getGoalUser(goalId,userId) {
@@ -150,38 +189,38 @@ export default class extends BaseService {
 	createGoal(input) {
 		var body = input.body;
 		var requestBody = { name: body.name, businessId: body.businessId, goalType: body.goalType, teams: body.teams, startDate: body.startDate, endDate: body.endDate }
-	  	var nonCpdOrgAdminReqBody = { description: body.description, isBusinessCritical: body.isBusinessCritical, isSequential: body.isSequential, tasks: body.tasks } 
-	  	var cpdOrgAdminReqBody = { industryId: body.industryId, membershipId: body.membershipId }
-	  	var cpdReqBody = { industryId: body.industryId, membershipId: body.membershipId, pointsToComplete: body.pointsToComplete }
-	  	var routeGoalType; 
-  		switch(input.body.goalType.id) {
-  			case 1: routeGoalType = "Induction"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
-  			case 2: routeGoalType = "CpdOrgAdmin"; Object.assign(requestBody, cpdOrgAdminReqBody); break;
-  			case 3: routeGoalType = "PoliciesandProcedures"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
-  			case 4: routeGoalType = "ProductUpdates"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
-  			case 5: routeGoalType = "Regulatory"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
-  			case 6: routeGoalType = "Training"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
-  			case 7: routeGoalType = "Cpd"; Object.assign(requestBody,cpdReqBody); break;
-  		}
-  		var route = this.goal + routeGoalType;
+		var nonCpdOrgAdminReqBody = { description: body.description, isBusinessCritical: body.isBusinessCritical, isSequential: body.isSequential, tasks: body.tasks } 
+		var cpdOrgAdminReqBody = { industryId: body.industryId, membershipId: body.membershipId }
+		var cpdReqBody = { industryId: body.industryId, membershipId: body.membershipId, pointsToComplete: body.pointsToComplete }
+		var routeGoalType; 
+		switch(input.body.goalType.id) {
+			case 1: routeGoalType = "Induction"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
+			case 2: routeGoalType = "CpdOrgAdmin"; Object.assign(requestBody, cpdOrgAdminReqBody); break;
+			case 3: routeGoalType = "PoliciesandProcedures"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
+			case 4: routeGoalType = "ProductUpdates"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
+			case 5: routeGoalType = "Regulatory"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
+			case 6: routeGoalType = "Training"; Object.assign(requestBody,nonCpdOrgAdminReqBody); break;
+			case 7: routeGoalType = "Cpd"; Object.assign(requestBody,cpdReqBody); break;
+		}
+		var route = this.goal + routeGoalType;
 		var transformFunc = function(result) { 
-		    var root = {};
+			var root = {};
 			if (typeof result === 'string' || result instanceof String){
 				root["errorMessage"] = result;
 			} else {
 				root["goal"] = result;
 			}
-		    return root;
-  		};
-	  	return this.goalServiceWithBusinessId(HttpMethodEnum.POST.name,route,null,body.businessId,transformFunc,requestBody);
+			return root;
+		};
+		return this.goalServiceWithBusinessId(HttpMethodEnum.POST.name,route,null,body.businessId,transformFunc,requestBody);
 	}
 	
 	deleteGoal(goalId) {
-	  	var route = this.goal + goalId;
-	  	var transformFunc = result => {
-	  		var deleted = (result == 1) ? true : false;
-	  		return { deleted : deleted };
-	  	}
-	  	return this.goalServiceToQueryBusinessId(HttpMethodEnum.DELETE.name,route,null,goalId,transformFunc);
+		var route = this.goal + goalId;
+		var transformFunc = result => {
+			var deleted = (result == 1) ? true : false;
+			return { deleted : deleted };
+		}
+		return this.goalServiceToQueryBusinessId(HttpMethodEnum.DELETE.name,route,null,goalId,transformFunc);
 	}
-};
+}
